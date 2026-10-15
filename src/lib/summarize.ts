@@ -6,7 +6,7 @@ import type { Article } from "../contracts/article";
 import { randomUUID } from "crypto";
 
 const PROMPT_VERSION = "v1";
-const MODEL = "gemini-3.5-flash";
+const MODEL = "gemini-flash-lite-latest";
 
 const genai = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
 
@@ -73,10 +73,10 @@ const GeminiOutputSchema = z.object({
   ),
 });
 
-/** Find sentences missing [n] citations */
+/** Find sentences missing [n] citations — matches [1], [1,2], [1, 2, 3] */
 function findUncitedSentences(text: string): string[] {
   const sentences = text.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
-  return sentences.filter((s) => !s.match(/\[\d+\]/));
+  return sentences.filter((s) => !s.match(/\[\d+(?:,\s*\d+)*\]/));
 }
 
 /** Parse Gemini's JSON response */
@@ -114,7 +114,13 @@ export async function generateSummary(
   if (articles.length === 0) return null;
 
   // First attempt
-  const firstText = await callGemini(buildUserPrompt(articles, hotspotName));
+  let firstText: string | null;
+  try {
+    firstText = await callGemini(buildUserPrompt(articles, hotspotName));
+  } catch (err) {
+    console.error("[summarize] Gemini API error:", err instanceof Error ? err.message : err);
+    return null;
+  }
   if (!firstText) return null;
 
   let output = parseResponse(firstText);
@@ -142,7 +148,7 @@ export async function generateSummary(
     return null;
   }
 
-  // Build citations from articles
+  // Build citations from articles — normalize published_at to UTC Z format for schema
   const citations = articles.map((a, i) => ({
     index: i + 1,
     article_id: a.id,
@@ -150,7 +156,7 @@ export async function generateSummary(
     url: a.url,
     source_name: a.source_name,
     source_bias: a.source_bias,
-    published_at: a.published_at,
+    published_at: new Date(a.published_at).toISOString(),
   }));
 
   const summary: Summary = {
