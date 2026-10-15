@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
 import { SummarySchema } from "../contracts/summary";
 import type { Summary, Perspective } from "../contracts/summary";
@@ -6,11 +6,9 @@ import type { Article } from "../contracts/article";
 import { randomUUID } from "crypto";
 
 const PROMPT_VERSION = "v1";
-const MODEL = "claude-sonnet-4-6";
+const MODEL = "gemini-2.0-flash";
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const genai = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
 
 const SYSTEM_PROMPT = `You are a neutral news analyst. Your job is to summarize a cluster of news articles about a single geopolitical event or location.
 
@@ -58,12 +56,12 @@ Return JSON with this exact structure:
 }`;
 }
 
-interface ClaudeOutput {
+interface GeminiOutput {
   neutral_summary: string;
   perspectives: Perspective[];
 }
 
-const ClaudeOutputSchema = z.object({
+const GeminiOutputSchema = z.object({
   neutral_summary: z.string().min(10),
   perspectives: z.array(
     z.object({
@@ -81,17 +79,16 @@ function findUncitedSentences(text: string): string[] {
   return sentences.filter((s) => !s.match(/\[\d+\]/));
 }
 
-/** Parse Claude's JSON response */
-function parseClaudeResponse(content: string): ClaudeOutput | null {
+/** Parse Gemini's JSON response */
+function parseResponse(content: string): GeminiOutput | null {
   try {
-    // Strip markdown code fences if present
     const cleaned = content
       .replace(/^```json\s*/i, "")
       .replace(/^```\s*/i, "")
       .replace(/\s*```$/, "")
       .trim();
     const parsed = JSON.parse(cleaned);
-    const result = ClaudeOutputSchema.safeParse(parsed);
+    const result = GeminiOutputSchema.safeParse(parsed);
     if (!result.success) return null;
     return result.data;
   } catch {
@@ -99,7 +96,16 @@ function parseClaudeResponse(content: string): ClaudeOutput | null {
   }
 }
 
-/** Call Claude to generate a summary, with one retry on citation failure */
+async function callGemini(userPrompt: string): Promise<string | null> {
+  const model = genai.getGenerativeModel({
+    model: MODEL,
+    systemInstruction: SYSTEM_PROMPT,
+  });
+  const result = await model.generateContent(userPrompt);
+  return result.response.text() ?? null;
+}
+
+/** Call Gemini to generate a summary, with one retry on citation failure */
 export async function generateSummary(
   hotspotId: string,
   hotspotName: string,
@@ -108,17 +114,10 @@ export async function generateSummary(
   if (articles.length === 0) return null;
 
   // First attempt
-  const firstResponse = await client.messages.create({
-    model: MODEL,
-    max_tokens: 1500,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: "user", content: buildUserPrompt(articles, hotspotName) }],
-  });
+  const firstText = await callGemini(buildUserPrompt(articles, hotspotName));
+  if (!firstText) return null;
 
-  const firstContent = firstResponse.content[0];
-  if (firstContent.type !== "text") return null;
-
-  let output = parseClaudeResponse(firstContent.text);
+  let output = parseResponse(firstText);
   if (!output) return null;
 
   // Check for uncited sentences
@@ -126,18 +125,11 @@ export async function generateSummary(
 
   if (uncitedSentences.length > 0) {
     // Retry with failure hint
-    const retryResponse = await client.messages.create({
-      model: MODEL,
-      max_tokens: 1500,
-      system: SYSTEM_PROMPT,
-      messages: [
-        { role: "user", content: buildUserPrompt(articles, hotspotName, uncitedSentences) },
-      ],
-    });
-
-    const retryContent = retryResponse.content[0];
-    if (retryContent.type === "text") {
-      const retryOutput = parseClaudeResponse(retryContent.text);
+    const retryText = await callGemini(
+      buildUserPrompt(articles, hotspotName, uncitedSentences)
+    );
+    if (retryText) {
+      const retryOutput = parseResponse(retryText);
       if (retryOutput) {
         output = retryOutput;
         uncitedSentences = findUncitedSentences(output.neutral_summary);
@@ -147,7 +139,7 @@ export async function generateSummary(
 
   // Still has uncited sentences → mark as failed
   if (uncitedSentences.length > 0) {
-    return null; // caller marks hotspot with summary_failed=true
+    return null;
   }
 
   // Build citations from articles
@@ -172,7 +164,6 @@ export async function generateSummary(
     prompt_version: PROMPT_VERSION,
   };
 
-  // Validate against full schema
   const validation = SummarySchema.safeParse(summary);
   if (!validation.success) {
     console.error("Summary schema validation failed:", validation.error.format());
