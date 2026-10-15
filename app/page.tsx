@@ -1,69 +1,183 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
+import type { HotspotListItem } from "../src/contracts/api";
+import HotspotPanel from "../src/components/HotspotPanel";
+import { severityColor, SEVERITY_THRESHOLD } from "../src/lib/score";
+import { altitudeToResolution, altitudeToViewRadius } from "../src/lib/mock-zoom";
+
+const Globe = dynamic(() => import("../src/components/Globe"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-[#0d0d0d]">
+      <div className="text-gray-600 text-xs tracking-widest uppercase animate-pulse">
+        Initializing
+      </div>
+    </div>
+  ),
+});
+
+function SeverityLegend() {
+  const stops = [0.15, 0.3, 0.5, 0.7, 0.85, 1.0];
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-sm rounded-lg p-3 border border-white/5">
+      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Severity</p>
+      <div className="flex items-center gap-1.5">
+        {stops.map((s) => (
+          <div
+            key={s}
+            className="rounded-full"
+            style={{
+              width: 10 + s * 8,
+              height: 10 + s * 8,
+              background: `radial-gradient(circle, ${severityColor(s)}cc 0%, ${severityColor(s)}00 100%)`,
+              filter: "blur(1px)",
+            }}
+          />
+        ))}
+        <span className="text-[10px] text-gray-600 ml-1">Low → High</span>
+      </div>
+    </div>
+  );
+}
+
+function ZoomIndicator({ resolution }: { resolution: number }) {
+  const labels: Record<number, string> = {
+    3: "Global",
+    4: "Regional",
+    5: "City",
+    6: "Local",
+  };
+  return (
+    <div className="absolute top-4 right-6 flex items-center gap-2">
+      {[3, 4, 5, 6].map((r) => (
+        <div
+          key={r}
+          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+            r === resolution ? "bg-white scale-125" : "bg-gray-700"
+          }`}
+          title={labels[r]}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      ))}
+      <span className="text-[10px] text-gray-500 ml-1">{labels[resolution]}</span>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  const [hotspots, setHotspots] = useState<HotspotListItem[]>([]);
+  const [selectedHotspot, setSelectedHotspot] = useState<HotspotListItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [resolution, setResolution] = useState(3);
+  const fetchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastFetchKey = useRef("");
+
+  const useMock =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("mock") === "1";
+
+  const fetchHotspots = useCallback(
+    async (res: number, lat: number, lng: number, radius: number) => {
+      const key = `${res}:${lat.toFixed(1)}:${lng.toFixed(1)}`;
+      if (key === lastFetchKey.current) return;
+      lastFetchKey.current = key;
+
+      const params = new URLSearchParams({
+        resolution: String(res),
+        lat: String(lat.toFixed(2)),
+        lng: String(lng.toFixed(2)),
+        radius: String(radius.toFixed(1)),
+        ...(useMock ? { mock: "1" } : {}),
+      });
+
+      try {
+        const data = await fetch(`/api/hotspots?${params}`).then((r) => r.json());
+        setHotspots(data.hotspots ?? []);
+        setLastUpdated(data.generated_at ?? null);
+        setLoading(false);
+      } catch {
+        setError("Failed to load hotspots");
+        setLoading(false);
+      }
+    },
+    [useMock]
+  );
+
+  // Initial load (world view)
+  useEffect(() => {
+    fetchHotspots(3, 0, 0, 999);
+  }, [fetchHotspots]);
+
+  // Zoom change handler — debounced 400ms
+  const handleZoomChange = useCallback(
+    (altitude: number, lat: number, lng: number) => {
+      const newRes = altitudeToResolution(altitude);
+      const radius = altitudeToViewRadius(altitude);
+
+      setResolution(newRes);
+
+      if (fetchRef.current) clearTimeout(fetchRef.current);
+      fetchRef.current = setTimeout(() => {
+        fetchHotspots(newRes, lat, lng, radius);
+      }, 400);
+    },
+    [fetchHotspots]
+  );
+
+  const handleHotspotClick = useCallback((h: HotspotListItem) => {
+    setSelectedHotspot(h);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setSelectedHotspot(null);
+  }, []);
+
+  const visibleCount = hotspots.filter((h) => h.severity >= SEVERITY_THRESHOLD).length;
+
+  return (
+    <div className="h-screen w-screen overflow-hidden relative bg-[#0d0d0d]">
+      {/* Title */}
+      <div className="absolute top-4 left-6 z-10 pointer-events-none">
+        <h1 className="text-white font-semibold text-base tracking-tight">Hotspot</h1>
+        <p className="text-gray-600 text-xs">
+          {loading ? "Loading…" : error ? error : `${visibleCount} hotspots`}
+        </p>
+      </div>
+
+      {/* Zoom indicator */}
+      <ZoomIndicator resolution={resolution} />
+
+      {/* Globe */}
+      <div className="absolute inset-0">
+        {!loading && !error && (
+          <Globe
+            hotspots={hotspots}
+            onHotspotClick={handleHotspotClick}
+            selectedId={selectedHotspot?.id}
+            onZoomChange={handleZoomChange}
+          />
+        )}
+      </div>
+
+      {/* Side panel */}
+      <HotspotPanel
+        hotspot={selectedHotspot}
+        onClose={handleClose}
+        useMock={useMock}
+      />
+
+      {/* Legend */}
+      <SeverityLegend />
+
+      {/* Timestamp */}
+      {lastUpdated && (
+        <div className="absolute bottom-6 right-6 text-[10px] text-gray-700 pointer-events-none">
+          {new Date(lastUpdated).toLocaleString()}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      )}
     </div>
   );
 }

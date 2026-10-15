@@ -1,0 +1,2005 @@
+{
+  "hotspots": [
+    {
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "h3_cell": "832b1fffffffff",
+      "lat": 26.5,
+      "lng": 56.5,
+      "name": "Strait of Hormuz",
+      "region": "Middle East",
+      "severity": 0.91,
+      "article_count": 47,
+      "article_hash": "sha256:abc001",
+      "volume_score": 0.95,
+      "velocity_score": 0.88,
+      "tier_weight": 1,
+      "intensity_score": 0.82,
+      "avg_goldstein": -8.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": {
+        "id": "a1b2c3d4-0001-4000-8000-000000000001",
+        "hotspot_id": "a1b2c3d4-0001-4000-8000-000000000001",
+        "neutral_summary": "Iran has announced new restrictions on commercial shipping through the Strait of Hormuz, citing violations of its territorial waters by US naval vessels [1]. The International Maritime Organization has called for all parties to maintain freedom of navigation [2]. Oil markets responded with a 4% price increase on Brent crude futures [3].",
+        "perspectives": [
+          {
+            "outlet_name": "Reuters",
+            "outlet_bias": "center",
+            "framing": "Reuters reports the restrictions as a measured response to US presence, quoting Iranian officials who cite sovereignty concerns while noting the IRGC has deployed additional patrol vessels [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ editorial board frames the move as economic coercion targeting global energy markets, arguing it demonstrates the need for stronger US naval deterrence [3].",
+            "citations": [
+              3
+            ]
+          },
+          {
+            "outlet_name": "Al Jazeera",
+            "outlet_bias": "center",
+            "framing": "Al Jazeera highlights Gulf state responses and regional context, noting Saudi Arabia and UAE have urged diplomatic resolution while Iran insists its actions are defensive [2].",
+            "citations": [
+              2
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "c1d2e3f4-0001-4000-8000-000000000001",
+            "headline": "Iran restricts Hormuz shipping, cites US provocations",
+            "url": "https://reuters.com/world/middle-east/iran-hormuz-2026-10-09",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T04:30:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "c1d2e3f4-0002-4000-8000-000000000002",
+            "headline": "IMO urges Hormuz freedom of navigation amid tensions",
+            "url": "https://apnews.com/article/hormuz-imo-navigation-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T05:15:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "c1d2e3f4-0003-4000-8000-000000000003",
+            "headline": "Oil prices surge 4% on Hormuz shipping fears",
+            "url": "https://wsj.com/articles/oil-hormuz-surge-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T05:45:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "c1d2e3f4-0001-4000-8000-000000000001",
+          "url": "https://reuters.com/world/middle-east/iran-hormuz-2026-10-09",
+          "headline": "Iran restricts Hormuz shipping, cites US provocations",
+          "abstract": "Iran's Revolutionary Guard Corps announced new maritime restrictions in the Strait of Hormuz on Thursday, citing repeated violations of Iranian territorial waters by US Navy vessels operating in the Persian Gulf.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T04:30:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0002-4000-8000-000000000002",
+          "url": "https://apnews.com/article/hormuz-imo-navigation-2026",
+          "headline": "IMO urges Hormuz freedom of navigation amid tensions",
+          "abstract": "The International Maritime Organization called on all parties to uphold freedom of navigation through the Strait of Hormuz as Iran announced new shipping restrictions.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T05:15:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0003-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/oil-hormuz-surge-2026",
+          "headline": "Oil prices surge 4% on Hormuz shipping fears",
+          "abstract": "Brent crude futures rose more than 4% Friday after Iran announced restrictions on commercial shipping through the Strait of Hormuz, through which roughly 20% of the world's oil supply passes.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T05:45:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 7
+        },
+        {
+          "date": "2026-10-09",
+          "count": 9
+        },
+        {
+          "date": "2026-10-10",
+          "count": 14
+        },
+        {
+          "date": "2026-10-11",
+          "count": 21
+        },
+        {
+          "date": "2026-10-12",
+          "count": 28
+        },
+        {
+          "date": "2026-10-13",
+          "count": 38
+        },
+        {
+          "date": "2026-10-14",
+          "count": 47
+        }
+      ],
+      "category": "energy"
+    },
+    {
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
+      "h3_cell": "831e5fffffffff",
+      "lat": 48.9,
+      "lng": 37.8,
+      "name": "Eastern Ukraine",
+      "region": "Eastern Europe",
+      "severity": 0.87,
+      "article_count": 38,
+      "article_hash": "sha256:abc002",
+      "volume_score": 0.88,
+      "velocity_score": 0.79,
+      "tier_weight": 1,
+      "intensity_score": 0.88,
+      "avg_goldstein": -9.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": {
+        "id": "a1b2c3d4-0002-4000-8000-000000000002",
+        "hotspot_id": "a1b2c3d4-0002-4000-8000-000000000002",
+        "neutral_summary": "Russian forces conducted a missile strike on Kharkiv's residential districts overnight, with Ukrainian officials reporting at least 12 casualties [1]. NATO allies met in Brussels to discuss further arms packages in response [2]. Ukraine's air defense systems intercepted 18 of 24 missiles, according to the Ukrainian Air Force [3].",
+        "perspectives": [
+          {
+            "outlet_name": "BBC",
+            "outlet_bias": "center",
+            "framing": "The BBC reports the strikes as part of an escalating pattern targeting civilian infrastructure, with correspondents noting widespread power outages affecting hospitals and schools [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "Guardian",
+            "outlet_bias": "left",
+            "framing": "The Guardian focuses on civilian displacement and calls from Ukrainian civil society for accelerated Western weapons deliveries, citing appeals from Kharkiv's mayor [2].",
+            "citations": [
+              2
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "c1d2e3f4-0004-4000-8000-000000000004",
+            "headline": "Russian missiles strike Kharkiv residential areas; 12 reported dead",
+            "url": "https://bbc.com/news/ukraine-kharkiv-strike-2026",
+            "source_name": "BBC",
+            "source_bias": "center",
+            "published_at": "2026-10-09T02:15:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "c1d2e3f4-0005-4000-8000-000000000005",
+            "headline": "NATO allies convene over Ukraine arms package after Kharkiv attack",
+            "url": "https://reuters.com/world/europe/nato-ukraine-arms-2026-10-09",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T08:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "c1d2e3f4-0006-4000-8000-000000000006",
+            "headline": "Ukraine intercepts 18 of 24 Russian missiles overnight",
+            "url": "https://apnews.com/article/ukraine-air-defense-interception-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T07:30:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "c1d2e3f4-0004-4000-8000-000000000004",
+          "url": "https://bbc.com/news/ukraine-kharkiv-strike-2026",
+          "headline": "Russian missiles strike Kharkiv residential areas; 12 reported dead",
+          "abstract": "Russian forces launched overnight missile strikes on residential districts of Kharkiv, Ukraine's second-largest city, with Ukrainian officials reporting at least 12 fatalities and dozens wounded.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-09T02:15:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0005-4000-8000-000000000005",
+          "url": "https://reuters.com/world/europe/nato-ukraine-arms-2026-10-09",
+          "headline": "NATO allies convene over Ukraine arms package after Kharkiv attack",
+          "abstract": "NATO foreign ministers held an emergency meeting in Brussels on Friday to discuss additional weapons deliveries to Ukraine following the overnight missile strike on Kharkiv.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0006-4000-8000-000000000006",
+          "url": "https://apnews.com/article/ukraine-air-defense-interception-2026",
+          "headline": "Ukraine intercepts 18 of 24 Russian missiles overnight",
+          "abstract": "Ukraine's Air Force reported intercepting 18 of 24 Russian missiles fired overnight, with six missiles breaking through defenses and striking the Kharkiv region.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:30:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 6
+        },
+        {
+          "date": "2026-10-09",
+          "count": 8
+        },
+        {
+          "date": "2026-10-10",
+          "count": 11
+        },
+        {
+          "date": "2026-10-11",
+          "count": 17
+        },
+        {
+          "date": "2026-10-12",
+          "count": 23
+        },
+        {
+          "date": "2026-10-13",
+          "count": 30
+        },
+        {
+          "date": "2026-10-14",
+          "count": 38
+        }
+      ],
+      "category": "defense"
+    },
+    {
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
+      "h3_cell": "832690fffffffff",
+      "lat": 24,
+      "lng": 121.5,
+      "name": "Taiwan Strait",
+      "region": "East Asia",
+      "severity": 0.83,
+      "article_count": 31,
+      "article_hash": "sha256:abc003",
+      "volume_score": 0.82,
+      "velocity_score": 0.85,
+      "tier_weight": 1,
+      "intensity_score": 0.75,
+      "avg_goldstein": -7.4,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": {
+        "id": "a1b2c3d4-0003-4000-8000-000000000003",
+        "hotspot_id": "a1b2c3d4-0003-4000-8000-000000000003",
+        "neutral_summary": "China's People's Liberation Army conducted a 72-hour naval exercise in the Taiwan Strait involving an aircraft carrier group, the largest such exercise since 2023 [1]. Taiwan's Ministry of National Defense scrambled fighter jets and raised alert levels [2]. The US Seventh Fleet repositioned the USS Ronald Reagan carrier group to the Philippine Sea in response [3].",
+        "perspectives": [
+          {
+            "outlet_name": "FT",
+            "outlet_bias": "center",
+            "framing": "The FT frames the exercise as a signal following Taiwan's recent arms purchase from the US, citing analysts who assess it as calibrated escalation below the conflict threshold [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "AP",
+            "outlet_bias": "center",
+            "framing": "AP reports neutral military facts, noting the carrier group's composition and tracking its position relative to the median line, while quoting both Beijing and Taipei official statements [2].",
+            "citations": [
+              2
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "c1d2e3f4-0007-4000-8000-000000000007",
+            "headline": "China's PLA launches largest Taiwan Strait exercise since 2023",
+            "url": "https://ft.com/content/china-pla-taiwan-strait-exercise-2026",
+            "source_name": "FT",
+            "source_bias": "center",
+            "published_at": "2026-10-08T10:00:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "c1d2e3f4-0008-4000-8000-000000000008",
+            "headline": "Taiwan scrambles jets, raises alert amid PLA naval exercise",
+            "url": "https://apnews.com/article/taiwan-pla-exercise-alert-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-08T12:30:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "c1d2e3f4-0009-4000-8000-000000000009",
+            "headline": "USS Ronald Reagan repositions to Philippine Sea amid Taiwan tensions",
+            "url": "https://reuters.com/world/asia-pacific/uss-reagan-philippine-sea-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-08T18:00:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "c1d2e3f4-0007-4000-8000-000000000007",
+          "url": "https://ft.com/content/china-pla-taiwan-strait-exercise-2026",
+          "headline": "China's PLA launches largest Taiwan Strait exercise since 2023",
+          "abstract": "China's People's Liberation Army began a 72-hour naval and air exercise in the Taiwan Strait on Friday, deploying an aircraft carrier group in the largest such drill since 2023.",
+          "source_name": "FT",
+          "source_bias": "center",
+          "published_at": "2026-10-08T10:00:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0008-4000-8000-000000000008",
+          "url": "https://apnews.com/article/taiwan-pla-exercise-alert-2026",
+          "headline": "Taiwan scrambles jets, raises alert amid PLA naval exercise",
+          "abstract": "Taiwan's Ministry of National Defense scrambled F-16 fighters and elevated its readiness status in response to China's large-scale naval exercise in the Taiwan Strait.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-08T12:30:00.000Z"
+        },
+        {
+          "id": "c1d2e3f4-0009-4000-8000-000000000009",
+          "url": "https://reuters.com/world/asia-pacific/uss-reagan-philippine-sea-2026",
+          "headline": "USS Ronald Reagan repositions to Philippine Sea amid Taiwan tensions",
+          "abstract": "The US Navy's USS Ronald Reagan carrier strike group repositioned to the Philippine Sea, a move officials described as a routine patrol that nonetheless follows China's Taiwan Strait exercises.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-08T18:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 9
+        },
+        {
+          "date": "2026-10-11",
+          "count": 14
+        },
+        {
+          "date": "2026-10-12",
+          "count": 19
+        },
+        {
+          "date": "2026-10-13",
+          "count": 25
+        },
+        {
+          "date": "2026-10-14",
+          "count": 31
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0004-4000-8000-000000000004",
+      "h3_cell": "833536fffffffff",
+      "lat": 31.5,
+      "lng": 34.5,
+      "name": "Gaza / Southern Israel",
+      "region": "Middle East",
+      "severity": 0.89,
+      "article_count": 52,
+      "article_hash": "sha256:abc004",
+      "volume_score": 0.98,
+      "velocity_score": 0.91,
+      "tier_weight": 1,
+      "intensity_score": 0.79,
+      "avg_goldstein": -9.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0010-4000-8000-000000000010",
+          "url": "https://bbc.com/news/gaza-ceasefire-talks-2026",
+          "headline": "Gaza ceasefire talks stall as humanitarian corridor dispute continues",
+          "abstract": "Ceasefire negotiations in Doha stalled Friday after disagreements over humanitarian corridor access, with mediators from Egypt and Qatar indicating talks will resume next week.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 8
+        },
+        {
+          "date": "2026-10-09",
+          "count": 10
+        },
+        {
+          "date": "2026-10-10",
+          "count": 16
+        },
+        {
+          "date": "2026-10-11",
+          "count": 23
+        },
+        {
+          "date": "2026-10-12",
+          "count": 31
+        },
+        {
+          "date": "2026-10-13",
+          "count": 42
+        },
+        {
+          "date": "2026-10-14",
+          "count": 52
+        }
+      ],
+      "category": "defense"
+    },
+    {
+      "id": "a1b2c3d4-0005-4000-8000-000000000005",
+      "h3_cell": "8326b7fffffffff",
+      "lat": 15.5,
+      "lng": 43.2,
+      "name": "Yemen / Red Sea",
+      "region": "Middle East",
+      "severity": 0.76,
+      "article_count": 22,
+      "article_hash": "sha256:abc005",
+      "volume_score": 0.72,
+      "velocity_score": 0.68,
+      "tier_weight": 1,
+      "intensity_score": 0.78,
+      "avg_goldstein": -7.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0011-4000-8000-000000000011",
+          "url": "https://reuters.com/world/middle-east/houthi-red-sea-ship-attack-2026",
+          "headline": "Houthis claim attack on cargo vessel in Red Sea near Bab el-Mandeb",
+          "abstract": "Yemen's Houthi movement claimed responsibility for a drone attack on a commercial cargo vessel transiting the Red Sea near the Bab el-Mandeb strait, the third such attack this month.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T03:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 3
+        },
+        {
+          "date": "2026-10-09",
+          "count": 4
+        },
+        {
+          "date": "2026-10-10",
+          "count": 7
+        },
+        {
+          "date": "2026-10-11",
+          "count": 10
+        },
+        {
+          "date": "2026-10-12",
+          "count": 13
+        },
+        {
+          "date": "2026-10-13",
+          "count": 18
+        },
+        {
+          "date": "2026-10-14",
+          "count": 22
+        }
+      ],
+      "category": "energy"
+    },
+    {
+      "id": "a1b2c3d4-0006-4000-8000-000000000006",
+      "h3_cell": "83254bfffffffff",
+      "lat": 4,
+      "lng": 20,
+      "name": "Central African Republic",
+      "region": "Sub-Saharan Africa",
+      "severity": 0.65,
+      "article_count": 14,
+      "article_hash": "sha256:abc006",
+      "volume_score": 0.62,
+      "velocity_score": 0.55,
+      "tier_weight": 0.8,
+      "intensity_score": 0.72,
+      "avg_goldstein": -7.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0012-4000-8000-000000000012",
+          "url": "https://bbc.com/news/car-wagner-clashes-2026",
+          "headline": "CAR: Clashes between government forces and armed groups displace 30,000",
+          "abstract": "Fighting between Central African Republic government troops, supported by Russian Wagner Group contractors, and coalition rebel forces has displaced over 30,000 civilians in the Ouaka prefecture.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-08T14:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 6
+        },
+        {
+          "date": "2026-10-09",
+          "count": 7
+        },
+        {
+          "date": "2026-10-10",
+          "count": 8
+        },
+        {
+          "date": "2026-10-11",
+          "count": 9
+        },
+        {
+          "date": "2026-10-12",
+          "count": 11
+        },
+        {
+          "date": "2026-10-13",
+          "count": 12
+        },
+        {
+          "date": "2026-10-14",
+          "count": 14
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0007-4000-8000-000000000007",
+      "h3_cell": "83294afffffffff",
+      "lat": 30.1,
+      "lng": 31.3,
+      "name": "Cairo / Egypt",
+      "region": "North Africa",
+      "severity": 0.58,
+      "article_count": 11,
+      "article_hash": "sha256:abc007",
+      "volume_score": 0.55,
+      "velocity_score": 0.62,
+      "tier_weight": 0.8,
+      "intensity_score": 0.52,
+      "avg_goldstein": -4.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0013-4000-8000-000000000013",
+          "url": "https://apnews.com/article/egypt-economic-crisis-imf-2026",
+          "headline": "Egypt in emergency IMF talks as foreign reserves hit 3-year low",
+          "abstract": "Egypt's central bank governor met with IMF officials in Cairo on Thursday as the country's foreign currency reserves fell to a three-year low amid persistent inflation and debt servicing pressures.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-08T16:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 7
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 11
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0008-4000-8000-000000000008",
+      "h3_cell": "832830fffffffff",
+      "lat": 13.5,
+      "lng": 2.1,
+      "name": "Niger / Sahel",
+      "region": "West Africa",
+      "severity": 0.61,
+      "article_count": 13,
+      "article_hash": "sha256:abc008",
+      "volume_score": 0.58,
+      "velocity_score": 0.64,
+      "tier_weight": 0.8,
+      "intensity_score": 0.62,
+      "avg_goldstein": -6.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0014-4000-8000-000000000014",
+          "url": "https://bbc.com/news/niger-junta-france-troops-2026",
+          "headline": "Niger's junta orders final French troops to leave within 48 hours",
+          "abstract": "Niger's military government issued an ultimatum demanding the withdrawal of all remaining French military advisors from the country within 48 hours, escalating tensions with Paris.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 7
+        },
+        {
+          "date": "2026-10-10",
+          "count": 7
+        },
+        {
+          "date": "2026-10-11",
+          "count": 8
+        },
+        {
+          "date": "2026-10-12",
+          "count": 10
+        },
+        {
+          "date": "2026-10-13",
+          "count": 11
+        },
+        {
+          "date": "2026-10-14",
+          "count": 13
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0009-4000-8000-000000000009",
+      "h3_cell": "832682fffffffff",
+      "lat": 28.6,
+      "lng": 77.2,
+      "name": "India-Pakistan Border",
+      "region": "South Asia",
+      "severity": 0.71,
+      "article_count": 19,
+      "article_hash": "sha256:abc009",
+      "volume_score": 0.68,
+      "velocity_score": 0.75,
+      "tier_weight": 0.9,
+      "intensity_score": 0.65,
+      "avg_goldstein": -6.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0015-4000-8000-000000000015",
+          "url": "https://reuters.com/world/india/india-pakistan-line-of-control-firing-2026",
+          "headline": "Cross-border firing resumes on India-Pakistan Line of Control in Kashmir",
+          "abstract": "Indian and Pakistani troops exchanged fire along the Line of Control in Kashmir for the second consecutive night, with both sides reporting casualties among military personnel.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T01:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 3
+        },
+        {
+          "date": "2026-10-09",
+          "count": 4
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 9
+        },
+        {
+          "date": "2026-10-12",
+          "count": 11
+        },
+        {
+          "date": "2026-10-13",
+          "count": 15
+        },
+        {
+          "date": "2026-10-14",
+          "count": 19
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0010-4000-8000-000000000010",
+      "h3_cell": "83265bfffffffff",
+      "lat": -1.3,
+      "lng": 36.8,
+      "name": "Nairobi / East Africa",
+      "region": "East Africa",
+      "severity": 0.47,
+      "article_count": 8,
+      "article_hash": "sha256:abc010",
+      "volume_score": 0.45,
+      "velocity_score": 0.42,
+      "tier_weight": 0.7,
+      "intensity_score": 0.52,
+      "avg_goldstein": -3.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0016-4000-8000-000000000016",
+          "url": "https://bbc.com/news/kenya-protest-tax-2026",
+          "headline": "Kenya protests resume over new tax proposals; police use tear gas",
+          "abstract": "Thousands of Kenyan protesters returned to the streets of Nairobi on Thursday over new government tax proposals, with police deploying tear gas to disperse crowds near the parliament building.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-08T13:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 3
+        },
+        {
+          "date": "2026-10-09",
+          "count": 4
+        },
+        {
+          "date": "2026-10-10",
+          "count": 4
+        },
+        {
+          "date": "2026-10-11",
+          "count": 5
+        },
+        {
+          "date": "2026-10-12",
+          "count": 6
+        },
+        {
+          "date": "2026-10-13",
+          "count": 7
+        },
+        {
+          "date": "2026-10-14",
+          "count": 8
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0011-4000-8000-000000000011",
+      "h3_cell": "832810fffffffff",
+      "lat": 51.5,
+      "lng": -0.1,
+      "name": "London / UK",
+      "region": "Western Europe",
+      "severity": 0.38,
+      "article_count": 9,
+      "article_hash": "sha256:abc011",
+      "volume_score": 0.4,
+      "velocity_score": 0.35,
+      "tier_weight": 1,
+      "intensity_score": 0.28,
+      "avg_goldstein": -1.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0017-4000-8000-000000000017",
+          "url": "https://theguardian.com/uk/government-spending-review-2026",
+          "headline": "UK spending review: NHS and defense to receive funding increases",
+          "abstract": "The UK government announced significant increases in NHS and defense funding as part of a comprehensive spending review, while cutting budgets for several other departments.",
+          "source_name": "Guardian",
+          "source_bias": "left",
+          "published_at": "2026-10-08T17:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 7
+        },
+        {
+          "date": "2026-10-11",
+          "count": 8
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 9
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0012-4000-8000-000000000012",
+      "h3_cell": "832870fffffffff",
+      "lat": 19.4,
+      "lng": -99.1,
+      "name": "Mexico City",
+      "region": "Latin America",
+      "severity": 0.54,
+      "article_count": 12,
+      "article_hash": "sha256:abc012",
+      "volume_score": 0.52,
+      "velocity_score": 0.58,
+      "tier_weight": 0.8,
+      "intensity_score": 0.48,
+      "avg_goldstein": -4.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0018-4000-8000-000000000018",
+          "url": "https://reuters.com/world/americas/mexico-cartel-violence-2026",
+          "headline": "Mexico reports spike in cartel violence as army deployment expanded",
+          "abstract": "Mexican authorities reported a significant increase in cartel-related violence in four northern states this week, prompting the government to expand military deployment in border regions.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 7
+        },
+        {
+          "date": "2026-10-11",
+          "count": 8
+        },
+        {
+          "date": "2026-10-12",
+          "count": 9
+        },
+        {
+          "date": "2026-10-13",
+          "count": 10
+        },
+        {
+          "date": "2026-10-14",
+          "count": 12
+        }
+      ],
+      "category": "general"
+    },
+    {
+      "id": "a1b2c3d4-0013-4000-8000-000000000013",
+      "h3_cell": "832882fffffffff",
+      "lat": 40.7,
+      "lng": -74,
+      "name": "New York / US Northeast",
+      "region": "North America",
+      "severity": 0.42,
+      "article_count": 15,
+      "article_hash": "sha256:abc013",
+      "volume_score": 0.48,
+      "velocity_score": 0.38,
+      "tier_weight": 1,
+      "intensity_score": 0.22,
+      "avg_goldstein": 1.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0019-4000-8000-000000000019",
+          "url": "https://nytimes.com/2026/10/09/us/congress-budget-vote.html",
+          "headline": "Congress passes stopgap spending bill hours before shutdown deadline",
+          "abstract": "The US Congress passed a 45-day stopgap spending measure with bipartisan support on Thursday, averting a government shutdown and buying time for full-year appropriations negotiations.",
+          "source_name": "NYT",
+          "source_bias": "center-left",
+          "published_at": "2026-10-09T04:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 6
+        },
+        {
+          "date": "2026-10-09",
+          "count": 8
+        },
+        {
+          "date": "2026-10-10",
+          "count": 8
+        },
+        {
+          "date": "2026-10-11",
+          "count": 10
+        },
+        {
+          "date": "2026-10-12",
+          "count": 11
+        },
+        {
+          "date": "2026-10-13",
+          "count": 13
+        },
+        {
+          "date": "2026-10-14",
+          "count": 15
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0014-4000-8000-000000000014",
+      "h3_cell": "8326aafffffffff",
+      "lat": 35.7,
+      "lng": 139.7,
+      "name": "Tokyo / Japan",
+      "region": "East Asia",
+      "severity": 0.44,
+      "article_count": 10,
+      "article_hash": "sha256:abc014",
+      "volume_score": 0.42,
+      "velocity_score": 0.48,
+      "tier_weight": 0.9,
+      "intensity_score": 0.38,
+      "avg_goldstein": -2.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0020-4000-8000-000000000020",
+          "url": "https://reuters.com/world/asia-pacific/japan-north-korea-missile-2026",
+          "headline": "North Korea fires ballistic missile over Japan's Exclusive Economic Zone",
+          "abstract": "North Korea launched a medium-range ballistic missile that flew over Japan's exclusive economic zone before landing in the Pacific Ocean, prompting emergency alerts and diplomatic protests.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T03:30:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 5
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 7
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 10
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0015-4000-8000-000000000015",
+      "h3_cell": "8328e0fffffffff",
+      "lat": -33.9,
+      "lng": 18.4,
+      "name": "Cape Town / South Africa",
+      "region": "Southern Africa",
+      "severity": 0.33,
+      "article_count": 7,
+      "article_hash": "sha256:abc015",
+      "volume_score": 0.35,
+      "velocity_score": 0.28,
+      "tier_weight": 0.7,
+      "intensity_score": 0.35,
+      "avg_goldstein": -2.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0021-4000-8000-000000000021",
+          "url": "https://bbc.com/news/south-africa-power-cuts-2026",
+          "headline": "South Africa extends rolling blackouts as Eskom struggles with coal shortage",
+          "abstract": "South Africa's state utility Eskom extended rolling power outages to up to 12 hours a day this week due to a coal supply shortage at several key generating stations.",
+          "source_name": "BBC",
+          "source_bias": "center",
+          "published_at": "2026-10-08T11:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 5
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 6
+        },
+        {
+          "date": "2026-10-12",
+          "count": 6
+        },
+        {
+          "date": "2026-10-13",
+          "count": 7
+        },
+        {
+          "date": "2026-10-14",
+          "count": 7
+        }
+      ],
+      "category": "general"
+    },
+    {
+      "id": "a1b2c3d4-0016-4000-8000-000000000016",
+      "h3_cell": "83262bfffffffff",
+      "lat": 55.8,
+      "lng": 37.6,
+      "name": "Moscow / Russia",
+      "region": "Eastern Europe",
+      "severity": 0.55,
+      "article_count": 16,
+      "article_hash": "sha256:abc016",
+      "volume_score": 0.58,
+      "velocity_score": 0.52,
+      "tier_weight": 1,
+      "intensity_score": 0.45,
+      "avg_goldstein": -3.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0022-4000-8000-000000000022",
+          "url": "https://economist.com/europe/russia-sanctions-evasion-2026",
+          "headline": "Russia's sanctions evasion network using new Central Asian routes",
+          "abstract": "A new report documents how Russia has adapted its sanctions evasion strategies, increasingly routing restricted goods through Kazakhstan and Uzbekistan as Western enforcement tightens.",
+          "source_name": "Economist",
+          "source_bias": "center",
+          "published_at": "2026-10-08T09:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 6
+        },
+        {
+          "date": "2026-10-09",
+          "count": 8
+        },
+        {
+          "date": "2026-10-10",
+          "count": 9
+        },
+        {
+          "date": "2026-10-11",
+          "count": 10
+        },
+        {
+          "date": "2026-10-12",
+          "count": 12
+        },
+        {
+          "date": "2026-10-13",
+          "count": 14
+        },
+        {
+          "date": "2026-10-14",
+          "count": 16
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0017-4000-8000-000000000017",
+      "h3_cell": "83269bfffffffff",
+      "lat": 23.1,
+      "lng": 113.3,
+      "name": "Guangdong / China",
+      "region": "East Asia",
+      "severity": 0.49,
+      "article_count": 11,
+      "article_hash": "sha256:abc017",
+      "volume_score": 0.5,
+      "velocity_score": 0.46,
+      "tier_weight": 0.9,
+      "intensity_score": 0.42,
+      "avg_goldstein": -2.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0023-4000-8000-000000000023",
+          "url": "https://ft.com/content/china-rare-earth-export-controls-2026",
+          "headline": "China tightens rare earth export restrictions targeting EV battery supply chain",
+          "abstract": "China's Ministry of Commerce announced new export license requirements for several key rare earth elements used in electric vehicle batteries, adding to existing controls announced earlier this year.",
+          "source_name": "FT",
+          "source_bias": "center",
+          "published_at": "2026-10-08T06:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 7
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 11
+        }
+      ],
+      "category": "manufacturing"
+    },
+    {
+      "id": "a1b2c3d4-0018-4000-8000-000000000018",
+      "h3_cell": "832a49fffffffff",
+      "lat": -23.5,
+      "lng": -46.6,
+      "name": "S\u00e3o Paulo / Brazil",
+      "region": "Latin America",
+      "severity": 0.36,
+      "article_count": 8,
+      "article_hash": "sha256:abc018",
+      "volume_score": 0.38,
+      "velocity_score": 0.32,
+      "tier_weight": 0.7,
+      "intensity_score": 0.33,
+      "avg_goldstein": -2.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0024-4000-8000-000000000024",
+          "url": "https://reuters.com/world/americas/brazil-amazon-fires-record-2026",
+          "headline": "Amazon fires reach record levels in September, deforestation data shows",
+          "abstract": "Brazil's national space agency reported that Amazon deforestation fires reached record levels in September 2026, driven by severe drought conditions across the basin.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-08T15:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 7
+        },
+        {
+          "date": "2026-10-12",
+          "count": 7
+        },
+        {
+          "date": "2026-10-13",
+          "count": 8
+        },
+        {
+          "date": "2026-10-14",
+          "count": 8
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0019-4000-8000-000000000019",
+      "h3_cell": "8326f8fffffffff",
+      "lat": 41,
+      "lng": 29,
+      "name": "Istanbul / Turkey",
+      "region": "Middle East / Europe",
+      "severity": 0.46,
+      "article_count": 9,
+      "article_hash": "sha256:abc019",
+      "volume_score": 0.44,
+      "velocity_score": 0.5,
+      "tier_weight": 0.8,
+      "intensity_score": 0.4,
+      "avg_goldstein": -3,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0025-4000-8000-000000000025",
+          "url": "https://reuters.com/world/europe/turkey-lira-record-low-2026",
+          "headline": "Turkish lira hits record low as inflation persists near 60%",
+          "abstract": "The Turkish lira fell to a record low against the dollar on Thursday as inflation data showed consumer prices continuing to rise at nearly 60% annually despite central bank tightening measures.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T08:30:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 5
+        },
+        {
+          "date": "2026-10-10",
+          "count": 5
+        },
+        {
+          "date": "2026-10-11",
+          "count": 6
+        },
+        {
+          "date": "2026-10-12",
+          "count": 7
+        },
+        {
+          "date": "2026-10-13",
+          "count": 8
+        },
+        {
+          "date": "2026-10-14",
+          "count": 9
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0020-4000-8000-000000000020",
+      "h3_cell": "832ab3fffffffff",
+      "lat": -34.6,
+      "lng": -58.4,
+      "name": "Buenos Aires / Argentina",
+      "region": "Latin America",
+      "severity": 0.4,
+      "article_count": 9,
+      "article_hash": "sha256:abc020",
+      "volume_score": 0.42,
+      "velocity_score": 0.38,
+      "tier_weight": 0.7,
+      "intensity_score": 0.38,
+      "avg_goldstein": -2.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0026-4000-8000-000000000026",
+          "url": "https://economist.com/the-americas/argentina-milei-reforms-2026",
+          "headline": "Argentina's Milei faces congress opposition to pension reform",
+          "abstract": "Argentine President Javier Milei's proposed pension reform package faces mounting congressional opposition, with opposition lawmakers threatening to block key austerity measures.",
+          "source_name": "Economist",
+          "source_bias": "center",
+          "published_at": "2026-10-08T12:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 5
+        },
+        {
+          "date": "2026-10-09",
+          "count": 6
+        },
+        {
+          "date": "2026-10-10",
+          "count": 7
+        },
+        {
+          "date": "2026-10-11",
+          "count": 8
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 9
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0021-4000-8000-000000000021",
+      "h3_cell": "832656fffffffff",
+      "lat": 59.9,
+      "lng": 30.3,
+      "name": "St Petersburg / Russia",
+      "region": "Eastern Europe",
+      "severity": 0.29,
+      "article_count": 5,
+      "article_hash": "sha256:abc021",
+      "volume_score": 0.28,
+      "velocity_score": 0.25,
+      "tier_weight": 0.8,
+      "intensity_score": 0.32,
+      "avg_goldstein": -2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0027-4000-8000-000000000027",
+          "url": "https://reuters.com/world/europe/russia-opposition-arrests-2026",
+          "headline": "Russia detains opposition figures in St Petersburg ahead of regional elections",
+          "abstract": "Russian authorities detained at least 14 opposition activists in St Petersburg on Thursday, a week before regional elections in which independent candidates had sought to participate.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T10:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 3
+        },
+        {
+          "date": "2026-10-09",
+          "count": 4
+        },
+        {
+          "date": "2026-10-10",
+          "count": 4
+        },
+        {
+          "date": "2026-10-11",
+          "count": 4
+        },
+        {
+          "date": "2026-10-12",
+          "count": 5
+        },
+        {
+          "date": "2026-10-13",
+          "count": 5
+        },
+        {
+          "date": "2026-10-14",
+          "count": 5
+        }
+      ],
+      "category": "geopolitics"
+    },
+    {
+      "id": "a1b2c3d4-0022-4000-8000-000000000022",
+      "h3_cell": "832b47fffffffff",
+      "lat": 33.5,
+      "lng": 44.4,
+      "name": "Baghdad / Iraq",
+      "region": "Middle East",
+      "severity": 0.52,
+      "article_count": 10,
+      "article_hash": "sha256:abc022",
+      "volume_score": 0.5,
+      "velocity_score": 0.55,
+      "tier_weight": 0.85,
+      "intensity_score": 0.48,
+      "avg_goldstein": -4.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0028-4000-8000-000000000028",
+          "url": "https://apnews.com/article/iraq-iran-militia-attack-2026",
+          "headline": "Rocket attack on US-linked facility in Iraq injures three contractors",
+          "abstract": "A rocket attack on a logistics facility used by US-contracted workers near Baghdad International Airport injured three civilian contractors, with Iranian-backed militia groups claiming responsibility.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T00:30:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 5
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 7
+        },
+        {
+          "date": "2026-10-12",
+          "count": 8
+        },
+        {
+          "date": "2026-10-13",
+          "count": 9
+        },
+        {
+          "date": "2026-10-14",
+          "count": 10
+        }
+      ],
+      "category": "energy"
+    },
+    {
+      "id": "a1b2c3d4-0023-4000-8000-000000000023",
+      "h3_cell": "832680fffffffff",
+      "lat": 22,
+      "lng": 114.2,
+      "name": "Hong Kong",
+      "region": "East Asia",
+      "severity": 0.34,
+      "article_count": 7,
+      "article_hash": "sha256:abc023",
+      "volume_score": 0.35,
+      "velocity_score": 0.32,
+      "tier_weight": 0.85,
+      "intensity_score": 0.3,
+      "avg_goldstein": -1.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0029-4000-8000-000000000029",
+          "url": "https://economist.com/asia/hong-kong-nsa-trials-2026",
+          "headline": "Hong Kong: Three more activists convicted under national security law",
+          "abstract": "A Hong Kong court convicted three more pro-democracy activists under the national security law on Thursday, with sentences ranging from 18 months to four years.",
+          "source_name": "Economist",
+          "source_bias": "center",
+          "published_at": "2026-10-08T08:00:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 5
+        },
+        {
+          "date": "2026-10-10",
+          "count": 6
+        },
+        {
+          "date": "2026-10-11",
+          "count": 6
+        },
+        {
+          "date": "2026-10-12",
+          "count": 6
+        },
+        {
+          "date": "2026-10-13",
+          "count": 7
+        },
+        {
+          "date": "2026-10-14",
+          "count": 7
+        }
+      ],
+      "category": "finance"
+    },
+    {
+      "id": "a1b2c3d4-0024-4000-8000-000000000024",
+      "h3_cell": "8326c5fffffffff",
+      "lat": 48.1,
+      "lng": 11.6,
+      "name": "Munich / Germany",
+      "region": "Western Europe",
+      "severity": 0.3,
+      "article_count": 6,
+      "article_hash": "sha256:abc024",
+      "volume_score": 0.3,
+      "velocity_score": 0.28,
+      "tier_weight": 0.9,
+      "intensity_score": 0.25,
+      "avg_goldstein": -1.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0030-4000-8000-000000000030",
+          "url": "https://reuters.com/world/europe/germany-election-polls-2026",
+          "headline": "Germany's coalition government faces confidence vote after budget dispute",
+          "abstract": "Germany's three-party coalition faces a confidence vote in the Bundestag next week after the junior coalition partner withdrew support over disagreements on the 2027 federal budget.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:30:00.000Z"
+        }
+      ],
+      "history": [
+        {
+          "date": "2026-10-08",
+          "count": 4
+        },
+        {
+          "date": "2026-10-09",
+          "count": 4
+        },
+        {
+          "date": "2026-10-10",
+          "count": 5
+        },
+        {
+          "date": "2026-10-11",
+          "count": 5
+        },
+        {
+          "date": "2026-10-12",
+          "count": 5
+        },
+        {
+          "date": "2026-10-13",
+          "count": 6
+        },
+        {
+          "date": "2026-10-14",
+          "count": 6
+        }
+      ],
+      "category": "manufacturing"
+    },
+    {
+      "id": "a1b2c3d4-0025-4000-8000-000000000025",
+      "h3_cell": "832aaafffffffff",
+      "lat": 39.1,
+      "lng": -96.6,
+      "name": "Kansas / US Midwest",
+      "region": "North America",
+      "severity": 0.08,
+      "article_count": 2,
+      "article_hash": "sha256:abc025",
+      "volume_score": 0.05,
+      "velocity_score": 0.08,
+      "tier_weight": 0.6,
+      "intensity_score": 0.12,
+      "avg_goldstein": 0.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": [
+        {
+          "id": "c1d2e3f4-0031-4000-8000-000000000031",
+          "url": "https://apnews.com/article/kansas-local-elections-2026",
+          "headline": "Kansas holds special election for vacant state senate seat",
+          "abstract": "Kansas voters head to the polls Friday in a special election to fill a vacant state senate seat in the Wichita suburbs.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T11:00:00.000Z"
+        }
+      ],
+      "history": [],
+      "category": "general"
+    },
+    {
+      "id": "a1b2c3d4-0026-4000-8000-000000000026",
+      "h3_cell": "832834fffffffff",
+      "lat": 37.4,
+      "lng": -122.0,
+      "name": "Silicon Valley",
+      "region": "tech",
+      "category": "tech",
+      "severity": 0.74,
+      "article_count": 28,
+      "article_hash": "sha256:us026",
+      "volume_score": 0.72,
+      "velocity_score": 0.78,
+      "tier_weight": 0.9,
+      "intensity_score": 0.52,
+      "avg_goldstein": -1.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0027-4000-8000-000000000027",
+      "h3_cell": "83446cfffffffff",
+      "lat": 29.7,
+      "lng": -95.4,
+      "name": "Houston / Texas",
+      "region": "energy",
+      "category": "energy",
+      "severity": 0.68,
+      "article_count": 22,
+      "article_hash": "sha256:us027",
+      "volume_score": 0.67,
+      "velocity_score": 0.71,
+      "tier_weight": 0.8,
+      "intensity_score": 0.55,
+      "avg_goldstein": -2.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0028-4000-8000-000000000028",
+      "h3_cell": "832aa8fffffffff",
+      "lat": 38.9,
+      "lng": -77.0,
+      "name": "Washington DC",
+      "region": "geopolitics",
+      "category": "geopolitics",
+      "severity": 0.61,
+      "article_count": 19,
+      "article_hash": "sha256:us028",
+      "volume_score": 0.64,
+      "velocity_score": 0.65,
+      "tier_weight": 0.85,
+      "intensity_score": 0.4,
+      "avg_goldstein": -0.8,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0029-4000-8000-000000000029",
+      "h3_cell": "832ab2fffffffff",
+      "lat": 42.3,
+      "lng": -83.0,
+      "name": "Detroit / Midwest",
+      "region": "manufacturing",
+      "category": "manufacturing",
+      "severity": 0.55,
+      "article_count": 16,
+      "article_hash": "sha256:us029",
+      "volume_score": 0.6,
+      "velocity_score": 0.58,
+      "tier_weight": 0.75,
+      "intensity_score": 0.42,
+      "avg_goldstein": -1.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0030-4000-8000-000000000030",
+      "h3_cell": "832664fffffffff",
+      "lat": 41.8,
+      "lng": -87.6,
+      "name": "Chicago",
+      "region": "finance",
+      "category": "finance",
+      "severity": 0.62,
+      "article_count": 20,
+      "article_hash": "sha256:us030",
+      "volume_score": 0.65,
+      "velocity_score": 0.63,
+      "tier_weight": 0.8,
+      "intensity_score": 0.48,
+      "avg_goldstein": -1.0,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0031-4000-8000-000000000031",
+      "h3_cell": "8344a1fffffffff",
+      "lat": 25.7,
+      "lng": -80.2,
+      "name": "Miami / Southeast",
+      "region": "finance",
+      "category": "finance",
+      "severity": 0.45,
+      "article_count": 12,
+      "article_hash": "sha256:us031",
+      "volume_score": 0.54,
+      "velocity_score": 0.48,
+      "tier_weight": 0.7,
+      "intensity_score": 0.35,
+      "avg_goldstein": -0.5,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0032-4000-8000-000000000032",
+      "h3_cell": "8328d5fffffffff",
+      "lat": 47.6,
+      "lng": -122.3,
+      "name": "Seattle / Pacific NW",
+      "region": "tech",
+      "category": "tech",
+      "severity": 0.58,
+      "article_count": 17,
+      "article_hash": "sha256:us032",
+      "volume_score": 0.61,
+      "velocity_score": 0.6,
+      "tier_weight": 0.85,
+      "intensity_score": 0.44,
+      "avg_goldstein": -1.3,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0033-4000-8000-000000000033",
+      "h3_cell": "832a30fffffffff",
+      "lat": 42.3,
+      "lng": -71.0,
+      "name": "Boston / New England",
+      "region": "science",
+      "category": "science",
+      "severity": 0.51,
+      "article_count": 14,
+      "article_hash": "sha256:us033",
+      "volume_score": 0.57,
+      "velocity_score": 0.55,
+      "tier_weight": 0.8,
+      "intensity_score": 0.38,
+      "avg_goldstein": -0.3,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0034-4000-8000-000000000034",
+      "h3_cell": "8329a1fffffffff",
+      "lat": 34.0,
+      "lng": -118.2,
+      "name": "Los Angeles",
+      "region": "tech",
+      "category": "tech",
+      "severity": 0.65,
+      "article_count": 21,
+      "article_hash": "sha256:us034",
+      "volume_score": 0.66,
+      "velocity_score": 0.68,
+      "tier_weight": 0.8,
+      "intensity_score": 0.5,
+      "avg_goldstein": -1.1,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    },
+    {
+      "id": "a1b2c3d4-0035-4000-8000-000000000035",
+      "h3_cell": "8344c1fffffffff",
+      "lat": 33.7,
+      "lng": -84.4,
+      "name": "Atlanta / South",
+      "region": "general",
+      "category": "general",
+      "severity": 0.38,
+      "article_count": 10,
+      "article_hash": "sha256:us035",
+      "volume_score": 0.5,
+      "velocity_score": 0.4,
+      "tier_weight": 0.65,
+      "intensity_score": 0.3,
+      "avg_goldstein": -0.2,
+      "summary_failed": false,
+      "last_scored_at": "2026-10-09T06:00:00.000Z",
+      "created_at": "2026-10-01T06:00:00.000Z",
+      "updated_at": "2026-10-09T06:00:00.000Z",
+      "summary": null,
+      "articles": []
+    }
+  ],
+  "generated_at": "2026-10-09T06:05:00.000Z"
+}

@@ -1,16 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
+  // Allow react-globe.gl (Three.js) which has node-unsafe code to be bundled correctly
+  webpack: (config) => {
+    config.externals = [...(config.externals ?? [])];
+    return config;
   },
 };
 
