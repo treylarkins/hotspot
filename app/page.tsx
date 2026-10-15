@@ -75,9 +75,7 @@ export default function HomePage() {
   const fetchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastFetchKey = useRef("");
 
-  const useMock =
-    typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("mock") === "1";
+  const useMock = false;
 
   const fetchHotspots = useCallback(
     async (res: number, lat: number, lng: number, radius: number) => {

@@ -6,7 +6,7 @@ import type { Article } from "../contracts/article";
 import { randomUUID } from "crypto";
 
 const PROMPT_VERSION = "v1";
-const MODEL = "gemini-2.0-flash";
+const MODEL = "gemini-3.5-flash";
 
 const genai = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
 
