@@ -9,12 +9,6 @@ interface GlobeProps {
   hotspots: HotspotListItem[];
   onHotspotClick: (hotspot: HotspotListItem) => void;
   selectedId?: string | null;
-  onZoomChange?: (altitude: number, lat: number, lng: number) => void;
-}
-
-/** MapLibre zoom level → altitude value compatible with altitudeToResolution() */
-function zoomToAltitude(zoom: number): number {
-  return Math.pow(2, 4 - zoom) * 1.25;
 }
 
 /** Severity (0.15–1.0) → opacity blend (0.25–1.0) */
@@ -49,16 +43,13 @@ function buildGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): 
 
 const LEGEND_ENTRIES = Object.entries(CATEGORY_COLORS) as [keyof typeof CATEGORY_COLORS, string][];
 
-export default function Globe({ hotspots, onHotspotClick, selectedId, onZoomChange }: GlobeProps) {
+export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);
   const autoRotateRef = useRef(true);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  // Always-fresh callback refs so closures in useEffect don't stale
-  const zoomCallbackRef = useRef(onZoomChange);
-  zoomCallbackRef.current = onZoomChange;
   const clickCallbackRef = useRef(onHotspotClick);
   clickCallbackRef.current = onHotspotClick;
 
@@ -177,12 +168,6 @@ export default function Globe({ hotspots, onHotspotClick, selectedId, onZoomChan
       });
       map.on("dragend", () => {
         resumeTimer = setTimeout(() => { autoRotateRef.current = true; }, 3000);
-        const center = map.getCenter();
-        zoomCallbackRef.current?.(zoomToAltitude(map.getZoom()), center.lat, center.lng);
-      });
-      map.on("zoomend", () => {
-        const center = map.getCenter();
-        zoomCallbackRef.current?.(zoomToAltitude(map.getZoom()), center.lat, center.lng);
       });
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);

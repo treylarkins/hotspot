@@ -4,7 +4,7 @@ import type { Hotspot } from "../contracts/hotspot";
 import { TIER_WEIGHTS, getSourceByDomain } from "../config/sources";
 import { randomUUID } from "crypto";
 
-export const H3_RESOLUTION = 3;
+export const H3_RESOLUTION = 4;
 
 export function latLngToH3(lat: number, lng: number, res = H3_RESOLUTION): string {
   return latLngToCell(lat, lng, res);
