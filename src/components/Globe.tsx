@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { HotspotListItem } from "../contracts/api";
 import { SEVERITY_THRESHOLD } from "../lib/score";
-import { CATEGORY_COLORS } from "../config/sources";
 
 interface GlobeProps {
   hotspots: HotspotListItem[];
@@ -11,14 +10,15 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
+/** Dot radius: power curve for dramatic visual range (3px at 1 article → 60px at 500). */
+function dotRadius(articleCount: number): number {
+  const clamped = Math.max(1, Math.min(articleCount, 500));
+  return 3 + (Math.pow(clamped / 500, 0.45) * 57);
+}
+
 /** Severity (0.15–1.0) → opacity blend (0.25–1.0) */
 function severityBlend(severity: number): number {
   return 0.25 + 0.75 * Math.max(0, Math.min(1, (severity - SEVERITY_THRESHOLD) / (1 - SEVERITY_THRESHOLD)));
-}
-
-function categoryColor(hotspot: HotspotListItem): string {
-  const cat = (hotspot.category ?? hotspot.region ?? "general") as keyof typeof CATEGORY_COLORS;
-  return CATEGORY_COLORS[cat] ?? CATEGORY_COLORS.general;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,16 +32,15 @@ function buildGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): 
         geometry: { type: "Point", coordinates: [h.lng, h.lat] },
         properties: {
           id: h.id,
-          color: h.id === selectedId ? "#ffffff" : categoryColor(h),
+          severity: h.severity,
+          selected: h.id === selectedId,
           opacity: severityBlend(h.severity),
-          radius: Math.sqrt(h.article_count) * 3,
+          radius: dotRadius(h.article_count),
           data: JSON.stringify(h),
         },
       })),
   };
 }
-
-const LEGEND_ENTRIES = Object.entries(CATEGORY_COLORS) as [keyof typeof CATEGORY_COLORS, string][];
 
 export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,13 +104,22 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           data: buildGeoJSON(hotspotsRef.current, selectedIdRef.current),
         });
 
+        const severityColorExpr = [
+          "case",
+          ["==", ["get", "selected"], true], "#ffffff",
+          ["interpolate", ["linear"], ["get", "severity"],
+            0.15, "#F4B4B4",
+            1.0,  "#7A0000",
+          ],
+        ];
+
         // Halo layer: blurred glow behind each dot
         map.addLayer({
           id: "hotspot-halo",
           type: "circle",
           source: "hotspots",
           paint: {
-            "circle-color": ["get", "color"],
+            "circle-color": severityColorExpr,
             "circle-opacity": 0.2,
             "circle-radius": ["*", ["get", "radius"], 2.2],
             "circle-blur": 1,
@@ -124,7 +132,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           type: "circle",
           source: "hotspots",
           paint: {
-            "circle-color": ["get", "color"],
+            "circle-color": severityColorExpr,
             "circle-opacity": ["get", "opacity"],
             "circle-radius": ["get", "radius"],
           },
@@ -203,28 +211,6 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
   }
 
   return (
-    <div ref={containerRef} className="w-full h-full relative" data-testid="globe-container">
-      {/* Category legend */}
-      <div className="absolute bottom-4 left-4 flex flex-col gap-1 pointer-events-none z-10">
-        {LEGEND_ENTRIES.map(([cat, color]) => (
-          <div key={cat} className="flex items-center gap-1.5">
-            <div
-              style={{ background: color, width: 8, height: 8, borderRadius: "50%", flexShrink: 0 }}
-            />
-            <span
-              style={{
-                color,
-                fontSize: 10,
-                fontFamily: "system-ui",
-                textTransform: "capitalize",
-                letterSpacing: "0.05em",
-              }}
-            >
-              {cat}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <div ref={containerRef} className="w-full h-full relative" data-testid="globe-container" />
   );
 }

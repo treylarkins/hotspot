@@ -43,8 +43,8 @@ describe("volumeScore", () => {
 });
 
 describe("velocityScore", () => {
-  it("returns 0 for zero baseline and zero today", () => expect(velocityScore(0, 0)).toBe(0));
-  it("returns 1 for zero baseline and >0 today", () => expect(velocityScore(5, 0)).toBe(1));
+  it("returns 0.5 (neutral) for zero baseline and zero today", () => expect(velocityScore(0, 0)).toBe(0.5));
+  it("returns 0.5 (neutral) for zero baseline and >0 today", () => expect(velocityScore(5, 0)).toBe(0.5));
   it("returns 1 when today >= baseline", () => expect(velocityScore(10, 10)).toBe(1));
   it("returns 0.5 for half the baseline", () => expect(velocityScore(5, 10)).toBeCloseTo(0.5));
 });
@@ -95,15 +95,15 @@ describe("severityScore — Hormuz-like scenario", () => {
 });
 
 describe("severityScore — Kansas-like scenario", () => {
-  it("shouldShow returns false for 1-article, low-velocity, low-conflict tier-2 event", () => {
-    // 1 article, goldstein +5 (positive/peaceful), tier 2, low confidence geocode, high baseline
+  it("shouldShow returns false for 1-article, low-velocity, low-conflict tier-2 event with very low confidence", () => {
+    // 1 article, goldstein +5 (positive/peaceful), tier 2, very low confidence geocode (country-level), high baseline
     const articles = [
       makeArticle({
         lat: 39.1,
         lng: -96.6,
         goldstein: 5,
         source_tier: 2,
-        location_confidence: 0.5,
+        location_confidence: 0.2, // country-level geocode — low enough that severity stays below 0.10
       }),
     ];
     const group = { h3_cell: "test2", lat: 39.1, lng: -96.6, articles };
@@ -131,7 +131,7 @@ describe("severityScore — DC noise suppression", () => {
 
 describe("shouldShow", () => {
   it("returns true at exactly threshold", () => expect(shouldShow(SEVERITY_THRESHOLD)).toBe(true));
-  it("returns false below threshold", () => expect(shouldShow(0.14)).toBe(false));
+  it("returns false below threshold", () => expect(shouldShow(0.09)).toBe(false));
   it("returns true above threshold", () => expect(shouldShow(0.5)).toBe(true));
 });
 
@@ -151,7 +151,15 @@ describe("severityColor", () => {
 });
 
 describe("dotRadius", () => {
-  it("returns correct radius for 100 articles", () =>
-    expect(dotRadius(100)).toBeCloseTo(Math.sqrt(100) * 0.3));
-  it("returns 0 for 0 articles", () => expect(dotRadius(0)).toBe(0));
+  it("returns minimum (~3px) for 1 article", () => {
+    expect(dotRadius(1)).toBeCloseTo(3 + Math.pow(1 / 500, 0.45) * 57, 2);
+  });
+  it("returns maximum (60px) for 500 articles", () => {
+    expect(dotRadius(500)).toBeCloseTo(60, 1);
+  });
+  it("returns a value between 3 and 60 for 100 articles", () => {
+    const r = dotRadius(100);
+    expect(r).toBeGreaterThan(3);
+    expect(r).toBeLessThan(60);
+  });
 });

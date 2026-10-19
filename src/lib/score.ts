@@ -38,7 +38,7 @@ export function volumeScore(count: number): number {
 
 /** velocity score: today_count / 7-day-baseline_count, clamped 0–1 */
 export function velocityScore(todayCount: number, baselineCount: number): number {
-  if (baselineCount <= 0) return todayCount > 0 ? 1 : 0;
+  if (baselineCount <= 0) return 0.5; // neutral — no history, don't boost or suppress
   return Math.min(1, todayCount / baselineCount);
 }
 
@@ -104,7 +104,7 @@ export function severityScore(
   };
 }
 
-export const SEVERITY_THRESHOLD = 0.15;
+export const SEVERITY_THRESHOLD = 0.10;
 
 export function shouldShow(severity: number): boolean {
   return severity >= SEVERITY_THRESHOLD;
@@ -189,7 +189,8 @@ export function severityColor(severity: number): string {
   return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
-/** Dot radius: Math.sqrt(article_count) * 0.3 */
+/** Dot radius: power curve for dramatic visual range (3px at 1 article → 60px at 500). */
 export function dotRadius(articleCount: number): number {
-  return Math.sqrt(articleCount) * 0.3;
+  const clamped = Math.max(1, Math.min(articleCount, 500));
+  return 3 + (Math.pow(clamped / 500, 0.45) * 57);
 }

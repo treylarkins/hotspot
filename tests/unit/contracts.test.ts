@@ -34,8 +34,8 @@ describe("HotspotsResponse fixture validation", () => {
     expect(result.success).toBe(true);
   });
 
-  it("has exactly 25 hotspots", () => {
-    expect(mockData.hotspots).toHaveLength(25);
+  it("has exactly 35 hotspots", () => {
+    expect(mockData.hotspots).toHaveLength(35);
   });
 
   it("validates each hotspot against HotspotSchema", () => {
