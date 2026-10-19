@@ -1,9 +1,16 @@
 import { getSource } from "../config/sources";
 import type { Article } from "../contracts/article";
 import { randomUUID } from "crypto";
+import { headlineRelevanceScore } from "./gdelt";
 
 const NYT_API_BASE = "https://api.nytimes.com/svc/topstories/v2";
-const NYT_SECTIONS = ["world", "us", "politics", "business", "technology", "science", "health", "climate", "upshot"];
+// Removed "health" (lifestyle advice), "upshot" (opinion/analysis), "climate" (advocacy)
+// Climate events are still covered via "science" and "world" sections
+const NYT_SECTIONS = ["world", "us", "politics", "business", "technology", "science"];
+
+/** Soft-news URL path pattern — same blocklist applied to GDELT */
+const NYT_SOFT_PATH =
+  /\/(food|dining|recipe|restaurant|cooking|taste|travel|destinations?|tourism|vacation|style|fashion|beauty|wellness|well|arts?|culture|entertainment|movies?|film|music|television|tv|theater|sports?|athletics|nba|nfl|nhl|mlb|soccer|golf|real-?estate|home|garden|automobiles?|magazine|t-magazine|tmagazine|sunday-review)\//i;
 
 interface NytArticle {
   url: string;
@@ -171,6 +178,16 @@ export async function fetchNytTopStories(apiKey?: string): Promise<Article[]> {
 
     for (const item of data.results ?? []) {
       if (!item.url) continue;
+
+      // Skip soft-news URL paths (same blocklist as GDELT)
+      try {
+        const pathname = new URL(item.url).pathname;
+        if (NYT_SOFT_PATH.test(pathname)) continue;
+      } catch { /* malformed URL — let through */ }
+
+      // Headline relevance: strong soft-news signal → drop
+      if (headlineRelevanceScore(item.title ?? "") < -1) continue;
+
       const sourceInfo = getSource(item.url);
       if (!sourceInfo) continue;
 

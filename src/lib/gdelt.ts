@@ -71,6 +71,7 @@ interface GdeltGkgRow {
   DATE: string;
   SourceCommonName: string;
   DocumentIdentifier: string;
+  V2THEMES: string;
   Themes: string;
   Locations: string;
   Persons: string;
@@ -79,6 +80,32 @@ interface GdeltGkgRow {
   Extras: string;
   [key: string]: string;
 }
+
+/**
+ * GDELT V2THEMES hard-news whitelist.
+ * Articles with themes but NONE matching this set are dropped as soft news.
+ * Articles with NO themes at all are allowed through (no theme data → don't filter).
+ */
+const HARD_NEWS_THEMES = new Set([
+  // Finance & business
+  "ECON_BANKRUPTCY", "ECON_DEBT", "ECON_REFORM", "ECON_FOREIGNINVESTMENT",
+  "ECON_TAXATION", "ECON_TRADE", "ECON_PRICECONTROL", "ECON_STOCKMARKET",
+  "ECON_INFLATION", "ECON_DEVALUATION", "WB_2197_FINANCIAL_SECTOR",
+  "WB_2133_TRADE", "WB_1356_ENTERPRISE_DEVELOPMENT", "CORP_MERGER_ACQUISITION",
+  // Geopolitics & governance
+  "GOV_GOVERNMENT_BODIES", "DEMOCRACY", "ELECTION", "LEADER",
+  "GOV_RELATIONS_DIPLOMACY", "MILITARY", "SANCTIONS", "TREATY",
+  // Conflict
+  "PROTEST", "CONFLICT", "TAX_ETHNICITY_CONFLICT", "TERROR",
+  // Disaster & crisis
+  "NATURAL_DISASTER", "CRISISLEX_T01_EARTHQUAKE", "CRISISLEX_T05_FLOOD",
+  // Energy & resources
+  "ENV_ENERGYTRADE", "ENERGY", "ENV_MINING", "ENV_NUCLEAR",
+  // Science & health crises
+  "SCIENCE", "HEALTH_PANDEMIC", "DISCOVERY",
+  // Infrastructure & development
+  "TRANSPORTATION", "ENV_INFRASTRUCTUREDEVELOPMENT",
+]);
 
 /**
  * Fetch the latest GDELT GKG URL using GDELT's lastupdate.txt.
@@ -203,8 +230,8 @@ export async function fetchMultipleGdeltSnapshots(count = 4): Promise<Article[]>
 }
 
 /**
- * Patterns that identify opinion/listicle/non-news content.
- * Checked against the URL slug (which GDELT uses as the headline proxy).
+ * Patterns that identify opinion/listicle/soft-news content.
+ * Checked against the full URL path.
  */
 const OPINION_PATTERNS: RegExp[] = [
   /^\d+[\s-]+(reasons?|ways?|tips?|things?|signs?|steps?|facts?|myths?)/i,
@@ -213,11 +240,46 @@ const OPINION_PATTERNS: RegExp[] = [
   /\bop\s+ed\b/i,
   /\bcommentary\b/i,
   /\beditorial\b/i,
+  // Soft-news section paths — block /food/best-restaurants but not /business/food-company-merger
+  /\/(food|dining|recipe|restaurant|cooking|taste)\//i,
+  /\/(travel|destinations?|tourism|vacation)\//i,
+  /\/(style|fashion|beauty|wellness|well)\//i,
+  /\/(arts?|culture|entertainment|movies?|film|music|television|tv|theater)\//i,
+  /\/(sports?|athletics|nba|nfl|nhl|mlb|soccer|golf)\//i,
+  /\/(real-?estate|home|garden|automobiles?)\//i,
+  /\/(magazine|t-magazine|tmagazine|sunday-review)\//i,
 ];
 
-/** Returns true if the headline/slug looks like opinion or listicle content */
-function isOpinionOrListicle(headline: string): boolean {
-  return OPINION_PATTERNS.some((re) => re.test(headline));
+/** Returns true if the URL or slug looks like opinion, listicle, or soft-news content */
+function isOpinionOrListicle(urlOrSlug: string): boolean {
+  return OPINION_PATTERNS.some((re) => re.test(urlOrSlug));
+}
+
+const HARD_NEWS_KEYWORDS = [
+  "merger", "acquisition", "ipo", "funding", "billion", "million", "deal",
+  "treaty", "sanctions", "election", "coup", "default", "bankruptcy",
+  "earthquake", "eruption", "tsunami", "outbreak", "pandemic",
+  "discovery", "breakthrough", "launch", "tariff", "inflation", "gdp",
+  "lawsuit", "indictment", "sentenced", "war", "ceasefire", "summit",
+];
+
+const SOFT_NEWS_KEYWORDS = [
+  "recipe", "restaurant", "dining", "chef", "cocktail", "wine", "beer",
+  "celebrity", "dating", "wedding", "divorce", "fashion", "makeup", "skincare",
+  "movie review", "album review", "book review", "concert", "tour",
+  "sport", "score", "playoff", "championship", "athlete",
+  "vacation", "hotel", "resort", "destination",
+];
+
+/**
+ * Returns a relevance score: positive → hard news, negative → soft news.
+ * Articles with score < -1 should be dropped.
+ */
+export function headlineRelevanceScore(headline: string): number {
+  const lower = headline.toLowerCase();
+  const pos = HARD_NEWS_KEYWORDS.filter((k) => lower.includes(k)).length;
+  const neg = SOFT_NEWS_KEYWORDS.filter((k) => lower.includes(k)).length;
+  return pos - neg * 2;
 }
 
 // GDELT GKG v2.1 files have NO header row — prepend one so PapaParse can map columns
@@ -248,9 +310,26 @@ export function parseGkgCsv(csvText: string): Article[] {
     const sourceInfo = getSource(url);
     if (!sourceInfo) continue; // not on whitelist
 
-    // Filter out opinion, listicle, and commentary content
+    // Filter out opinion, listicle, and soft-news URL paths
+    try {
+      const pathname = new URL(url).pathname;
+      if (isOpinionOrListicle(pathname)) continue;
+    } catch {
+      // malformed URL — fall through to slug check
+    }
     const slug = extractHeadlineFromUrl(url);
     if (isOpinionOrListicle(slug)) continue;
+
+    // V2THEMES filter: if themes are present but none match hard-news set, skip
+    const themes = (row.V2THEMES ?? "").split(";").filter(Boolean);
+    if (themes.length > 0) {
+      const hasHardNews = themes.some((t) => HARD_NEWS_THEMES.has(t.trim().toUpperCase()));
+      if (!hasHardNews) continue;
+    }
+    // themes.length === 0 → no theme data, allow through
+
+    // Headline relevance filter: strong soft-news signal → drop
+    if (headlineRelevanceScore(slug) < -1) continue;
 
     const locations = parseV2Locations(row.Locations ?? "");
     const loc = bestLocation(locations);

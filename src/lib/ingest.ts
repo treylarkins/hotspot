@@ -1,5 +1,6 @@
 import { fetchMultipleGdeltSnapshots, canonicalizeUrl } from "./gdelt";
 import { fetchNytTopStories } from "./nyt";
+import { fetchRssArticles, fetchMarketauxArticles } from "./rss";
 import { upsertArticles, recordIngestRun } from "./db";
 import { getSourceByDomain } from "../config/sources";
 import type { Article } from "../contracts/article";
@@ -56,11 +57,15 @@ export async function runIngest(snapshotCount = 4): Promise<{
   total: number;
   gdelt: number;
   nyt: number;
+  rss: number;
+  marketaux: number;
   dupes: number;
 }> {
-  const [gdeltArticles, nytArticles] = await Promise.allSettled([
+  const [gdeltArticles, nytArticles, rssArticles, marketauxArticles] = await Promise.allSettled([
     fetchMultipleGdeltSnapshots(snapshotCount),
     fetchNytTopStories(),
+    fetchRssArticles(),
+    fetchMarketauxArticles(),
   ]);
 
   const allArticles: Article[] = [];
@@ -77,8 +82,22 @@ export async function runIngest(snapshotCount = 4): Promise<{
     console.warn("NYT ingest failed:", nytArticles.reason);
   }
 
+  if (rssArticles.status === "fulfilled") {
+    allArticles.push(...rssArticles.value);
+  } else {
+    console.warn("RSS ingest failed:", rssArticles.reason);
+  }
+
+  if (marketauxArticles.status === "fulfilled") {
+    allArticles.push(...marketauxArticles.value);
+  } else {
+    console.warn("Marketaux ingest failed:", marketauxArticles.reason);
+  }
+
   const gdeltCount = gdeltArticles.status === "fulfilled" ? gdeltArticles.value.length : 0;
   const nytCount = nytArticles.status === "fulfilled" ? nytArticles.value.length : 0;
+  const rssCount = rssArticles.status === "fulfilled" ? rssArticles.value.length : 0;
+  const marketauxCount = marketauxArticles.status === "fulfilled" ? marketauxArticles.value.length : 0;
 
   // Deduplicate by canonical URL — keep the copy with higher location_confidence
   const seenMap = new Map<string, Article>();
@@ -112,7 +131,7 @@ export async function runIngest(snapshotCount = 4): Promise<{
   const dupes = allArticles.length - afterDedup;
 
   console.log(
-    `[ingest] GDELT: ${gdeltCount} articles, NYT: ${nytCount} articles, after dedup: ${afterDedup}, after filter: ${deduped.length}`
+    `[ingest] GDELT: ${gdeltCount}, NYT: ${nytCount}, RSS: ${rssCount}, Marketaux: ${marketauxCount}, after dedup: ${afterDedup}, after filter: ${deduped.length}`
   );
 
   // Upsert to database
@@ -126,6 +145,8 @@ export async function runIngest(snapshotCount = 4): Promise<{
     total: deduped.length,
     gdelt: gdeltCount,
     nyt: nytCount,
+    rss: rssCount,
+    marketaux: marketauxCount,
     dupes,
   };
 }
