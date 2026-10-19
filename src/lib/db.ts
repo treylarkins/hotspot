@@ -83,7 +83,9 @@ export async function upsertSummary(
   summary: import("../contracts/summary").Summary
 ): Promise<void> {
   const supabase = getSupabaseClient();
-  const { error } = await supabase.from("summaries").upsert(summary, { onConflict: "hotspot_id" });
+  // Delete existing summary for this hotspot, then insert fresh
+  await supabase.from("summaries").delete().eq("hotspot_id", summary.hotspot_id);
+  const { error } = await supabase.from("summaries").insert(summary);
   if (error) throw error;
 }
 
@@ -107,7 +109,7 @@ export async function getHotspotsNeedingSummary(): Promise<
 
 export async function getArticlesForHotspot(h3_cell: string): Promise<Article[]> {
   const supabase = getSupabaseClient();
-  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const since = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
 
   const { data, error } = await supabase
     .from("articles")

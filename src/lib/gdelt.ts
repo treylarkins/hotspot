@@ -1,4 +1,5 @@
 import Papa from "papaparse";
+import { unzipSync } from "fflate";
 import { getSource } from "../config/sources";
 import type { Article } from "../contracts/article";
 import { randomUUID } from "crypto";
@@ -80,45 +81,158 @@ interface GdeltGkgRow {
 }
 
 /**
- * Fetch the GDELT GKG 15-minute CSV and parse it.
- * Uses the last-completed 15-minute file.
+ * Fetch the latest GDELT GKG URL using GDELT's lastupdate.txt.
+ * The file has 3 lines, each: SIZE MD5 URL
+ * Line 3 (index 2) is always the GKG file ending in .gkg.csv.zip
+ */
+export async function getLatestGkgUrl(): Promise<string> {
+  const resp = await fetch("https://data.gdeltproject.org/gdeltv2/lastupdate.txt");
+  if (!resp.ok) {
+    throw new Error(`Failed to fetch GDELT lastupdate.txt: ${resp.status} ${resp.statusText}`);
+  }
+  const text = await resp.text();
+  const lines = text.trim().split("\n");
+  // Line 3 (index 2) is the GKG file
+  const gkgLine = lines[2];
+  if (!gkgLine) {
+    throw new Error("GDELT lastupdate.txt did not contain a third line");
+  }
+  const fields = gkgLine.trim().split(/\s+/);
+  const url = fields[2];
+  if (!url || !url.startsWith("http")) {
+    throw new Error(`Could not parse GKG URL from lastupdate.txt line: ${gkgLine}`);
+  }
+  return url;
+}
+
+/**
+ * Fetch the GDELT GKG 15-minute ZIP file and parse it into Articles.
+ * Properly decompresses the ZIP before parsing the CSV.
  */
 export async function fetchGdeltGkg(url?: string): Promise<Article[]> {
-  const gkgUrl = url ?? getLatestGkgUrl();
+  const gkgUrl = url ?? (await getLatestGkgUrl());
 
   const response = await fetch(gkgUrl);
   if (!response.ok) {
     throw new Error(`GDELT fetch failed: ${response.status} ${response.statusText}`);
   }
 
-  const csvText = await response.text();
+  const buffer = await response.arrayBuffer();
+  const zipped = new Uint8Array(buffer);
+  const files = unzipSync(zipped);
+
+  const csvKey = Object.keys(files).find(
+    (k) => k.endsWith(".csv") || k.endsWith(".gkg")
+  );
+  if (!csvKey) {
+    throw new Error("No CSV file found inside GDELT ZIP archive");
+  }
+
+  const csvText = new TextDecoder("utf-8").decode(files[csvKey]);
   return parseGkgCsv(csvText);
 }
 
-/** Get the URL for the most recent GDELT GKG 15-minute file */
-export function getLatestGkgUrl(): string {
-  // GDELT updates every 15 minutes. Round down to last 15-min mark.
-  const now = new Date();
-  const minutes = now.getUTCMinutes();
-  const roundedMinutes = Math.floor(minutes / 15) * 15;
-  const dt = new Date(now);
-  dt.setUTCMinutes(roundedMinutes, 0, 0);
-
+/**
+ * Format a Date as a GDELT timestamp string: YYYYMMDDHHMMSS
+ */
+function formatGdeltTimestamp(date: Date): string {
   const pad = (n: number) => n.toString().padStart(2, "0");
-  const dateStr =
-    dt.getUTCFullYear().toString() +
-    pad(dt.getUTCMonth() + 1) +
-    pad(dt.getUTCDate()) +
-    pad(dt.getUTCHours()) +
-    pad(dt.getUTCMinutes()) +
-    "00";
-
-  return `https://data.gdeltproject.org/gdeltv2/${dateStr}.gkg.csv.zip`;
+  return (
+    date.getUTCFullYear().toString() +
+    pad(date.getUTCMonth() + 1) +
+    pad(date.getUTCDate()) +
+    pad(date.getUTCHours()) +
+    pad(date.getUTCMinutes()) +
+    "00"
+  );
 }
+
+/**
+ * Parse a GDELT timestamp string (YYYYMMDDHHMMSS) into a Date.
+ */
+function parseGdeltTimestamp(ts: string): Date {
+  return new Date(
+    `${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}T${ts.slice(8, 10)}:${ts.slice(10, 12)}:${ts.slice(12, 14)}Z`
+  );
+}
+
+/**
+ * Fetch multiple GDELT GKG snapshots (default: 4 = last hour of data).
+ * Merges and deduplicates articles by URL.
+ */
+export async function fetchMultipleGdeltSnapshots(count = 4): Promise<Article[]> {
+  const latestUrl = await getLatestGkgUrl();
+
+  // Extract the timestamp from the latest URL filename.
+  // Filename format: YYYYMMDDHHMMSS.gkg.csv.zip
+  const filenameMatch = latestUrl.match(/(\d{14})\.gkg\.csv\.zip$/);
+  if (!filenameMatch) {
+    throw new Error(`Cannot parse timestamp from GDELT URL: ${latestUrl}`);
+  }
+  const latestTimestamp = filenameMatch[1];
+  const latestDate = parseGdeltTimestamp(latestTimestamp);
+
+  // Build list of URLs: latest first, then count-1 previous 15-min snapshots
+  const urls: string[] = [latestUrl];
+  for (let i = 1; i < count; i++) {
+    const priorDate = new Date(latestDate.getTime() - i * 15 * 60 * 1000);
+    const ts = formatGdeltTimestamp(priorDate);
+    urls.push(`https://data.gdeltproject.org/gdeltv2/${ts}.gkg.csv.zip`);
+  }
+
+  // Fetch all snapshots in parallel; don't fail if one is missing
+  const results = await Promise.allSettled(urls.map((u) => fetchGdeltGkg(u)));
+
+  // Merge all articles and deduplicate by url
+  const seen = new Set<string>();
+  const merged: Article[] = [];
+  for (const result of results) {
+    if (result.status === "fulfilled") {
+      for (const article of result.value) {
+        if (!seen.has(article.url)) {
+          seen.add(article.url);
+          merged.push(article);
+        }
+      }
+    } else {
+      console.warn("GDELT snapshot fetch failed:", result.reason);
+    }
+  }
+
+  return merged;
+}
+
+/**
+ * Patterns that identify opinion/listicle/non-news content.
+ * Checked against the URL slug (which GDELT uses as the headline proxy).
+ */
+const OPINION_PATTERNS: RegExp[] = [
+  /^\d+[\s-]+(reasons?|ways?|tips?|things?|signs?|steps?|facts?|myths?)/i,
+  /\bopinion\b/i,
+  /\bop-ed\b/i,
+  /\bop\s+ed\b/i,
+  /\bcommentary\b/i,
+  /\beditorial\b/i,
+];
+
+/** Returns true if the headline/slug looks like opinion or listicle content */
+function isOpinionOrListicle(headline: string): boolean {
+  return OPINION_PATTERNS.some((re) => re.test(headline));
+}
+
+// GDELT GKG v2.1 files have NO header row — prepend one so PapaParse can map columns
+const GDELT_GKG_HEADER = [
+  "GKGRECORDID", "DATE", "SourceCollectionIdentifier", "SourceCommonName",
+  "DocumentIdentifier", "V2COUNTS", "V2EXTCOUNTS", "V2THEMES", "V2EXTTHEMES",
+  "Locations", "V2EXTLOCATIONS", "Persons", "V2EXTPERSONS", "Organizations",
+  "V2EXTORGS", "Tone", "CAMEOEVENTIDS", "GCAM", "SharingImage", "RelatedImages",
+  "SocialImageEmbeds", "SocialVideoEmbeds", "Quotations", "AllNames", "Amounts",
+  "TranslationInfo", "ExtrasXML",
+].join("\t");
 
 /** Parse the GKG CSV text into Article objects */
 export function parseGkgCsv(csvText: string): Article[] {
-  const result = Papa.parse<GdeltGkgRow>(csvText, {
+  const result = Papa.parse<GdeltGkgRow>(GDELT_GKG_HEADER + "\n" + csvText, {
     header: true,
     delimiter: "\t",
     skipEmptyLines: true,
@@ -133,6 +247,10 @@ export function parseGkgCsv(csvText: string): Article[] {
 
     const sourceInfo = getSource(url);
     if (!sourceInfo) continue; // not on whitelist
+
+    // Filter out opinion, listicle, and commentary content
+    const slug = extractHeadlineFromUrl(url);
+    if (isOpinionOrListicle(slug)) continue;
 
     const locations = parseV2Locations(row.Locations ?? "");
     const loc = bestLocation(locations);

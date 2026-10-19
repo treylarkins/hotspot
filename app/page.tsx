@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import type { HotspotListItem } from "../src/contracts/api";
 import HotspotPanel from "../src/components/HotspotPanel";
 import { severityColor, SEVERITY_THRESHOLD } from "../src/lib/score";
-import { altitudeToResolution, altitudeToViewRadius } from "../src/lib/mock-zoom";
 
 const Globe = dynamic(() => import("../src/components/Globe"), {
   ssr: false,
@@ -42,90 +41,27 @@ function SeverityLegend() {
   );
 }
 
-function ZoomIndicator({ resolution }: { resolution: number }) {
-  const labels: Record<number, string> = {
-    3: "Global",
-    4: "Regional",
-    5: "City",
-    6: "Local",
-  };
-  return (
-    <div className="absolute top-4 right-6 flex items-center gap-2">
-      {[3, 4, 5, 6].map((r) => (
-        <div
-          key={r}
-          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-            r === resolution ? "bg-white scale-125" : "bg-gray-700"
-          }`}
-          title={labels[r]}
-        />
-      ))}
-      <span className="text-[10px] text-gray-500 ml-1">{labels[resolution]}</span>
-    </div>
-  );
-}
-
 export default function HomePage() {
   const [hotspots, setHotspots] = useState<HotspotListItem[]>([]);
   const [selectedHotspot, setSelectedHotspot] = useState<HotspotListItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-  const [resolution, setResolution] = useState(3);
-  const fetchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastFetchKey = useRef("");
 
-  const useMock =
-    typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("mock") === "1";
-
-  const fetchHotspots = useCallback(
-    async (res: number, lat: number, lng: number, radius: number) => {
-      const key = `${res}:${lat.toFixed(1)}:${lng.toFixed(1)}`;
-      if (key === lastFetchKey.current) return;
-      lastFetchKey.current = key;
-
-      const params = new URLSearchParams({
-        resolution: String(res),
-        lat: String(lat.toFixed(2)),
-        lng: String(lng.toFixed(2)),
-        radius: String(radius.toFixed(1)),
-        ...(useMock ? { mock: "1" } : {}),
-      });
-
-      try {
-        const data = await fetch(`/api/hotspots?${params}`).then((r) => r.json());
+  // Single fetch on mount — fixed H3 resolution 4, no zoom-based refetching
+  useEffect(() => {
+    fetch("/api/hotspots")
+      .then((r) => r.json())
+      .then((data) => {
         setHotspots(data.hotspots ?? []);
         setLastUpdated(data.generated_at ?? null);
         setLoading(false);
-      } catch {
+      })
+      .catch(() => {
         setError("Failed to load hotspots");
         setLoading(false);
-      }
-    },
-    [useMock]
-  );
-
-  // Initial load (world view)
-  useEffect(() => {
-    fetchHotspots(3, 0, 0, 999);
-  }, [fetchHotspots]);
-
-  // Zoom change handler — debounced 400ms
-  const handleZoomChange = useCallback(
-    (altitude: number, lat: number, lng: number) => {
-      const newRes = altitudeToResolution(altitude);
-      const radius = altitudeToViewRadius(altitude);
-
-      setResolution(newRes);
-
-      if (fetchRef.current) clearTimeout(fetchRef.current);
-      fetchRef.current = setTimeout(() => {
-        fetchHotspots(newRes, lat, lng, radius);
-      }, 400);
-    },
-    [fetchHotspots]
-  );
+      });
+  }, []);
 
   const handleHotspotClick = useCallback((h: HotspotListItem) => {
     setSelectedHotspot(h);
@@ -147,9 +83,6 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Zoom indicator */}
-      <ZoomIndicator resolution={resolution} />
-
       {/* Globe */}
       <div className="absolute inset-0">
         {!loading && !error && (
@@ -157,7 +90,6 @@ export default function HomePage() {
             hotspots={hotspots}
             onHotspotClick={handleHotspotClick}
             selectedId={selectedHotspot?.id}
-            onZoomChange={handleZoomChange}
           />
         )}
       </div>
@@ -166,7 +98,7 @@ export default function HomePage() {
       <HotspotPanel
         hotspot={selectedHotspot}
         onClose={handleClose}
-        useMock={useMock}
+        useMock={false}
       />
 
       {/* Legend */}

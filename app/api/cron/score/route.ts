@@ -24,22 +24,23 @@ export async function GET(req: NextRequest) {
       process.env.SUPABASE_SERVICE_KEY!
     );
 
-    // Fetch all articles from last 24h
-    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    // Fetch all articles ingested in the last 48h (use ingested_at so articles
+    // published a few days ago but ingested today are still scored)
+    const since = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
     const { data: articles, error } = await supabase
       .from("articles")
       .select("*")
-      .gte("published_at", since);
+      .gte("ingested_at", since);
 
     if (error) throw error;
 
-    // Get 7-day baseline counts by h3_cell
+    // Get 7-day baseline counts by h3_cell (use ingested_at to match active window)
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     const { data: baselineData } = await supabase
       .from("articles")
       .select("h3_cell")
-      .gte("published_at", sevenDaysAgo)
-      .lt("published_at", since);
+      .gte("ingested_at", sevenDaysAgo)
+      .lt("ingested_at", since);
 
     const baselineByCell = new Map<string, number>();
     for (const row of baselineData ?? []) {
@@ -48,9 +49,9 @@ export async function GET(req: NextRequest) {
         baselineByCell.set(row.h3_cell, cur + 1);
       }
     }
-    // Convert 6-day total to daily avg × 1 day
+    // Convert 5-day total to daily avg × 1 day (baseline window is 7 days minus 48h window = ~5 days)
     for (const [cell, count] of baselineByCell) {
-      baselineByCell.set(cell, count / 6);
+      baselineByCell.set(cell, count / 5);
     }
 
     const scored = scoreHotspots(articles ?? [], baselineByCell);

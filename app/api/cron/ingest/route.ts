@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { fetchMultipleGdeltSnapshots } from "../../../../src/lib/gdelt";
 
 function isAuthorized(req: NextRequest): boolean {
   const authHeader = req.headers.get("authorization");
@@ -12,10 +13,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Optional ?snapshots=N param (default 4, max 12)
+  const rawSnapshots = req.nextUrl.searchParams.get("snapshots");
+  const snapshotCount = Math.min(
+    12,
+    Math.max(1, rawSnapshots ? parseInt(rawSnapshots, 10) || 4 : 4)
+  );
+
   try {
     const { runIngest } = await import("../../../../src/lib/ingest");
-    const result = await runIngest();
-    return NextResponse.json({ success: true, ...result });
+    const result = await runIngest(snapshotCount);
+    return NextResponse.json({ success: true, snapshots: snapshotCount, ...result });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Ingest cron failed:", err);
