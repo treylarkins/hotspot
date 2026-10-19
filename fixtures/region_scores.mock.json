@@ -1,0 +1,152 @@
+[
+  {
+    "id": "10000001-0000-4000-8000-000000000001",
+    "region_id": "taiwan",
+    "date": "2026-10-19",
+    "score": 0.72,
+    "score_delta": 0.08,
+    "components": {
+      "volume_vs_baseline": 1.45,
+      "severity": 0.61,
+      "economic_relevance": 0.88,
+      "velocity": 1.22
+    },
+    "article_count": 47,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000002-0000-4000-8000-000000000002",
+    "region_id": "middle_east_gulf",
+    "date": "2026-10-19",
+    "score": 0.68,
+    "score_delta": 0.14,
+    "components": {
+      "volume_vs_baseline": 1.8,
+      "severity": 0.55,
+      "economic_relevance": 0.95,
+      "velocity": 1.35
+    },
+    "article_count": 63,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000003-0000-4000-8000-000000000003",
+    "region_id": "chile_lithium_triangle",
+    "date": "2026-10-19",
+    "score": 0.44,
+    "score_delta": 0.06,
+    "components": {
+      "volume_vs_baseline": 1.1,
+      "severity": 0.38,
+      "economic_relevance": 0.72,
+      "velocity": 1.08
+    },
+    "article_count": 21,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000004-0000-4000-8000-000000000004",
+    "region_id": "eastern_europe",
+    "date": "2026-10-19",
+    "score": 0.58,
+    "score_delta": -0.03,
+    "components": {
+      "volume_vs_baseline": 1.2,
+      "severity": 0.52,
+      "economic_relevance": 0.65,
+      "velocity": 0.92
+    },
+    "article_count": 38,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000005-0000-4000-8000-000000000005",
+    "region_id": "southeast_asia",
+    "date": "2026-10-19",
+    "score": 0.39,
+    "score_delta": 0.02,
+    "components": {
+      "volume_vs_baseline": 0.95,
+      "severity": 0.33,
+      "economic_relevance": 0.68,
+      "velocity": 1.04
+    },
+    "article_count": 29,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000006-0000-4000-8000-000000000006",
+    "region_id": "congo_basin",
+    "date": "2026-10-19",
+    "score": 0.31,
+    "score_delta": null,
+    "components": {
+      "volume_vs_baseline": 0.8,
+      "severity": 0.29,
+      "economic_relevance": 0.55,
+      "velocity": 1.0
+    },
+    "article_count": 12,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000007-0000-4000-8000-000000000007",
+    "region_id": "germany_eu",
+    "date": "2026-10-19",
+    "score": 0.51,
+    "score_delta": -0.05,
+    "components": {
+      "volume_vs_baseline": 1.05,
+      "severity": 0.45,
+      "economic_relevance": 0.82,
+      "velocity": 0.88
+    },
+    "article_count": 44,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000008-0000-4000-8000-000000000008",
+    "region_id": "china",
+    "date": "2026-10-19",
+    "score": 0.76,
+    "score_delta": 0.11,
+    "components": {
+      "volume_vs_baseline": 1.7,
+      "severity": 0.64,
+      "economic_relevance": 0.97,
+      "velocity": 1.3
+    },
+    "article_count": 89,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000009-0000-4000-8000-000000000009",
+    "region_id": "us_gulf_coast",
+    "date": "2026-10-19",
+    "score": 0.47,
+    "score_delta": 0.04,
+    "components": {
+      "volume_vs_baseline": 1.1,
+      "severity": 0.41,
+      "economic_relevance": 0.79,
+      "velocity": 1.06
+    },
+    "article_count": 33,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  },
+  {
+    "id": "10000010-0000-4000-8000-000000000010",
+    "region_id": "france",
+    "date": "2026-10-19",
+    "score": 0.42,
+    "score_delta": -0.02,
+    "components": {
+      "volume_vs_baseline": 0.98,
+      "severity": 0.37,
+      "economic_relevance": 0.71,
+      "velocity": 0.97
+    },
+    "article_count": 18,
+    "computed_at": "2026-10-19T06:15:00.000Z"
+  }
+]

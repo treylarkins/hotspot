@@ -1,0 +1,35 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "title": "TSMC Advanced Packaging Capacity Expansion",
+    "region_ids": ["taiwan", "southeast_asia", "china"],
+    "status": "escalating",
+    "first_seen": "2026-09-01",
+    "last_updated": "2026-10-19",
+    "summary": "TSMC is rapidly scaling CoWoS and SoIC packaging capacity to meet AI chip demand. Expansion involves new fab lines in Taiwan and potential Arizona buildout.",
+    "created_at": "2026-09-01T06:30:00.000Z",
+    "updated_at": "2026-10-19T07:15:00.000Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "title": "OPEC+ Output Restraint Unwind",
+    "region_ids": ["middle_east_gulf", "us_gulf_coast"],
+    "status": "emerging",
+    "first_seen": "2026-10-10",
+    "last_updated": "2026-10-19",
+    "summary": "OPEC+ members are signaling readiness to gradually restore production cuts made in 2024, putting downward pressure on crude benchmarks.",
+    "created_at": "2026-10-10T08:00:00.000Z",
+    "updated_at": "2026-10-19T07:15:00.000Z"
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "title": "European Electricity Market Stress — EDF Reactor Maintenance",
+    "region_ids": ["france", "germany_eu"],
+    "status": "stable",
+    "first_seen": "2026-07-15",
+    "last_updated": "2026-10-18",
+    "summary": "EDF's unplanned reactor maintenance schedule reduced France's nuclear output through summer 2026. Spot electricity prices in France and Germany remain elevated relative to 2025 baseline.",
+    "created_at": "2026-07-15T10:00:00.000Z",
+    "updated_at": "2026-10-18T07:00:00.000Z"
+  }
+]

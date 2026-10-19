@@ -1,0 +1,170 @@
+[
+  {
+    "id": "00000001-0000-4000-8000-000000000001",
+    "region_id": "taiwan",
+    "date": "2026-10-19",
+    "headline": "TSMC packaging bottleneck eases as CoWoS capacity surges 12%",
+    "matters_for": [
+      "AI accelerator supply chains — every major GPU depends on TSMC packaging",
+      "Consumer electronics delivery schedules globally",
+      "US and European semiconductor independence policy timelines"
+    ],
+    "whats_changing": [
+      {
+        "development": "TSMC expanded CoWoS (chip-on-wafer-on-substrate) advanced packaging capacity by 12% quarter-on-quarter, reaching ~15,000 wafers per month.",
+        "chain": {
+          "cause": "Surging AI chip orders from Nvidia, AMD, and hyperscalers have exhausted existing CoWoS lines since 2023.",
+          "effect": "New packaging lines came online at TSMC's Taoyuan facility, easing lead times for AI chips from ~52 weeks to ~38 weeks.",
+          "downstream": "GPU spot prices on secondary markets fell roughly 8% month-on-month; hyperscaler capex timelines for data center buildouts may accelerate."
+        }
+      }
+    ],
+    "connections": [
+      {
+        "region_id": "china",
+        "type": "supply_chain",
+        "strength": 0.7,
+        "why": "China-based companies are the largest consumers of TSMC's mature node output, and TSMC's advanced capacity restrictions affect Chinese AI development."
+      },
+      {
+        "region_id": "us_gulf_coast",
+        "type": "trade",
+        "strength": 0.4,
+        "why": "US-based hyperscalers (Amazon, Google, Microsoft) are primary buyers of TSMC-packaged AI chips; construction of US fabs requires Gulf Coast petrochemical inputs."
+      },
+      {
+        "region_id": "southeast_asia",
+        "type": "supply_chain",
+        "strength": 0.55,
+        "why": "Malaysia and Vietnam supply substrates and assembly services for TSMC's packaging operations."
+      }
+    ],
+    "watch": [
+      "Whether TSMC revises its Q4 2026 capex guidance upward at its earnings call — a signal of sustained AI chip demand.",
+      "US Commerce Department's review of TSMC Arizona N2 fab construction permits, expected within 30 days.",
+      "Any PLA military exercise near Taiwan Strait that could affect insurance premiums for Taiwanese component shipments."
+    ],
+    "sources": [
+      {
+        "article_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "headline": "TSMC Boosts CoWoS Packaging Output by 12% in Q3, Cutting AI Chip Lead Times",
+        "url": "https://www.reuters.com/technology/tsmc-boosts-cowos-packaging-q3-2026-10-19",
+        "source_name": "Reuters",
+        "published_at": "2026-10-19T04:30:00.000Z"
+      }
+    ],
+    "generated_at": "2026-10-19T07:05:00.000Z",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "brief-v1"
+  },
+  {
+    "id": "00000002-0000-4000-8000-000000000002",
+    "region_id": "middle_east_gulf",
+    "date": "2026-10-19",
+    "headline": "Saudi Arabia signals first oil output increase since 2024 restraint deal",
+    "matters_for": [
+      "Global crude oil benchmark prices (Brent, WTI)",
+      "LNG contract pricing for European and Asian buyers",
+      "Petrochemical feedstock costs for manufacturers worldwide"
+    ],
+    "whats_changing": [
+      {
+        "development": "Saudi Aramco announced a 500,000-barrel-per-day output increase effective November 1, the first production hike since the OPEC+ restraint agreement of 2024.",
+        "chain": {
+          "cause": "Saudi Arabia is losing market share to US shale and Brazilian deepwater producers while OPEC+ discipline weakens among smaller members.",
+          "effect": "Brent crude fell $3.20 per barrel on the announcement, reaching a three-month low of $78.40.",
+          "downstream": "Airline fuel hedging positions will be reviewed; European winter heating oil inventories may build faster than expected, reducing LNG import pressure."
+        }
+      }
+    ],
+    "connections": [
+      {
+        "region_id": "germany_eu",
+        "type": "energy",
+        "strength": 0.65,
+        "why": "Germany and EU member states import Gulf crude for refining; lower oil prices reduce industrial input costs for German chemicals and auto sectors."
+      },
+      {
+        "region_id": "us_gulf_coast",
+        "type": "trade",
+        "strength": 0.6,
+        "why": "US Gulf Coast refineries process Gulf crude; lower Brent prices compress refinery margins and affect US LNG export economics."
+      },
+      {
+        "region_id": "china",
+        "type": "energy",
+        "strength": 0.8,
+        "why": "China is the single largest importer of Gulf crude; lower prices ease input costs for Chinese manufacturing and reduce the yuan's import bill."
+      }
+    ],
+    "watch": [
+      "OPEC+ emergency meeting scheduled for November 3 — whether other members follow Saudi Arabia's lead will determine whether this is a lasting supply shift.",
+      "Brent crude futures open interest positioning — a large short squeeze could reverse the $3 decline quickly.",
+      "Qatar LNG spot cargo auctions this week, which will reveal whether Asian buyers are repricing contracts in response to crude moves."
+    ],
+    "sources": [
+      {
+        "article_id": "c4e2f6a8-9b0d-4e5c-a3b7-1d2e3f4a5b6c",
+        "headline": "Saudi Aramco to Raise Output by 500,000 bpd from November, Sources Say",
+        "url": "https://www.ft.com/content/saudi-aramco-output-increase-november-2026",
+        "source_name": "Financial Times",
+        "published_at": "2026-10-19T03:15:00.000Z"
+      }
+    ],
+    "generated_at": "2026-10-19T07:06:00.000Z",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "brief-v1"
+  },
+  {
+    "id": "00000003-0000-4000-8000-000000000003",
+    "region_id": "france",
+    "date": "2026-10-19",
+    "headline": "EDF nuclear output stabilizes, French power exports to Germany resume",
+    "matters_for": [
+      "European wholesale electricity prices — France is the EU's largest net power exporter",
+      "German industrial competitiveness — electricity costs are a major input for chemical and metal producers",
+      "EU 2030 carbon target trajectory, since nuclear displaces gas-fired generation"
+    ],
+    "whats_changing": [
+      {
+        "development": "EDF brought two reactors at Gravelines back online after stress corrosion inspections, restoring 2.8 GW of capacity.",
+        "chain": {
+          "cause": "Mandatory stress corrosion checks ordered by France's nuclear regulator (ASN) in 2023 have been progressively completed across EDF's 56-reactor fleet.",
+          "effect": "French nuclear output returned to 340 TWh annualized pace, near the pre-2022 norm. France resumed net electricity exports to Germany and Switzerland.",
+          "downstream": "German baseload power futures (Cal-27) fell 4% on the week. BASF and other energy-intensive manufacturers in Germany may revise their production curtailment plans."
+        }
+      }
+    ],
+    "connections": [
+      {
+        "region_id": "germany_eu",
+        "type": "energy",
+        "strength": 0.75,
+        "why": "France exports surplus nuclear electricity to Germany via high-voltage interconnects; lower German power prices reduce industrial input costs."
+      },
+      {
+        "region_id": "middle_east_gulf",
+        "type": "energy",
+        "strength": 0.3,
+        "why": "When French nuclear is unavailable, Europe increases LNG imports to fuel gas-fired power plants; restored nuclear output reduces Gulf LNG demand."
+      }
+    ],
+    "watch": [
+      "ASN's inspection schedule for the remaining 6 reactors still under stress corrosion review — completion would add another 6 GW.",
+      "French government's decision on lifetime extensions for reactors beyond 50 years, expected in Q1 2027.",
+      "German spot power prices during the coming cold snap (forecast week of October 27) as a real-time test of French export capacity."
+    ],
+    "sources": [
+      {
+        "article_id": "e6a4b8c2-1d3f-5e7a-c9b0-3f4a5b6c7d8e",
+        "headline": "EDF Restores Gravelines Nuclear Units, French Power Exports Resume",
+        "url": "https://www.bloomberg.com/energy/edf-gravelines-nuclear-restart-2026-10-18",
+        "source_name": "Bloomberg",
+        "published_at": "2026-10-18T16:45:00.000Z"
+      }
+    ],
+    "generated_at": "2026-10-19T07:08:00.000Z",
+    "model": "claude-sonnet-4-6",
+    "prompt_version": "brief-v1"
+  }
+]

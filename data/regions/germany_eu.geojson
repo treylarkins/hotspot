@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "germany_eu",
+    "name": "Germany / EU Industrial Core"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [4.5, 45.5],
+      [26.0, 45.5],
+      [26.0, 56.5],
+      [4.5, 56.5],
+      [4.5, 45.5]
+    ]]
+  }
+}

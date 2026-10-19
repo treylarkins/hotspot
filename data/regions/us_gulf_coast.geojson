@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "us_gulf_coast",
+    "name": "US Gulf Coast"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [-98.0, 24.5],
+      [-79.5, 24.5],
+      [-79.5, 32.0],
+      [-98.0, 32.0],
+      [-98.0, 24.5]
+    ]]
+  }
+}

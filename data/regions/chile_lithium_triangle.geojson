@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "chile_lithium_triangle",
+    "name": "Chile / Lithium Triangle"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [-75.5, -32.0],
+      [-62.5, -32.0],
+      [-62.5, -16.5],
+      [-75.5, -16.5],
+      [-75.5, -32.0]
+    ]]
+  }
+}
