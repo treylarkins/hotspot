@@ -74,8 +74,15 @@ const GeminiOutputSchema = z.object({
 });
 
 /** Find sentences missing [n] citations — matches [1], [1,2], [1, 2, 3] */
-function findUncitedSentences(text: string): string[] {
-  const sentences = text.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
+export function findUncitedSentences(text: string): string[] {
+  // Split on sentence-ending punctuation followed by whitespace + capital letter,
+  // UNLESS the period is immediately preceded by a single uppercase letter (abbreviation).
+  // This handles: U.S., O.J., F.B.I. (uppercase before .) while correctly splitting
+  // real sentence endings like "case [1]. Next..." or "investigation. The..."
+  // Short-letter abbreviations (Mr., Dr., etc.) produce tiny fragments filtered by length.
+  const sentences = text
+    .split(/(?<![A-Z])[.!?]\s+(?=[A-Z])/)
+    .filter((s) => s.trim().length > 10);
   return sentences.filter((s) => !s.match(/\[\d+(?:,\s*\d+)*\]/));
 }
 
@@ -130,6 +137,7 @@ export async function generateSummary(
   let uncitedSentences = findUncitedSentences(output.neutral_summary);
 
   if (uncitedSentences.length > 0) {
+    console.warn("[summarize] uncited sentences attempt 1 for", hotspotId, ":", uncitedSentences);
     // Retry with failure hint
     const retryText = await callGemini(
       buildUserPrompt(articles, hotspotName, uncitedSentences)
@@ -145,6 +153,7 @@ export async function generateSummary(
 
   // Still has uncited sentences → mark as failed
   if (uncitedSentences.length > 0) {
+    console.warn("[summarize] uncited sentences after retry for", hotspotId, ":", uncitedSentences);
     return null;
   }
 

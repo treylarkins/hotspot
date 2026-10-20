@@ -109,6 +109,15 @@
           "source_name": "WSJ",
           "source_bias": "center-right",
           "published_at": "2026-10-09T05:45:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0001-4000-8000-000000000004",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/hormuz-oil-tanker-risk",
+          "headline": "Tanker insurers put Hormuz on highest risk watch list since 2019 crisis",
+          "abstract": "Lloyd's of London and leading marine insurance syndicates placed the Strait of Hormuz on their highest risk designation for the first time since 2019, a move that will automatically trigger higher war-risk premiums for all commercial vessels transiting the waterway and could prompt some ship owners to reroute cargoes.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T10:00:00.000Z"
         }
       ],
       "history": [
@@ -244,6 +253,24 @@
           "source_name": "AP",
           "source_bias": "center",
           "published_at": "2026-10-09T07:30:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0002-4000-8000-000000000004",
+          "url": "https://wsj.com/articles/ukraine-defense-spending-2026-10-09",
+          "headline": "US Congress eyes $8B Ukraine defense package as Kharkiv strikes intensify",
+          "abstract": "Lawmakers in Washington are moving toward a new emergency defense package for Ukraine following the latest wave of Russian missile strikes on Kharkiv, with the Senate Foreign Relations Committee expected to vote on the measure next week.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0002-4000-8000-000000000005",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/ukraine-gas-europe",
+          "headline": "Europe's natural gas stockpiles face strain from escalating Ukraine conflict",
+          "abstract": "European gas storage levels are being closely watched by traders after Russian strikes on Ukrainian energy infrastructure renewed concerns about winter supply disruptions across the continent.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
         }
       ],
       "history": [
@@ -379,6 +406,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-08T18:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0003-4000-8000-000000000004",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/taiwan-chips-supply-chain",
+          "headline": "Chip supply chain braces as Taiwan Strait tensions mount",
+          "abstract": "Semiconductor manufacturers from Apple to Nvidia are quietly accelerating contingency planning for Taiwanese production sites as the People's Liberation Army conducts its largest exercises since 2023, sources familiar with the planning told Bloomberg.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0003-4000-8000-000000000005",
+          "url": "https://wsj.com/articles/taiwan-insurance-rates-2026-10-09",
+          "headline": "Taiwan Strait drills push shipping insurance premiums sharply higher",
+          "abstract": "Marine insurers have begun adding war-risk premiums to cargo policies covering Taiwan Strait routes, with rates rising as much as 35% since the PLA announced its latest exercises, according to Lloyd's of London data.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -432,7 +477,69 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
+      "summary": {
+        "id": "a1b2c3d4-0004-4000-8000-000000000004",
+        "hotspot_id": "a1b2c3d4-0004-4000-8000-000000000004",
+        "neutral_summary": "Israeli ground forces continued operations in northern Gaza, with the IDF reporting strikes on Hamas tunnel infrastructure near Beit Lahiya [1]. The UN Relief and Works Agency stated that 340,000 displaced Palestinians remain without access to adequate shelter in Khan Younis [2]. Egypt and Qatar are mediating ceasefire talks; a second round of negotiations is scheduled in Doha [3].",
+        "perspectives": [
+          {
+            "outlet_name": "AP",
+            "outlet_bias": "center",
+            "framing": "AP reports the military operations based on IDF statements and independently confirmed satellite imagery, noting both sides claim the other violated the prior humanitarian pause [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "Al Jazeera",
+            "outlet_bias": "center",
+            "framing": "Al Jazeera focuses on civilian conditions in Khan Younis, with footage of overcrowded UNRWA facilities and interviews with displaced families citing lack of food and medicine [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ editorial board argues that US leverage on Israel to allow more aid corridors is being underused, noting the diplomatic cost of the operation in Arab capitals [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0004-4000-8000-000000000001",
+            "headline": "IDF strikes Gaza tunnel network near Beit Lahiya as ground operations continue",
+            "url": "https://apnews.com/article/israel-gaza-ground-operations-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T05:30:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0004-4000-8000-000000000002",
+            "headline": "340,000 displaced in Khan Younis without adequate shelter, UNRWA warns",
+            "url": "https://reuters.com/world/middle-east/unrwa-khan-younis-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T09:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0004-4000-8000-000000000003",
+            "headline": "Egypt, Qatar schedule second Doha ceasefire round as fighting intensifies",
+            "url": "https://wsj.com/articles/gaza-ceasefire-doha-talks-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T11:15:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
       "articles": [
         {
           "id": "c1d2e3f4-0010-4000-8000-000000000010",
@@ -442,6 +549,24 @@
           "source_name": "BBC",
           "source_bias": "center",
           "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0004-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/israel-bonds-credit",
+          "headline": "Israel sovereign bonds widen as ceasefire talks stall again",
+          "abstract": "Israeli government bond spreads widened to a six-month high on Thursday after a new round of Gaza ceasefire negotiations broke down, with credit default swap markets pricing in elevated geopolitical risk for the region.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0004-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/mideast-oil-risk-premium-2026-10-09",
+          "headline": "Middle East risk premium returns to oil as Gaza talks collapse",
+          "abstract": "Crude futures climbed above $84 per barrel after ceasefire negotiations in Gaza stalled, reviving fears of broader regional escalation that could threaten energy supply routes through the Strait of Hormuz and the Suez Canal corridor.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -495,7 +620,61 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
+      "summary": {
+        "id": "a1b2c3d4-0005-4000-8000-000000000005",
+        "hotspot_id": "a1b2c3d4-0005-4000-8000-000000000005",
+        "neutral_summary": "Houthi forces fired three anti-ship ballistic missiles at a US Navy escort vessel in the southern Red Sea; all were intercepted by shipboard defenses [1]. Container shipping rates on the Asia-Europe corridor rose 8% this week as carriers reroute via the Cape of Good Hope [2]. The US and UK conducted overnight strikes against Houthi radar and missile storage sites near Hodeidah [3].",
+        "perspectives": [
+          {
+            "outlet_name": "Reuters",
+            "outlet_bias": "center",
+            "framing": "Reuters cites US Navy statements and shipping-industry analysts who say the rerouting is adding 12-14 days and significant fuel cost to Asia-Europe voyages, with no near-term resolution in sight [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "Guardian",
+            "outlet_bias": "left",
+            "framing": "The Guardian notes that US-UK strikes have not halted Houthi attacks in seven months of operation, raising questions about the strategy's effectiveness and civilian impact near Hodeidah port [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0005-4000-8000-000000000001",
+            "headline": "Houthi missiles target US warship in Red Sea; intercepted by Navy defenses",
+            "url": "https://apnews.com/article/houthi-red-sea-navy-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T03:00:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0005-4000-8000-000000000002",
+            "headline": "Red Sea shipping rates surge as carriers extend Cape reroutes",
+            "url": "https://ft.com/content/red-sea-shipping-rates-2026",
+            "source_name": "FT",
+            "source_bias": "center",
+            "published_at": "2026-10-09T07:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0005-4000-8000-000000000003",
+            "headline": "US, UK strike Houthi radar and missile sites near Hodeidah",
+            "url": "https://reuters.com/world/middle-east/us-uk-houthi-strikes-hodeidah-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T04:45:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
       "articles": [
         {
           "id": "c1d2e3f4-0011-4000-8000-000000000011",
@@ -505,6 +684,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T03:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0005-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/red-sea-shipping-rates",
+          "headline": "Red Sea diversions push container shipping rates to 8-month high",
+          "abstract": "Shipping costs from Asia to Europe have surged to their highest level in eight months as Houthi attacks in the Red Sea force carriers to reroute vessels around the Cape of Good Hope, adding 10-14 days and $1 million in extra fuel per voyage.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0005-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/houthi-us-response-2026-10-09",
+          "headline": "Pentagon orders additional naval assets to Red Sea after latest Houthi strike",
+          "abstract": "The Defense Department has ordered a second carrier strike group to take up positions in the Red Sea following the Houthi attack on a commercial vessel near Bab el-Mandeb, escalating American military presence in the critical shipping corridor.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -568,6 +765,33 @@
           "source_name": "BBC",
           "source_bias": "center",
           "published_at": "2026-10-08T14:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0006-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/car-mining-wagner",
+          "headline": "Gold and diamond output falls in CAR as security deteriorates",
+          "abstract": "Artisanal and small-scale gold mining in the Central African Republic has fallen sharply as renewed clashes between government-aligned Wagner Group fighters and local armed factions displace tens of thousands of people from mineral-rich areas.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0006-4000-8000-000000000003",
+          "url": "https://apnews.com/article/car-un-humanitarian-2026-10-09",
+          "headline": "UN halts aid convoy after attack; 40,000 newly displaced in CAR",
+          "abstract": "United Nations humanitarian workers suspended an aid convoy in the Central African Republic's Ouaka region after armed groups attacked the column, as displacement figures from the latest clashes climbed past 40,000 according to the UN Office for the Coordination of Humanitarian Affairs.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0006-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/car-mining-security-2026-10-09",
+          "headline": "Western mining firms reassess CAR concessions as security deteriorates",
+          "abstract": "Several Western mining companies are reviewing the viability of their mineral concessions in the Central African Republic after renewed clashes between government-aligned and opposition armed groups disrupted operations, prompting at least two firms to trigger force majeure clauses in their contracts.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:30:00.000Z"
         }
       ],
       "history": [
@@ -631,6 +855,24 @@
           "source_name": "AP",
           "source_bias": "center",
           "published_at": "2026-10-08T16:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0007-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/egypt-imf-debt",
+          "headline": "Egypt secures emergency IMF talks as foreign reserves fall to 3-year low",
+          "abstract": "Egypt's central bank governor flew to Washington for unscheduled meetings with IMF officials after data showed the country's net foreign reserves dropped to $28.3 billion, the lowest since 2021, raising fresh concerns about the government's ability to service its $165 billion in external debt.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0007-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/egypt-pound-devaluation-2026-10-09",
+          "headline": "Egypt faces renewed pressure to devalue pound as dollar shortage widens",
+          "abstract": "International investors are pricing in another round of Egyptian pound devaluation after the central bank's forward contracts implied a gap of nearly 20% between the official rate and offshore pricing, a sign of mounting confidence that policymakers will have to act before the year ends.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -694,6 +936,33 @@
           "source_name": "BBC",
           "source_bias": "center",
           "published_at": "2026-10-09T07:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0008-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/sahel-uranium-france",
+          "headline": "French uranium supply faces disruption as Niger expels last troops",
+          "abstract": "France's state nuclear operator Orano is assessing contingency supply options for its uranium mining concessions in Niger after the country's military government ordered the final withdrawal of French forces, a move that raises the operational risk for mines that supply roughly 15% of France's reactor fuel needs.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "b1a2c3d4-0008-4000-8000-000000000003",
+          "url": "https://reuters.com/world/sahel-russia-influence-2026-10-09",
+          "headline": "Wagner-linked forces take up positions near Niger's key air base",
+          "abstract": "Fighters linked to Russia's Africa Corps have been spotted near Niger's Agadez air base, a strategic installation that previously hosted US counter-terrorism operations, as the Sahel junta realigns its security partnerships toward Moscow.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0008-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/sahel-us-military-withdrawal-2026-10-09",
+          "headline": "US recalibrates Africa strategy after final exit from Niger base",
+          "abstract": "The Pentagon is revising its counter-terrorism posture across the Sahel after completing the withdrawal of US forces from Niger's Agadez air base, shifting toward increased intelligence sharing with regional partners as the physical US military footprint in West Africa reaches its lowest point in two decades.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:45:00.000Z"
         }
       ],
       "history": [
@@ -747,7 +1016,61 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
+      "summary": {
+        "id": "a1b2c3d4-0009-4000-8000-000000000009",
+        "hotspot_id": "a1b2c3d4-0009-4000-8000-000000000009",
+        "neutral_summary": "Indian and Pakistani troops exchanged small-arms fire along the Line of Control in Kashmir's Poonch sector for the second consecutive day, with both sides reporting casualties [1]. India's Ministry of External Affairs summoned Pakistan's charg\u00e9 d'affaires to protest the violation of the ceasefire agreement signed in 2021 [2]. China urged both parties to exercise restraint through its foreign ministry spokesperson [3].",
+        "perspectives": [
+          {
+            "outlet_name": "Reuters",
+            "outlet_bias": "center",
+            "framing": "Reuters cites independent observers noting the exchange is more sustained than typical incidents but falls short of the artillery barrages that preceded the 2019 Balakot crisis; markets in Mumbai showed limited reaction [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "Guardian",
+            "outlet_bias": "left",
+            "framing": "The Guardian highlights statements from Kashmiri civil society organizations calling for immediate de-escalation and renewed dialogue, citing civilian displacement from border villages [2].",
+            "citations": [
+              2
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0009-4000-8000-000000000001",
+            "headline": "India-Pakistan troops exchange fire in Poonch for second day; casualties reported",
+            "url": "https://reuters.com/world/asia-pacific/india-pakistan-loc-poonch-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T08:30:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0009-4000-8000-000000000002",
+            "headline": "India summons Pakistani diplomat over Line of Control ceasefire breach",
+            "url": "https://apnews.com/article/india-pakistan-loc-diplomat-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T11:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0009-4000-8000-000000000003",
+            "headline": "China urges India, Pakistan to exercise restraint over Kashmir LoC incident",
+            "url": "https://reuters.com/world/asia-pacific/china-india-pakistan-restraint-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T09:45:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
       "articles": [
         {
           "id": "c1d2e3f4-0015-4000-8000-000000000015",
@@ -757,6 +1080,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T01:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0009-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/india-pakistan-markets",
+          "headline": "India-Pakistan tensions drag on frontier market sentiment across South Asia",
+          "abstract": "Renewed cross-border firing in Kashmir has unsettled equity investors across South Asia, with Pakistan's KSE-100 index falling 2.3% and the rupee weakening to a record low while Indian defense stocks surged on expectations of increased procurement spending.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0009-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/kashmir-water-dispute-2026-10-09",
+          "headline": "Water rights dispute adds new flashpoint to India-Pakistan border tensions",
+          "abstract": "A simmering dispute over Indus River water allocations is compounding the military friction along the Line of Control in Kashmir, with Pakistan accusing India of reducing flows through shared tributaries in what Islamabad's foreign ministry called an act of economic aggression.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -820,6 +1161,24 @@
           "source_name": "BBC",
           "source_bias": "center",
           "published_at": "2026-10-08T13:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0010-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/kenya-eurobond-yields",
+          "headline": "Kenya Eurobond yields spike as protests revive fiscal fears",
+          "abstract": "Yields on Kenya's 2031 dollar bonds climbed 60 basis points to 9.8% after protesters returned to Nairobi streets over proposed new taxes, raising investor concerns about the government's ability to implement fiscal consolidation measures tied to a $3.6 billion IMF program.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0010-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/kenya-imf-austerity-2026-10-09",
+          "headline": "Kenya's protest wave tests IMF-backed austerity program",
+          "abstract": "The resurgence of mass demonstrations in Kenya is putting pressure on President Ruto's fiscal consolidation agenda, with the IMF closely monitoring whether the government can maintain the revenue targets required to keep a $3.6 billion lending program on track.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -883,6 +1242,24 @@
           "source_name": "Guardian",
           "source_bias": "left",
           "published_at": "2026-10-08T17:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0011-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/uk-gilt-yields",
+          "headline": "UK gilt yields rise as spending review disappoints bond markets",
+          "abstract": "British government bond yields climbed to their highest level since April as markets responded cautiously to the spending review, with investors concluding that announced NHS and defense increases would pressure the deficit more than the Treasury's official forecasts suggested.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0011-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/uk-growth-outlook-2026-10-09",
+          "headline": "UK growth outlook dims despite spending boost, economists warn",
+          "abstract": "Leading UK economists said the government's spending plans announced in the review are unlikely to meaningfully lift Britain's subdued growth trajectory, noting that elevated public debt servicing costs and weak business investment remain significant structural drags.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -946,6 +1323,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T06:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0012-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/mexico-nearshoring-disruption",
+          "headline": "Cartel violence threatens Mexico's nearshoring boom, investors warn",
+          "abstract": "Foreign manufacturers that relocated supply chains to Mexico to be closer to the US market are raising security concerns with the government as cartel activity in key industrial corridors in Guanajuato and Sonora disrupts production and complicates logistics.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0012-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/mexico-peso-cartel-2026-10-09",
+          "headline": "Mexico peso falls as cartel violence raises governance fears",
+          "abstract": "The Mexican peso weakened 1.4% against the dollar as the latest surge in organized crime violence triggered concerns among foreign investors about the government's capacity to maintain security conditions in manufacturing zones that anchor the country's export economy.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1009,6 +1404,24 @@
           "source_name": "NYT",
           "source_bias": "center-left",
           "published_at": "2026-10-09T04:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0013-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/us-treasury-yields",
+          "headline": "Treasury yields surge after stopgap spending deal signals more debt ahead",
+          "abstract": "US Treasury yields climbed sharply after Congress passed another short-term spending measure without addressing the structural deficit, with the 10-year note reaching 4.85% as bond investors priced in continued high borrowing needs through the next fiscal year.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0013-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/us-debt-ceiling-next-2026-10-09",
+          "headline": "Wall Street warns next debt ceiling fight could be more disruptive",
+          "abstract": "Senior executives at major US banks are privately urging lawmakers to consider a long-term debt ceiling suspension, warning that markets could experience more severe volatility in the next standoff given already elevated Treasury yields and diminished investor appetite for short-dated US bills.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1072,6 +1485,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T03:30:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0014-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/japan-bonds-boj",
+          "headline": "Japan bond market stress mounts as BOJ faces intervention dilemma",
+          "abstract": "The Bank of Japan is under renewed pressure to intervene in the government bond market after yields on 10-year JGBs rose to 1.15%, a level not seen since 2012, driven by investors testing the central bank's commitment to its flexible yield curve control framework.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0014-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/north-korea-missile-japan-response-2026-10-09",
+          "headline": "Japan weighs counter-strike capability after North Korea missile overfly",
+          "abstract": "Tokyo is accelerating internal deliberations on acquiring an offensive counter-strike capability following North Korea's latest ballistic missile launch over the Japanese main islands, with Prime Minister Kishida's cabinet expected to present a revised defense posture within weeks.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1135,6 +1566,24 @@
           "source_name": "BBC",
           "source_bias": "center",
           "published_at": "2026-10-08T11:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0015-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/south-africa-eskom-bonds",
+          "headline": "South Africa's Eskom debt restructuring stalls amid new blackout wave",
+          "abstract": "Eskom's $15 billion debt restructuring process is facing fresh complications as the state power company's operational crisis worsened, with the utility announcing an additional 200MW reduction in available capacity that extends current load-shedding schedules through November.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0015-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/south-africa-investment-grade-2026-10-09",
+          "headline": "South Africa investment-grade rating at risk as power crisis persists",
+          "abstract": "Moody's and S&P analysts warned that South Africa's sovereign credit rating remains at risk of a downgrade if the Eskom power crisis is not resolved within 12 months, citing the utility's ongoing failure to reduce load-shedding as a major constraint on economic growth.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1198,6 +1647,24 @@
           "source_name": "Economist",
           "source_bias": "center",
           "published_at": "2026-10-08T09:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0016-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/russia-oil-revenue",
+          "headline": "Russia's oil revenue resilient despite new G7 price cap measures",
+          "abstract": "Russian crude export revenue remains above pre-war levels as Moscow's shadow fleet of tankers continues to circumvent G7 price caps, with Bloomberg tracking data showing an estimated 47% of Russian oil now sold above the $60-per-barrel ceiling.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0016-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/russia-sanctions-evasion-us-2026-10-09",
+          "headline": "US Treasury targets new Central Asian intermediaries in Russia sanctions push",
+          "abstract": "The Treasury Department's Office of Foreign Assets Control designated 23 new entities in Kazakhstan, the UAE, and Turkey for helping Russian firms evade export controls and financial sanctions, marking the most sweeping enforcement action since the war began.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1261,6 +1728,24 @@
           "source_name": "FT",
           "source_bias": "center",
           "published_at": "2026-10-08T06:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0017-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/china-rare-earth-ev",
+          "headline": "China's rare-earth curbs threaten Western EV battery supply for years",
+          "abstract": "Chinese export restrictions on rare-earth processing chemicals used in EV batteries will take 18-36 months for Western producers to offset through new mine development, leaving automakers from General Motors to Volkswagen exposed to supply gaps during the critical electrification push.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0017-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/china-rare-earth-wto-2026-10-09",
+          "headline": "US challenges China's rare-earth restrictions at WTO as supply fears mount",
+          "abstract": "The United States Trade Representative filed a formal WTO dispute complaint against China's latest rare-earth export controls, arguing the measures violate international trade rules and are designed to coerce foreign manufacturers into moving production to China.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1324,6 +1809,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-08T15:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0018-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/brazil-real-amazon",
+          "headline": "Brazil real weakens as Amazon fire data complicates ESG investment flows",
+          "abstract": "The Brazilian real fell to its lowest level in six months after satellite data confirmed record Amazon deforestation in September, with several major ESG-focused sovereign wealth funds signaling they may reduce Brazilian sovereign debt holdings.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0018-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/brazil-election-markets-2026-10-09",
+          "headline": "Brazilian markets on edge as Lula approval ratings fall sharply",
+          "abstract": "S\u00e3o Paulo traders are pricing in higher political uncertainty after polls showed President Lula's approval rating declining 11 points in two months, raising questions about the government's ability to push through key fiscal measures before the 2026 midterm elections.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1387,6 +1890,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T08:30:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0019-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/turkey-lira-fed",
+          "headline": "Turkish lira hits record as Fed rate cut hopes fade, local inflation stays hot",
+          "abstract": "The Turkish lira slid past 37 to the dollar as the combination of diminishing US Federal Reserve rate-cut expectations and persistently high domestic inflation eroded investor confidence in the central bank's ability to stabilize the currency.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0019-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/turkey-economy-elections-2026-10-09",
+          "headline": "Turkey's unorthodox economy draws fresh scrutiny ahead of local elections",
+          "abstract": "Turkey's economic management is under fresh scrutiny from international creditors as a new round of local elections approaches, with the IMF noting that while recent interest rate hikes have helped, the government's fiscal commitments remain inconsistent with long-term exchange rate stability.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1450,6 +1971,24 @@
           "source_name": "Economist",
           "source_bias": "center",
           "published_at": "2026-10-08T12:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0020-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/argentina-milei-imf",
+          "headline": "Argentina and IMF near agreement on new $15B financing deal",
+          "abstract": "Argentina is in advanced negotiations with the International Monetary Fund on a new $15 billion financing agreement as President Milei's deregulation program shows early signs of slowing inflation, according to people familiar with the talks.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0020-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/argentina-dollarization-2026-10-09",
+          "headline": "Argentina's peso stabilizes as dollarization debate intensifies",
+          "abstract": "The Argentine peso has gained 8% against informal market rates over the past two weeks, giving President Milei's economic team room to press forward with partial dollarization proposals that would anchor the currency to the US dollar while retaining a limited local currency for small transactions.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1513,6 +2052,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T10:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0021-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/russia-opposition-trials",
+          "headline": "Russia's political crackdown deepens as St Petersburg dissidents face trial",
+          "abstract": "At least nine civil society figures detained in St Petersburg will face closed-door trials under anti-extremism statutes, as Kremlin authorities escalate repression of political opposition in Russia's second city ahead of regional elections.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0021-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/russia-europe-gas-leverage-2026-10-09",
+          "headline": "Russia tests European gas leverage with St Petersburg pipeline threats",
+          "abstract": "Russian officials have floated the possibility of restricting gas flows through the Turkstream pipeline that connects to Hungary and Serbia, a move analysts say is designed to test European resolve on Ukraine sanctions ahead of the winter heating season.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1576,6 +2133,24 @@
           "source_name": "AP",
           "source_bias": "center",
           "published_at": "2026-10-09T00:30:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0022-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/iraq-oil-output",
+          "headline": "Iraq oil output target under pressure after attack on US-linked facility",
+          "abstract": "Iraq's ambition to increase oil output to 6 million barrels per day by 2027 is facing new headwinds after a rocket attack on a contractor facility disrupted operations at the West Qurna oilfield complex, one of the country's most productive crude production sites.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0022-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/iraq-us-iran-proxy-2026-10-09",
+          "headline": "Iraq caught between US and Iran as proxy tensions resurface",
+          "abstract": "Iraq's government is navigating a delicate balancing act after Iranian-backed militia groups claimed responsibility for an attack on a US-affiliated compound in Baghdad, a development that risks triggering US retaliatory strikes and plunging the country into a new cycle of proxy warfare.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1639,6 +2214,24 @@
           "source_name": "Economist",
           "source_bias": "center",
           "published_at": "2026-10-08T08:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0023-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/hong-kong-capital-flows",
+          "headline": "Hong Kong capital outflows accelerate as security law trials mount",
+          "abstract": "Capital outflows from Hong Kong financial accounts have accelerated to their fastest pace since the national security law's implementation in 2020, as the latest round of high-profile activist convictions revives concerns among international financial firms about the city's legal environment.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0023-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/hong-kong-ipo-market-2026-10-09",
+          "headline": "Hong Kong IPO market struggles to recover as legal uncertainty weighs",
+          "abstract": "New stock listings in Hong Kong have fallen to a 15-year low as international companies and investors reassess the city's appeal following the conviction of three pro-democracy activists under the national security legislation, adding to existing concerns about regulatory unpredictability.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1702,6 +2295,24 @@
           "source_name": "Reuters",
           "source_bias": "center",
           "published_at": "2026-10-09T09:30:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0024-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/germany-recession-bonds",
+          "headline": "German bunds rally as recession fears deepen after coalition budget impasse",
+          "abstract": "German government bond yields fell sharply as investors poured into safe-haven assets after the collapse of budget negotiations pushed Germany closer to a snap election, with economists marking down 2026 growth forecasts on the assumption of prolonged fiscal paralysis.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0024-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/germany-industrial-output-2026-10-09",
+          "headline": "German industrial output contracts for fifth straight quarter",
+          "abstract": "Germany's manufacturing sector contracted for the fifth consecutive quarter, with industrial production data showing a 2.1% decline from the prior period, underscoring the structural challenges facing Europe's largest economy as it grapples with high energy costs and weak export demand.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [
@@ -1765,6 +2376,24 @@
           "source_name": "AP",
           "source_bias": "center",
           "published_at": "2026-10-09T11:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0025-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/us-farm-policy-election",
+          "headline": "US farm bill stalemate hits Midwest growers as subsidy gap widens",
+          "abstract": "The ongoing failure of Congress to pass a new farm bill is creating financial stress for grain farmers across the Great Plains, with Bloomberg data showing a 17% decline in crop insurance uptake as growers navigate uncertainty about federal subsidy programs.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0025-4000-8000-000000000003",
+          "url": "https://wsj.com/articles/kansas-agriculture-drought-2026-10-09",
+          "headline": "Drought in Kansas cuts winter wheat planting projections sharply",
+          "abstract": "An extended drought across the Kansas High Plains is forcing a sharp reduction in winter wheat planting intentions this season, with USDA field scouts reporting soil moisture deficits that could lower the state's wheat output by 18-24% from the prior year.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
         }
       ],
       "history": [],
@@ -1790,8 +2419,98 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
-      "articles": []
+      "summary": {
+        "id": "a1b2c3d4-0026-4000-8000-000000000026",
+        "hotspot_id": "a1b2c3d4-0026-4000-8000-000000000026",
+        "neutral_summary": "The US Department of Justice filed an expanded antitrust complaint against a major AI chip manufacturer, alleging monopolistic control of data-center GPU supply [1]. Three large cloud providers announced a joint investment of $40 billion in domestic AI infrastructure over the next two years [2]. Senate Judiciary Committee hearings on AI liability frameworks resumed with testimony from technology executives and academic researchers [3].",
+        "perspectives": [
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ frames the DOJ action as regulatory overreach that could slow US competitiveness in AI relative to China, citing objections from Republican members of the Senate Commerce Committee [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "NYT",
+            "outlet_bias": "center-left",
+            "framing": "The Times focuses on the $40 billion infrastructure pledge as evidence of industry self-regulation outpacing legislation, with critics arguing the announcement was timed to blunt the DOJ filing [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "Politico",
+            "outlet_bias": "center",
+            "framing": "Politico reports bipartisan support for some AI oversight but deep disagreement on liability scope; several senators indicate floor votes are unlikely before the midterm recess [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0026-4000-8000-000000000001",
+            "headline": "DOJ expands antitrust case against AI chipmaker, alleges GPU monopoly",
+            "url": "https://wsj.com/articles/doj-ai-chip-antitrust-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T10:00:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0026-4000-8000-000000000002",
+            "headline": "Three cloud giants pledge $40B for domestic AI data centers",
+            "url": "https://nytimes.com/2026/10/09/technology/cloud-ai-investment-pledge.html",
+            "source_name": "NYT",
+            "source_bias": "center-left",
+            "published_at": "2026-10-09T12:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0026-4000-8000-000000000003",
+            "headline": "Senate AI liability hearings resume with split opinions on liability framework",
+            "url": "https://politico.com/news/2026/10/09/senate-ai-liability-hearings",
+            "source_name": "Politico",
+            "source_bias": "center",
+            "published_at": "2026-10-09T14:00:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "e1b2c3d4-0026-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/silicon-valley-ai-capex",
+          "headline": "Big Tech AI capital spending hits $200B, sparking bubble debate on Wall Street",
+          "abstract": "Combined capital expenditure by Alphabet, Microsoft, Amazon, and Meta on AI infrastructure surpassed $200 billion in the 12 months through September, a record pace that is dividing Wall Street between those who see a transformative productivity wave and those warning of a classic investment bubble.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0026-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/silicon-valley-layoffs-2026-2026-10-09",
+          "headline": "Silicon Valley layoffs accelerate as AI automation displaces entry-level roles",
+          "abstract": "Large technology employers in the San Francisco Bay Area eliminated more than 12,000 positions in the third quarter, with companies from Salesforce to Cisco citing AI-driven automation of software development, customer support, and data management work.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0026-4000-8000-000000000003",
+          "url": "https://apnews.com/article/silicon-valley-startup-funding-2026-10-09",
+          "headline": "Startup funding rebounds in Silicon Valley but concentrates in AI sector",
+          "abstract": "Venture capital investment in Silicon Valley startups rose 14% in the third quarter, but 73% of the total flowed to artificial intelligence companies, leaving founders in other sectors struggling to raise capital as investors concentrate bets on AI infrastructure and applications.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0027-4000-8000-000000000027",
@@ -1813,8 +2532,98 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
-      "articles": []
+      "summary": {
+        "id": "a1b2c3d4-0027-4000-8000-000000000027",
+        "hotspot_id": "a1b2c3d4-0027-4000-8000-000000000027",
+        "neutral_summary": "Hurricane Miriam made landfall near Galveston as a Category 3 storm with sustained winds of 125 mph, prompting mandatory evacuation orders for 1.2 million residents across five counties [1]. The Port of Houston, the largest US petrochemical hub, suspended operations; refineries representing 8% of US capacity shut down as a precaution [2]. The National Weather Service forecast 15\u201325 inches of rainfall across the greater Houston area over 48 hours [3].",
+        "perspectives": [
+          {
+            "outlet_name": "AP",
+            "outlet_bias": "center",
+            "framing": "AP leads with the scale of evacuations and grid operator ERCOT's warning of widespread power outages; the storm track puts the eye wall directly over the Ship Channel industrial corridor [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ focuses on energy-market implications: benchmark WTI crude futures rose 3.2% on supply disruption fears; analysts expect US gasoline prices to rise 15-25 cents per gallon within the week [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "Guardian",
+            "outlet_bias": "left",
+            "framing": "The Guardian highlights climate scientists who note Miriam intensified from Category 1 to 3 in under 24 hours, consistent with rapid intensification patterns linked to warming Gulf of Mexico surface temperatures [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0027-4000-8000-000000000001",
+            "headline": "Hurricane Miriam makes landfall near Galveston as Category 3; 1.2 million ordered to evacuate",
+            "url": "https://apnews.com/article/hurricane-miriam-galveston-landfall-2026",
+            "source_name": "AP",
+            "source_bias": "center",
+            "published_at": "2026-10-09T06:00:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0027-4000-8000-000000000002",
+            "headline": "Port of Houston suspends operations; refineries shut down ahead of Miriam",
+            "url": "https://reuters.com/business/energy/houston-port-refineries-miriam-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T04:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0027-4000-8000-000000000003",
+            "headline": "Miriam dumps 25 inches forecast: NWS warns of extreme inland flooding risk",
+            "url": "https://wsj.com/articles/hurricane-miriam-flooding-forecast-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T07:30:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "e1b2c3d4-0027-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/houston-lng-exports",
+          "headline": "Houston LNG exporters see record order book as European demand holds firm",
+          "abstract": "US liquefied natural gas export terminals along the Gulf Coast are running at 98% capacity as European buyers continue to book cargoes to reduce dependence on Russian pipeline gas, generating record revenues for the Houston-based energy companies that dominate the sector.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0027-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/houston-oil-majors-outlook-2026-10-09",
+          "headline": "Oil majors trim Houston headcount as $75 crude tests project economics",
+          "abstract": "ExxonMobil and Chevron are reviewing capital expenditure plans for deepwater Gulf of Mexico projects as crude oil prices hover near $75 per barrel, a level that reduces the economic attractiveness of high-cost offshore development compared to lower-cost Permian Basin production.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "b1a2c3d4-0027-4000-8000-000000000003",
+          "url": "https://reuters.com/world/houston-hurricane-infrastructure-2026-10-09",
+          "headline": "Gulf Coast energy infrastructure on alert as late-season storm system develops",
+          "abstract": "Energy companies operating oil platforms and refineries along the Texas Gulf Coast are activating storm protocols after the National Hurricane Center identified a tropical system in the Gulf of Mexico with a 45% chance of developing into a named storm within 48 hours.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0028-4000-8000-000000000028",
@@ -1837,7 +2646,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "f1a2b3c4-0028-4000-8000-000000000001",
+          "url": "https://wsj.com/articles/washington-fed-rate-path-2026-10-09",
+          "headline": "Fed minutes signal two more rate cuts in 2026 as labor market softens",
+          "abstract": "Minutes from the Federal Reserve's September meeting released Wednesday showed policymakers broadly agreed on two additional quarter-point rate cuts before year-end, citing a softening labor market and declining core inflation as reasons to continue the easing cycle.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "e1b2c3d4-0028-4000-8000-000000000002",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/washington-trade-tariffs",
+          "headline": "White House considers 25% tariff expansion targeting Chinese electronics",
+          "abstract": "The Biden administration is weighing an expansion of tariffs on Chinese consumer electronics and industrial goods that could cover an additional $120 billion in annual imports, part of a broader effort to reduce US dependence on Chinese manufacturing that is intensifying bipartisan support.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0028-4000-8000-000000000003",
+          "url": "https://apnews.com/article/washington-budget-shutdown-2026-10-09",
+          "headline": "Congress races against deadline as government funding talks stall again",
+          "abstract": "Congressional leaders failed to reach agreement on a long-term government funding package Wednesday, raising the prospect of another short-term continuing resolution or a partial government shutdown before the current stopgap measure expires at the end of the month.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0029-4000-8000-000000000029",
@@ -1860,7 +2697,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "e1b2c3d4-0029-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/detroit-ev-transition",
+          "headline": "Detroit automakers warn EV transition pace unsustainable without new subsidies",
+          "abstract": "Executives at General Motors and Ford told Congress that the current pace of electric vehicle adoption in the United States is financially unsustainable for domestic manufacturers, arguing that Chinese EV imports subsidized by Beijing's industrial policy require an immediate policy response.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0029-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/detroit-uaw-contract-2026-10-09",
+          "headline": "UAW presses Detroit Three for higher EV assembly wages in contract reopener",
+          "abstract": "The United Auto Workers union is seeking a 15% wage increase and new job security guarantees for workers assembling electric vehicles as part of a contract reopener with General Motors, Ford, and Stellantis, warning of strike action if talks do not produce results by November.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "b1a2c3d4-0029-4000-8000-000000000003",
+          "url": "https://reuters.com/world/detroit-plant-closures-2026-10-09",
+          "headline": "GM announces closure of two Michigan assembly plants in EV restructuring",
+          "abstract": "General Motors said it will permanently close two assembly facilities in Michigan that produce internal combustion engine vehicles, consolidating production at plants retooled for electric vehicle output as the company restructures its North American manufacturing footprint.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0030-4000-8000-000000000030",
@@ -1882,8 +2747,98 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
-      "articles": []
+      "summary": {
+        "id": "a1b2c3d4-0030-4000-8000-000000000030",
+        "hotspot_id": "a1b2c3d4-0030-4000-8000-000000000030",
+        "neutral_summary": "The Federal Reserve Bank of Chicago's national activity index fell to -0.42 in September, the lowest reading since 2020, signaling broad-based economic deceleration [1]. Two major regional banks in the Midwest announced merger negotiations that would create a combined institution with $340 billion in assets [2]. CME Group reported record open interest in interest-rate futures contracts as traders positioned ahead of next week's Fed policy meeting [3].",
+        "perspectives": [
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ notes the index decline reflects weakness in manufacturing and personal consumption, with the editorial board arguing the Fed has overtightened and should signal rate cuts at next week's meeting [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "FT",
+            "outlet_bias": "center",
+            "framing": "The FT focuses on the bank merger as a sign of consolidation pressure under sustained high rates, with analysts noting regulators approved only 62% of bank mergers in the past 18 months [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "Reuters",
+            "outlet_bias": "center",
+            "framing": "Reuters reports record CME open interest as evidence of market uncertainty about the Fed's path; rate-futures pricing now implies a 68% probability of a 25bp cut in November [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0030-4000-8000-000000000001",
+            "headline": "Chicago Fed activity index hits lowest level since 2020 amid broad slowdown",
+            "url": "https://wsj.com/articles/chicago-fed-activity-index-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T09:30:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0030-4000-8000-000000000002",
+            "headline": "Two Midwest banks announce merger talks to form $340B institution",
+            "url": "https://ft.com/content/midwest-bank-merger-2026",
+            "source_name": "FT",
+            "source_bias": "center",
+            "published_at": "2026-10-09T11:00:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0030-4000-8000-000000000003",
+            "headline": "CME records open interest highs in rate futures ahead of Fed decision",
+            "url": "https://reuters.com/markets/rates-bonds/cme-rate-futures-fed-2026",
+            "source_name": "Reuters",
+            "source_bias": "center",
+            "published_at": "2026-10-09T12:30:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "e1b2c3d4-0030-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/chicago-cme-volatility",
+          "headline": "CME volatility index spikes as Middle East tensions rattle commodity markets",
+          "abstract": "Trading volumes at the Chicago Mercantile Exchange surged to a six-month high as commodity traders reacted to simultaneous supply disruptions in energy, agriculture, and metals markets, with the exchange's volatility indices for crude oil and grain futures hitting their highest readings since the early weeks of the Ukraine war.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0030-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/chicago-fiscal-crisis-2026-10-09",
+          "headline": "Chicago's pension funding gap widens, threatening credit rating downgrade",
+          "abstract": "Chicago's unfunded pension liability grew to $37 billion in the latest actuarial assessment, prompting rating agency analysts to warn that the city's credit rating could face a downgrade if state pension reform legislation fails to pass before the end of the fiscal year.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0030-4000-8000-000000000003",
+          "url": "https://apnews.com/article/chicago-crime-tourism-2026-10-09",
+          "headline": "Chicago tourism rebounds despite ongoing concerns about downtown crime",
+          "abstract": "Hotel occupancy and convention business in Chicago's Loop returned to pre-pandemic levels in the third quarter, even as city officials continue to grapple with public safety concerns that have led several major companies to delay or reconsider downtown office investments.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0031-4000-8000-000000000031",
@@ -1906,7 +2861,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "e1b2c3d4-0031-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/miami-latin-capital",
+          "headline": "Miami cementing role as Latin American financial hub as capital flows surge",
+          "abstract": "Miami's financial services sector is absorbing a record influx of Latin American wealth management clients and family offices, with assets under management at Miami-based wealth advisors growing 23% year-over-year as political instability in Argentina and Venezuela drives offshore capital movement.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0031-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/miami-real-estate-insurance-2026-10-09",
+          "headline": "Miami real estate faces insurance crisis as climate risk premiums soar",
+          "abstract": "Property insurance costs in South Florida have risen more than 60% over the past three years as major carriers exit the market, leaving homeowners and commercial property owners struggling to find affordable coverage ahead of a hurricane season that forecasters say has an elevated probability of a major landfalling storm.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "b1a2c3d4-0031-4000-8000-000000000003",
+          "url": "https://reuters.com/world/miami-cuba-venezuela-migration-2026-10-09",
+          "headline": "Record migrant arrivals strain South Florida infrastructure",
+          "abstract": "US Border Patrol reported a record number of migrant arrivals on Florida's coastline in September, with interdictions of vessels from Cuba and Haiti reaching levels not seen since the 1990s crisis, placing significant strain on the Coast Guard's resources and South Florida's immigrant services infrastructure.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0032-4000-8000-000000000032",
@@ -1929,7 +2912,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "e1b2c3d4-0032-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/seattle-amazon-earnings",
+          "headline": "Amazon beats estimates as AWS cloud growth reaccelerates",
+          "abstract": "Amazon reported third-quarter earnings that exceeded analyst expectations, with its Amazon Web Services cloud computing division posting 21% revenue growth \u2014 its fastest pace in six quarters \u2014 as enterprises accelerated migration of workloads to cloud infrastructure running on AI-optimized servers.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0032-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/seattle-boeing-737-production-2026-10-09",
+          "headline": "Boeing's 737 MAX production ramp faces fresh quality control setback",
+          "abstract": "Boeing's effort to increase 737 MAX production at its Renton, Washington facility has hit a new quality control obstacle after inspectors discovered improperly installed fasteners on fuselage sections, forcing the company to slow the assembly line and notify the FAA.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0032-4000-8000-000000000003",
+          "url": "https://apnews.com/article/seattle-wildfire-smoke-2026-10-09",
+          "headline": "Pacific Northwest wildfires trigger air quality emergency across Seattle region",
+          "abstract": "Wildfire smoke from blazes in eastern Washington and British Columbia drove Seattle-area air quality to hazardous levels for the third time this year, forcing school closures and prompting health officials to advise residents with respiratory conditions to remain indoors.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0033-4000-8000-000000000033",
@@ -1952,7 +2963,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "e1b2c3d4-0033-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/boston-biotech-fda",
+          "headline": "Boston biotech sector surges after FDA approves three drugs in single week",
+          "abstract": "Three drugs developed by Boston-area biopharmaceutical companies received FDA approval in a single week, triggering a wave of stock gains across the biotech sector and prompting venture capital firms to increase their commitments to the region's life sciences ecosystem.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0033-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/boston-academic-tech-transfer-2026-10-09",
+          "headline": "Harvard and MIT spinouts attract record funding as AI meets life sciences",
+          "abstract": "Technology transfer offices at Harvard University and the Massachusetts Institute of Technology reported record licensing revenue and startup formations in the fiscal year ending June 30, driven by investor demand for AI-powered drug discovery platforms emerging from university laboratories.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0033-4000-8000-000000000003",
+          "url": "https://apnews.com/article/boston-offshore-wind-2026-10-09",
+          "headline": "New England offshore wind project faces delays as supply chain costs rise",
+          "abstract": "A major offshore wind development planned for waters off the Massachusetts coast has been pushed back 18 months after the project developer cited surging costs for specialized installation vessels and electrical components that have overwhelmed original budget projections.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0034-4000-8000-000000000034",
@@ -1974,8 +3013,98 @@
       "last_scored_at": "2026-10-09T06:00:00.000Z",
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
-      "summary": null,
-      "articles": []
+      "summary": {
+        "id": "a1b2c3d4-0034-4000-8000-000000000034",
+        "hotspot_id": "a1b2c3d4-0034-4000-8000-000000000034",
+        "neutral_summary": "SAG-AFTRA reached a tentative agreement with major streaming platforms on AI likeness rights and residual structures, ending a 94-day work stoppage [1]. Three major studios announced layoffs totaling 4,200 employees across production, marketing, and technology divisions [2]. The California governor signed legislation requiring studios to disclose when AI-generated content comprises more than 30% of a production's visual effects [3].",
+        "perspectives": [
+          {
+            "outlet_name": "NYT",
+            "outlet_bias": "center-left",
+            "framing": "The Times calls the SAG-AFTRA deal a landmark win for labor but notes the AI-likeness protections apply only to unionized performers; background actors and non-union talent remain unprotected [1].",
+            "citations": [
+              1
+            ]
+          },
+          {
+            "outlet_name": "WSJ",
+            "outlet_bias": "center-right",
+            "framing": "The WSJ reports that studios pushed the deal through amid falling streaming subscriber numbers, with analysts cautioning that residual commitments may squeeze margins further [2].",
+            "citations": [
+              2
+            ]
+          },
+          {
+            "outlet_name": "Politico",
+            "outlet_bias": "center",
+            "framing": "Politico covers the California AI-disclosure law as the first of its kind nationally; entertainment industry lobbyists are already challenging the 30% threshold as unworkable in post-production [3].",
+            "citations": [
+              3
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "index": 1,
+            "article_id": "deadbeef-0034-4000-8000-000000000001",
+            "headline": "SAG-AFTRA reaches tentative deal on AI likeness rights, ending 94-day strike",
+            "url": "https://nytimes.com/2026/10/09/arts/sag-aftra-ai-deal-strike.html",
+            "source_name": "NYT",
+            "source_bias": "center-left",
+            "published_at": "2026-10-09T13:00:00.000Z"
+          },
+          {
+            "index": 2,
+            "article_id": "deadbeef-0034-4000-8000-000000000002",
+            "headline": "Studios announce 4,200 layoffs across production, marketing and tech",
+            "url": "https://wsj.com/articles/studio-layoffs-entertainment-2026",
+            "source_name": "WSJ",
+            "source_bias": "center-right",
+            "published_at": "2026-10-09T10:30:00.000Z"
+          },
+          {
+            "index": 3,
+            "article_id": "deadbeef-0034-4000-8000-000000000003",
+            "headline": "California signs AI-content disclosure law for entertainment productions",
+            "url": "https://politico.com/news/2026/10/09/california-ai-disclosure-entertainment",
+            "source_name": "Politico",
+            "source_bias": "center",
+            "published_at": "2026-10-09T16:00:00.000Z"
+          }
+        ],
+        "generated_at": "2026-10-09T06:05:00.000Z",
+        "model": "claude-sonnet-4-6",
+        "prompt_version": "v1"
+      },
+      "articles": [
+        {
+          "id": "e1b2c3d4-0034-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/la-entertainment-ai",
+          "headline": "Hollywood studios and AI companies near landmark content licensing agreement",
+          "abstract": "Major Hollywood studios are in advanced negotiations with several artificial intelligence companies over a licensing framework that would allow AI firms to train models on studio content libraries in exchange for revenue sharing arrangements, a deal that could reshape both industries.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0034-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/la-port-imports-2026-10-09",
+          "headline": "LA port throughput rises as retailers rebuild inventories ahead of holidays",
+          "abstract": "Container throughput at the Port of Los Angeles climbed 12% in September compared with the prior year as major retailers accelerated import shipments ahead of the holiday shopping season, reversing the inventory destocking trend that had suppressed port volumes through most of 2025.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "b1a2c3d4-0034-4000-8000-000000000003",
+          "url": "https://reuters.com/world/la-homelessness-policy-2026-10-09",
+          "headline": "Los Angeles launches new homeless encampment removal program amid court orders",
+          "abstract": "Los Angeles officials began implementing a court-ordered homeless encampment removal program across the city's major commercial corridors, a move that advocates for unhoused residents say lacks adequate shelter capacity to house those displaced from street encampments.",
+          "source_name": "Reuters",
+          "source_bias": "center",
+          "published_at": "2026-10-09T06:00:00.000Z"
+        }
+      ]
     },
     {
       "id": "a1b2c3d4-0035-4000-8000-000000000035",
@@ -1998,7 +3127,35 @@
       "created_at": "2026-10-01T06:00:00.000Z",
       "updated_at": "2026-10-09T06:00:00.000Z",
       "summary": null,
-      "articles": []
+      "articles": [
+        {
+          "id": "e1b2c3d4-0035-4000-8000-000000000001",
+          "url": "https://bloomberg.com/news/articles/2026-10-09/atlanta-logistics-hub",
+          "headline": "Atlanta emerges as prime logistics hub as Southeast manufacturing booms",
+          "abstract": "Atlanta is attracting record investment in warehousing and logistics infrastructure as manufacturers nearshoring production from Asia to the US Southeast choose Georgia as a distribution hub, with industrial real estate vacancy in the Atlanta metro area at its lowest point in a decade.",
+          "source_name": "Bloomberg",
+          "source_bias": "center",
+          "published_at": "2026-10-09T09:00:00.000Z"
+        },
+        {
+          "id": "f1a2b3c4-0035-4000-8000-000000000002",
+          "url": "https://wsj.com/articles/atlanta-delta-earnings-2026-10-09",
+          "headline": "Delta Air Lines raises full-year profit guidance as business travel recovers",
+          "abstract": "Delta Air Lines increased its full-year earnings outlook after reporting stronger-than-expected business travel bookings in the third quarter, with corporate contracts in financial services, technology, and healthcare driving the carrier's premium cabin revenue above pre-pandemic levels.",
+          "source_name": "WSJ",
+          "source_bias": "center-right",
+          "published_at": "2026-10-09T08:00:00.000Z"
+        },
+        {
+          "id": "d1c2b3a4-0035-4000-8000-000000000003",
+          "url": "https://apnews.com/article/atlanta-gop-politics-2026-10-09",
+          "headline": "Georgia becomes new political battleground ahead of 2026 midterm elections",
+          "abstract": "Georgia has emerged as one of the most contested battlegrounds in the 2026 midterm elections, with both parties committing significant advertising and field operation resources to the state after the most recent polling showed a statistically tied race for the state's Senate seat.",
+          "source_name": "AP",
+          "source_bias": "center",
+          "published_at": "2026-10-09T07:00:00.000Z"
+        }
+      ]
     }
   ],
   "generated_at": "2026-10-09T06:05:00.000Z"

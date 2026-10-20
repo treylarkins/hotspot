@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
       getArticlesForHotspot,
       upsertSummary,
     } = await import("../../../../src/lib/db");
+    const { nearestCity } = await import("../../../../src/lib/geoname");
     const { createClient } = await import("@supabase/supabase-js");
 
     const supabase = createClient(
@@ -51,7 +52,12 @@ export async function GET(req: NextRequest) {
       const articles = await getArticlesForHotspot(hotspot.h3_cell);
       if (articles.length === 0) continue;
 
-      const summary = await generateSummary(hotspot.id, `Region ${hotspot.h3_cell}`, articles);
+      // Derive a human-readable name from the article centroid
+      const centLat = articles.reduce((s, a) => s + a.lat, 0) / articles.length;
+      const centLng = articles.reduce((s, a) => s + a.lng, 0) / articles.length;
+      const hotspotName = nearestCity(centLat, centLng);
+
+      const summary = await generateSummary(hotspot.id, hotspotName, articles);
 
       if (summary) {
         await upsertSummary(summary);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { HotspotListItem } from "../src/contracts/api";
 import HotspotPanel from "../src/components/HotspotPanel";
@@ -41,7 +42,10 @@ function SeverityLegend() {
   );
 }
 
-export default function HomePage() {
+function HomePageInner() {
+  const searchParams = useSearchParams();
+  const useMock = searchParams.get("mock") === "1";
+
   const [hotspots, setHotspots] = useState<HotspotListItem[]>([]);
   const [selectedHotspot, setSelectedHotspot] = useState<HotspotListItem | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +54,8 @@ export default function HomePage() {
 
   // Single fetch on mount — fixed H3 resolution 4, no zoom-based refetching
   useEffect(() => {
-    fetch("/api/hotspots")
+    const url = useMock ? "/api/hotspots?mock=1" : "/api/hotspots";
+    fetch(url)
       .then((r) => r.json())
       .then((data) => {
         setHotspots(data.hotspots ?? []);
@@ -61,7 +66,7 @@ export default function HomePage() {
         setError("Failed to load hotspots");
         setLoading(false);
       });
-  }, []);
+  }, [useMock]);
 
   const handleHotspotClick = useCallback((h: HotspotListItem) => {
     setSelectedHotspot(h);
@@ -98,7 +103,7 @@ export default function HomePage() {
       <HotspotPanel
         hotspot={selectedHotspot}
         onClose={handleClose}
-        useMock={false}
+        useMock={useMock}
       />
 
       {/* Legend */}
@@ -111,5 +116,21 @@ export default function HomePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full h-full flex items-center justify-center bg-[#0d0d0d]">
+          <div className="text-gray-600 text-xs tracking-widest uppercase animate-pulse">
+            Initializing
+          </div>
+        </div>
+      }
+    >
+      <HomePageInner />
+    </Suspense>
   );
 }

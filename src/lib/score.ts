@@ -104,7 +104,7 @@ export function severityScore(
   };
 }
 
-export const SEVERITY_THRESHOLD = 0.10;
+export const SEVERITY_THRESHOLD = 0.15;
 
 export function shouldShow(severity: number): boolean {
   return severity >= SEVERITY_THRESHOLD;

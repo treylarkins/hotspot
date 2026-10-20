@@ -104,6 +104,7 @@ describe("Article fixture articles are from whitelisted domains", () => {
     "bbc.co.uk",
     "nytimes.com",
     "wsj.com",
+    "bloomberg.com",
     "washingtonpost.com",
     "ft.com",
     "economist.com",
