@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { HotspotsResponse } from "../../../src/contracts/api";
+import type { HotspotsResponse } from "@/contracts/api";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const viewRadius = parseFloat(searchParams.get("radius") ?? "999");
 
   if (useMock) {
-    const mockData = (await import("../../../fixtures/hotspots.mock.json")).default;
+    const mockData = (await import("@/fixtures/hotspots.mock.json")).default;
 
     const baseHotspots = mockData.hotspots.map((h) => ({
       id: h.id,
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
 
     // Sub-cluster for deeper zoom levels
     if (resolution >= 4) {
-      const { getZoomedHotspots } = await import("../../../src/lib/mock-zoom");
+      const { getZoomedHotspots } = await import("@/lib/mock-zoom");
       const subSpots = getZoomedHotspots(
         baseHotspots as any,
         resolution,
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
 
   // Live Supabase
   try {
-    const { getHotspots } = await import("../../../src/lib/db");
+    const { getHotspots } = await import("@/lib/db");
     const hotspots = await getHotspots();
     const response: HotspotsResponse = {
       hotspots,

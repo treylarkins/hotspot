@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { HotspotListItem } from "../contracts/api";
+import type { HotspotListItem } from "@/contracts/api";
 import SummaryView from "./SummaryView";
 import PerspectivesView from "./PerspectivesView";
 import ArticleList from "./ArticleList";

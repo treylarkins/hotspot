@@ -1,6 +1,6 @@
 import { latLngToCell, cellToLatLng } from "h3-js";
-import type { HotspotListItem } from "../contracts/api";
-import { severityColor } from "./score";
+import type { HotspotListItem } from "@/contracts/api";
+import { severityColor } from "@/lib/score";
 
 /** Seeded LCG random — deterministic per hotspot so sub-dots don't jump on re-render */
 function seededRng(seed: number) {

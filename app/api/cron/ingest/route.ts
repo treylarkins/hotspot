@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchMultipleGdeltSnapshots } from "../../../../src/lib/gdelt";
 
 function isAuthorized(req: NextRequest): boolean {
   const authHeader = req.headers.get("authorization");
@@ -21,7 +20,7 @@ export async function GET(req: NextRequest) {
   );
 
   try {
-    const { runIngest } = await import("../../../../src/lib/ingest");
+    const { runIngest } = await import("@/lib/ingest");
     const result = await runIngest(snapshotCount);
     return NextResponse.json({ success: true, snapshots: snapshotCount, ...result });
   } catch (err) {

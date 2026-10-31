@@ -1,0 +1,178 @@
+[
+  {
+    "id": "taiwan",
+    "name": "Taiwan",
+    "short_name": "Taiwan",
+    "geometry_ref": "data/regions/taiwan.geojson",
+    "centroid_lat": 23.9,
+    "centroid_lng": 121.0,
+    "key_supplies": [
+      { "resource": "Leading-edge semiconductors (<7nm)", "approx_global_share": 0.92, "unit": "% of fab capacity" },
+      { "resource": "Advanced packaging (CoWoS, SoIC)", "approx_global_share": 0.6, "unit": "% of capacity" }
+    ],
+    "key_industries": ["Semiconductor fabrication", "IC design", "Electronic components", "Petrochemicals"],
+    "major_partners": ["china", "us_gulf_coast", "southeast_asia", "germany_eu"],
+    "description": "Home to TSMC, which alone accounts for roughly 92% of the world's most advanced chip manufacturing. Taiwan's geographic position and concentration of fabs make it the single most critical chokepoint in the global electronics supply chain.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "middle_east_gulf",
+    "name": "Middle East Gulf",
+    "short_name": "Gulf",
+    "geometry_ref": "data/regions/middle_east_gulf.geojson",
+    "centroid_lat": 25.5,
+    "centroid_lng": 51.5,
+    "key_supplies": [
+      { "resource": "Crude oil", "approx_global_share": 0.3, "unit": "% of global exports" },
+      { "resource": "LNG", "approx_global_share": 0.25, "unit": "% of global exports" }
+    ],
+    "key_industries": ["Oil extraction", "LNG production", "Petrochemicals", "Sovereign wealth funds"],
+    "major_partners": ["china", "southeast_asia", "germany_eu", "france"],
+    "description": "Saudi Arabia, UAE, Kuwait, Qatar, and Bahrain collectively control roughly 30% of global crude oil exports and 25% of LNG. Qatar alone is the world's top LNG exporter. Price signals from Gulf producers propagate through every energy-intensive industry worldwide.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "chile_lithium_triangle",
+    "name": "Chile / Lithium Triangle",
+    "short_name": "Lithium Triangle",
+    "geometry_ref": "data/regions/chile_lithium_triangle.geojson",
+    "centroid_lat": -24.0,
+    "centroid_lng": -68.0,
+    "key_supplies": [
+      { "resource": "Lithium", "approx_global_share": 0.6, "unit": "% of global reserves (Chile+Bolivia+Argentina)" },
+      { "resource": "Copper", "approx_global_share": 0.27, "unit": "% of global mine output (Chile)" }
+    ],
+    "key_industries": ["Lithium mining", "Copper mining", "Battery-grade chemical processing"],
+    "major_partners": ["china", "germany_eu", "southeast_asia"],
+    "description": "The Atacama Desert straddles Chile, Bolivia, and Argentina, holding roughly 60% of the world's economically recoverable lithium. Chile is also the world's largest copper producer. Both metals are foundational inputs for electric-vehicle batteries, grid storage, and clean-energy infrastructure.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "eastern_europe",
+    "name": "Eastern Europe / Ukraine",
+    "short_name": "Eastern Europe",
+    "geometry_ref": "data/regions/eastern_europe.geojson",
+    "centroid_lat": 49.5,
+    "centroid_lng": 31.0,
+    "key_supplies": [
+      { "resource": "Wheat", "approx_global_share": 0.27, "unit": "% of global exports (Ukraine+Russia corridor)" },
+      { "resource": "Neon gas (semiconductor-grade)", "approx_global_share": 0.7, "unit": "% of global supply pre-2022" },
+      { "resource": "Sunflower oil", "approx_global_share": 0.5, "unit": "% of global exports" }
+    ],
+    "key_industries": ["Grain farming", "Steel production", "Neon gas purification", "Software outsourcing"],
+    "major_partners": ["germany_eu", "middle_east_gulf", "china"],
+    "description": "Ukraine and its neighbors supply more than a quarter of global wheat exports and were historically responsible for ~70% of the world's semiconductor-grade neon gas. Ongoing conflict has reshaped global grain markets and accelerated neon supply diversification.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "southeast_asia",
+    "name": "Southeast Asia",
+    "short_name": "SE Asia",
+    "geometry_ref": "data/regions/southeast_asia.geojson",
+    "centroid_lat": 7.5,
+    "centroid_lng": 113.0,
+    "key_supplies": [
+      { "resource": "Electronics assembly", "approx_global_share": 0.35, "unit": "% of global PCB output" },
+      { "resource": "Palm oil", "approx_global_share": 0.85, "unit": "% of global exports (Indonesia+Malaysia)" },
+      { "resource": "Natural gas", "approx_global_share": 0.12, "unit": "% of global LNG exports" }
+    ],
+    "key_industries": ["Electronics manufacturing", "Palm oil", "Rubber", "Tourism", "Shipping lanes"],
+    "major_partners": ["china", "taiwan", "germany_eu", "middle_east_gulf"],
+    "description": "Vietnam, Malaysia, Thailand, and Indonesia handle a growing share of global electronics assembly as supply chains diversify away from China. The Malacca Strait — through which roughly 40% of global trade passes — sits at the region's center.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "congo_basin",
+    "name": "Congo Basin",
+    "short_name": "Congo",
+    "geometry_ref": "data/regions/congo_basin.geojson",
+    "centroid_lat": -2.5,
+    "centroid_lng": 23.0,
+    "key_supplies": [
+      { "resource": "Cobalt", "approx_global_share": 0.7, "unit": "% of global mine supply" },
+      { "resource": "Coltan (tantalum ore)", "approx_global_share": 0.4, "unit": "% of global mine supply" }
+    ],
+    "key_industries": ["Artisanal and industrial mining", "Cobalt refining (largely via China)"],
+    "major_partners": ["china", "germany_eu", "chile_lithium_triangle"],
+    "description": "The Democratic Republic of Congo supplies roughly 70% of the world's mined cobalt, an essential cathode material in most lithium-ion batteries. Most DRC cobalt is processed in China before reaching battery manufacturers. Supply disruptions here propagate directly into EV production timelines.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "germany_eu",
+    "name": "Germany / EU Industrial Core",
+    "short_name": "Germany / EU",
+    "geometry_ref": "data/regions/germany_eu.geojson",
+    "centroid_lat": 50.5,
+    "centroid_lng": 10.5,
+    "key_supplies": [
+      { "resource": "Manufactured goods", "approx_global_share": 0.08, "unit": "% of global exports" },
+      { "resource": "Advanced machinery & equipment", "approx_global_share": 0.15, "unit": "% of global exports" },
+      { "resource": "Specialty chemicals", "approx_global_share": 0.2, "unit": "% of global chemical trade" }
+    ],
+    "key_industries": ["Automotive", "Industrial machinery", "Chemicals", "Pharmaceuticals", "Renewable energy equipment"],
+    "major_partners": ["china", "middle_east_gulf", "eastern_europe", "us_gulf_coast"],
+    "description": "Germany anchors EU industrial output, contributing roughly 28% of eurozone GDP. German OEMs — automotive, machinery, chemicals — are deeply integrated with Chinese markets and dependent on Gulf energy imports. Germany's energy transition away from Russian gas has reshaped European industrial cost structures.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "china",
+    "name": "China",
+    "short_name": "China",
+    "geometry_ref": "data/regions/china.geojson",
+    "centroid_lat": 35.0,
+    "centroid_lng": 105.0,
+    "key_supplies": [
+      { "resource": "Rare earth elements", "approx_global_share": 0.85, "unit": "% of global refined supply" },
+      { "resource": "Solar panels", "approx_global_share": 0.8, "unit": "% of global production" },
+      { "resource": "Battery cells", "approx_global_share": 0.77, "unit": "% of global capacity" }
+    ],
+    "key_industries": ["Manufacturing", "Rare earth mining/refining", "Steel", "Shipbuilding", "EV batteries", "Consumer electronics"],
+    "major_partners": ["taiwan", "southeast_asia", "middle_east_gulf", "congo_basin", "chile_lithium_triangle"],
+    "description": "China produces 85% of the world's refined rare earth elements — critical inputs for motors, magnets, and defense systems — and dominates solar panel and battery-cell manufacturing. It is also the largest importer of crude oil and copper, making its industrial cycle a bellwether for global commodity demand.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "us_gulf_coast",
+    "name": "US Gulf Coast",
+    "short_name": "US Gulf Coast",
+    "geometry_ref": "data/regions/us_gulf_coast.geojson",
+    "centroid_lat": 28.5,
+    "centroid_lng": -89.5,
+    "key_supplies": [
+      { "resource": "Oil refining capacity", "approx_global_share": 0.12, "unit": "% of global refinery throughput" },
+      { "resource": "LNG exports", "approx_global_share": 0.18, "unit": "% of global LNG exports" },
+      { "resource": "Petrochemicals", "approx_global_share": 0.3, "unit": "% of US petrochemical output" }
+    ],
+    "key_industries": ["Oil refining", "LNG liquefaction and export", "Petrochemicals", "Offshore drilling"],
+    "major_partners": ["middle_east_gulf", "germany_eu", "southeast_asia", "eastern_europe"],
+    "description": "The US Gulf Coast houses roughly 45% of US refinery capacity and is the nation's primary LNG export corridor. Sabine Pass, Freeport, and Corpus Christi terminals together have made the US the world's largest LNG exporter. Hurricane season and policy changes on export permits drive significant price volatility.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  },
+  {
+    "id": "france",
+    "name": "France",
+    "short_name": "France",
+    "geometry_ref": "data/regions/france.geojson",
+    "centroid_lat": 46.5,
+    "centroid_lng": 2.5,
+    "key_supplies": [
+      { "resource": "Nuclear electricity", "approx_global_share": 0.15, "unit": "% of global nuclear output" },
+      { "resource": "Aerospace components", "approx_global_share": 0.12, "unit": "% of global civil aerospace exports" },
+      { "resource": "Agricultural exports", "approx_global_share": 0.06, "unit": "% of global agri-food exports" }
+    ],
+    "key_industries": ["Nuclear power generation", "Aerospace (Airbus)", "Luxury goods", "Agriculture", "Defense"],
+    "major_partners": ["germany_eu", "middle_east_gulf", "us_gulf_coast", "china"],
+    "description": "France generates roughly 70% of its electricity from nuclear power — the highest share of any large economy — and exports surplus power across the EU. EDF's reactor maintenance schedule directly affects European wholesale electricity prices. France is also a core Airbus partner, making it central to global civil aviation supply chains.",
+    "created_at": "2026-10-19T06:00:00.000Z",
+    "updated_at": "2026-10-19T06:00:00.000Z"
+  }
+]

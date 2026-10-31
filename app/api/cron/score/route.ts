@@ -15,9 +15,10 @@ export async function GET(req: NextRequest) {
   try {
     const { createClient } = await import("@supabase/supabase-js");
     const { scoreHotspots, computeArticleHash, shouldShow, H3_RESOLUTION } = await import(
-      "../../../../src/lib/score"
+      "@/lib/score"
     );
-    const { upsertHotspot } = await import("../../../../src/lib/db");
+    const { upsertHotspot } = await import("@/lib/db");
+    const { nearestCity } = await import("@/lib/geoname");
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -76,7 +77,7 @@ export async function GET(req: NextRequest) {
         h3_cell: h.h3_cell,
         lat: h.lat,
         lng: h.lng,
-        name: `Region ${h.h3_cell.slice(0, 8)}`,
+        name: nearestCity(h.lat, h.lng),
         region: h.dominant_category,
         severity: h.severity,
         article_count: h.article_count,
@@ -93,7 +94,23 @@ export async function GET(req: NextRequest) {
       upserted++;
     }
 
-    return NextResponse.json({ success: true, hotspots_scored: upserted });
+    // Fix any stale "Region XXXX" names from before nearestCity was added
+    const { data: staleRows } = await supabase
+      .from("hotspots")
+      .select("id, lat, lng, name")
+      .like("name", "Region %");
+    let renamed = 0;
+    for (const row of staleRows ?? []) {
+      if (/^Region [0-9a-f]+$/i.test(row.name)) {
+        await supabase
+          .from("hotspots")
+          .update({ name: nearestCity(row.lat, row.lng), updated_at: new Date().toISOString() })
+          .eq("id", row.id);
+        renamed++;
+      }
+    }
+
+    return NextResponse.json({ success: true, hotspots_scored: upserted, stale_renamed: renamed });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Score cron failed:", err);

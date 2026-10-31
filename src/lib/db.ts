@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import type { HotspotListItem, HotspotDetail } from "../contracts/api";
-import type { Article } from "../contracts/article";
+import type { HotspotListItem, HotspotDetail } from "@/contracts/api";
+import type { Article } from "@/contracts/article";
 
 function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -70,7 +70,7 @@ export async function upsertArticles(articles: Article[]): Promise<void> {
 }
 
 export async function upsertHotspot(
-  hotspot: Omit<import("../contracts/hotspot").Hotspot, "created_at">
+  hotspot: Omit<import("@/contracts/hotspot").Hotspot, "created_at">
 ): Promise<void> {
   const supabase = getSupabaseClient();
   const { error } = await supabase
@@ -80,7 +80,7 @@ export async function upsertHotspot(
 }
 
 export async function upsertSummary(
-  summary: import("../contracts/summary").Summary
+  summary: import("@/contracts/summary").Summary
 ): Promise<void> {
   const supabase = getSupabaseClient();
   // Delete existing summary for this hotspot, then insert fresh

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import StoryArcPanel, { type HistoryPoint } from "../../src/components/StoryArcPanel";
+import StoryArcPanel, { type HistoryPoint } from "@/components/StoryArcPanel";
 
 function makeHistory(days = 7): HistoryPoint[] {
   return Array.from({ length: days }, (_, i) => ({

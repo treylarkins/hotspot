@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "middle_east_gulf",
+    "name": "Middle East Gulf"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [44.0, 20.5],
+      [60.0, 20.5],
+      [60.0, 30.5],
+      [44.0, 30.5],
+      [44.0, 20.5]
+    ]]
+  }
+}

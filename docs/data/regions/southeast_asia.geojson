@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "southeast_asia",
+    "name": "Southeast Asia"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [92.0, -11.0],
+      [141.0, -11.0],
+      [141.0, 22.0],
+      [92.0, 22.0],
+      [92.0, -11.0]
+    ]]
+  }
+}

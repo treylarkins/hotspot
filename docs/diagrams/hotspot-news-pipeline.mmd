@@ -1,0 +1,73 @@
+graph TD
+    subgraph SOURCES["Data Sources: fetched in parallel"]
+        G["GDELT GKG CSV\n4 snapshots, 2hr window\nV2Locations geocoding\nHARD_NEWS_THEMES filter"]
+        N["NYT Top Stories API\n8 sections: world, us,\nbusiness, tech, politics..."]
+        R["RSS Feeds: 14 feeds\nWSJ, Reuters, FT, Bloomberg\nEconomist, AP, CNBC, Nikkei"]
+        M["Marketaux API\nBloomberg fallback\nrequires MARKETAUX_API_KEY"]
+    end
+
+    subgraph INGEST["Ingest Pipeline: 6:00 am UTC"]
+        MERGE["Merge article pool"]
+        DEDUP["Deduplicate by canonical URL\nkeep highest location_confidence"]
+        GEO["extractLocation: title + abstract\ncity -> country -> company HQ\nfallback: source institution HQ"]
+        FILTER["Drop null island, confidence < 0.2"]
+        H3C["Assign H3 hex cell: resolution 3"]
+        ART[("Supabase\narticles")]
+    end
+
+    subgraph SCORE["Score: 6:15 am UTC"]
+        GRP["Group articles by H3 cell"]
+        SEV["severity =\n0.35 x volume    log10 count\n+ 0.30 x velocity  today vs 7-day avg\n+ 0.20 x tier      tier1=1.0, tier2=0.6\n+ 0.15 x intensity Goldstein scale\nx locationConfidenceMultiplier"]
+        THR{"severity >= 0.15?"}
+        HOT[("Supabase\nhotspots")]
+        HIDE["hidden: below threshold"]
+    end
+
+    subgraph SUMMARIZE["Summarize: 6:30 am UTC"]
+        CHK{"> 20% new articles?\narticle_hash diff"}
+        AI["Claude Sonnet 4.6\nneutral summary + citations\nleft, center, right perspectives"]
+        VAL["Validate: every sentence cited\nno evaluative adjectives\none retry on failure"]
+        SUM[("Supabase\nsummaries")]
+    end
+
+    subgraph DISPLAY["Browser"]
+        API["GET /api/hotspots"]
+        GLOBE["react-globe.gl + WebGL2\nglowing dots on 3D globe\nradius = sqrt(articles) x 0.3\ncolor: light pink to dark red"]
+        CLICK["user clicks hotspot"]
+        DETAIL["GET /api/hotspots/id\nfetch articles + summary"]
+        PANEL["Side panel: 3 tabs"]
+        T1["Summary\ninline citation links"]
+        T2["Perspectives\nL / C / R framings"]
+        T3["Articles\ngrouped by bias"]
+    end
+
+    G --> MERGE
+    N --> MERGE
+    R --> MERGE
+    M --> MERGE
+    MERGE --> DEDUP
+    DEDUP --> GEO
+    GEO --> FILTER
+    FILTER --> H3C
+    H3C --> ART
+
+    ART --> GRP
+    GRP --> SEV
+    SEV --> THR
+    THR -->|yes| HOT
+    THR -->|no| HIDE
+
+    HOT --> CHK
+    CHK -->|yes| AI
+    AI --> VAL
+    VAL --> SUM
+
+    HOT --> API
+    API --> GLOBE
+    GLOBE --> CLICK
+    CLICK --> DETAIL
+    SUM --> DETAIL
+    DETAIL --> PANEL
+    PANEL --> T1
+    PANEL --> T2
+    PANEL --> T3

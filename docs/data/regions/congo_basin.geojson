@@ -1,0 +1,17 @@
+{
+  "type": "Feature",
+  "properties": {
+    "id": "congo_basin",
+    "name": "Congo Basin"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+      [11.0, -7.0],
+      [32.0, -7.0],
+      [32.0, 6.0],
+      [11.0, 6.0],
+      [11.0, -7.0]
+    ]]
+  }
+}
