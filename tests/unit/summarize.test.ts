@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { findUncitedSentences } from "../../src/lib/summarize";
+import { findUncitedSentences } from "@/lib/ai/summarize";
 
 describe("findUncitedSentences", () => {
   it("returns empty array when every sentence has a citation", () => {

@@ -3,9 +3,9 @@
 import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import type { HotspotListItem } from "../src/contracts/api";
-import HotspotPanel from "../src/components/HotspotPanel";
-import { severityColor, SEVERITY_THRESHOLD } from "../src/lib/score";
+import type { HotspotListItem } from "@/contracts/api";
+import HotspotPanel from "@/components/HotspotPanel";
+import { severityColor, SEVERITY_THRESHOLD } from "@/lib/score";
 
 const Globe = dynamic(() => import("../src/components/Globe"), {
   ssr: false,

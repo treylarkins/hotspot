@@ -1,10 +1,10 @@
 import { fetchMultipleGdeltSnapshots, canonicalizeUrl } from "./gdelt";
 import { fetchNytTopStories } from "./nyt";
 import { fetchRssArticles, fetchMarketauxArticles } from "./rss";
-import { upsertArticles, recordIngestRun } from "./db";
-import { getSourceByDomain } from "../config/sources";
-import type { Article } from "../contracts/article";
-import { latLngToH3, H3_RESOLUTION } from "./score";
+import { upsertArticles, recordIngestRun } from "@/lib/db";
+import { getSourceByDomain } from "@/config/sources";
+import type { Article } from "@/contracts/article";
+import { latLngToH3, H3_RESOLUTION } from "@/lib/score";
 
 /**
  * Minimum confidence threshold below which we will apply institution-based

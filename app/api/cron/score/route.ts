@@ -15,10 +15,10 @@ export async function GET(req: NextRequest) {
   try {
     const { createClient } = await import("@supabase/supabase-js");
     const { scoreHotspots, computeArticleHash, shouldShow, H3_RESOLUTION } = await import(
-      "../../../../src/lib/score"
+      "@/lib/score"
     );
-    const { upsertHotspot } = await import("../../../../src/lib/db");
-    const { nearestCity } = await import("../../../../src/lib/geoname");
+    const { upsertHotspot } = await import("@/lib/db");
+    const { nearestCity } = await import("@/lib/geoname");
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,

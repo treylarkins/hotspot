@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { HotspotListItem } from "../contracts/api";
-import { SEVERITY_THRESHOLD } from "../lib/score";
+import type { HotspotListItem } from "@/contracts/api";
+import { SEVERITY_THRESHOLD } from "@/lib/score";
 
 interface GlobeProps {
   hotspots: HotspotListItem[];

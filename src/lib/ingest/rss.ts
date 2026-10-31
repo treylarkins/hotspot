@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
-import { getSource } from "../config/sources";
+import { getSource } from "@/config/sources";
 import { headlineRelevanceScore } from "./gdelt";
-import type { Article } from "../contracts/article";
+import type { Article } from "@/contracts/article";
 
 // RSS feeds that provide headlines + abstracts without authentication
 const RSS_FEEDS = [
@@ -261,6 +261,7 @@ const CITIES: Array<[string, number, number, number]> = [
 
 // Country-level fallbacks (lowest confidence)
 const COUNTRIES: Array<[string, number, number, number]> = [
+  // Exact country names (check before adjective forms)
   ["china",          35.8617,  104.1954, 0.40],
   ["russia",         61.5240,  105.3188, 0.40],
   ["european union", 50.8503,    4.3517, 0.35],
@@ -275,6 +276,7 @@ const COUNTRIES: Array<[string, number, number, number]> = [
   ["brazil",        -14.2350,  -51.9253, 0.38],
   ["saudi arabia",   23.8859,   45.0792, 0.40],
   ["south korea",    35.9078,  127.7669, 0.38],
+  ["south africa",  -30.5595,   22.9375, 0.38],
   ["taiwan",         23.5937,  120.9605, 0.40],
   ["indonesia",      -0.7893,  113.9213, 0.38],
   ["nigeria",         9.0820,    8.6753, 0.38],
@@ -282,8 +284,96 @@ const COUNTRIES: Array<[string, number, number, number]> = [
   ["mexico",         23.6345, -102.5528, 0.38],
   ["argentina",     -38.4161,  -63.6167, 0.38],
   ["pakistan",       30.3753,   69.3451, 0.38],
+  ["canada",         56.1304, -106.3468, 0.38],
+  ["australia",     -25.2744,  133.7751, 0.38],
+  ["egypt",          26.8206,   30.8025, 0.38],
+  ["ethiopia",        9.1450,   40.4897, 0.38],
+  ["congo",          -4.0383,   21.7587, 0.38],
+  ["rwanda",         -1.9403,   29.8739, 0.38],
+  ["kenya",          -0.0236,   37.9062, 0.38],
+  ["ghana",           7.9465,   -1.0232, 0.38],
+  ["venezuela",       6.4238,  -66.5897, 0.38],
+  ["colombia",        4.5709,  -74.2973, 0.38],
+  ["chile",         -35.6751,  -71.5430, 0.38],
+  ["peru",           -9.1900,  -75.0152, 0.38],
+  ["sweden",         60.1282,   18.6435, 0.38],
+  ["norway",         60.4720,    8.4689, 0.38],
+  ["denmark",        56.2639,    9.5018, 0.38],
+  ["poland",         51.9194,   19.1451, 0.38],
+  ["netherlands",    52.1326,    5.2913, 0.38],
+  ["spain",          40.4637,   -3.7492, 0.38],
+  ["italy",          41.8719,   12.5674, 0.38],
+  ["portugal",       39.3999,   -8.2245, 0.38],
+  ["greece",         39.0742,   21.8243, 0.38],
+  ["switzerland",    46.8182,    8.2275, 0.38],
+  ["austria",        47.5162,   14.5501, 0.38],
+  ["belgium",        50.5039,    4.4699, 0.38],
+  ["czech",          49.8175,   15.4730, 0.38],
+  ["hungary",        47.1625,   19.5033, 0.38],
+  ["romania",        45.9432,   24.9668, 0.38],
+  ["philippines",    12.8797,  121.7740, 0.38],
+  ["vietnam",        14.0583,  108.2772, 0.38],
+  ["thailand",       15.8700,  100.9925, 0.38],
+  ["malaysia",        4.2105,  101.9758, 0.38],
+  ["myanmar",        21.9162,   95.9560, 0.38],
+  ["bangladesh",     23.6850,   90.3563, 0.38],
+  ["sri lanka",       7.8731,   80.7718, 0.38],
+  ["iraq",           33.2232,   43.6793, 0.40],
+  ["syria",          34.8021,   38.9968, 0.40],
+  ["afghanistan",    33.9391,   67.7100, 0.38],
+  ["libya",          26.3351,   17.2283, 0.38],
+  ["sudan",          12.8628,   30.2176, 0.38],
+  ["somalia",         5.1521,   46.1996, 0.38],
+  ["yemen",          15.5527,   48.5164, 0.40],
+  ["morocco",        31.7917,   -7.0926, 0.38],
+  ["algeria",        28.0339,    1.6596, 0.38],
+  ["angola",        -11.2027,   17.8739, 0.38],
+  ["zimbabwe",      -19.0154,   29.1549, 0.38],
   ["united states",  37.1,     -95.7,    0.30],
   ["america",        37.1,     -95.7,    0.28],
+  // Adjective forms — checked after exact names to preserve specificity
+  ["french",         46.2276,    2.2137, 0.36],
+  ["chinese",        35.8617,  104.1954, 0.38],
+  ["russian",        61.5240,  105.3188, 0.38],
+  ["ukrainian",      48.3794,   31.1656, 0.38],
+  ["iranian",        32.4279,   53.6880, 0.38],
+  ["israeli",        31.0461,   34.8516, 0.38],
+  ["indian",         20.5937,   78.9629, 0.36],
+  ["japanese",       36.2048,  138.2529, 0.36],
+  ["german",         51.1657,   10.4515, 0.36],
+  ["british",        55.3781,   -3.4360, 0.36],
+  ["brazilian",     -14.2350,  -51.9253, 0.36],
+  ["saudi",          23.8859,   45.0792, 0.38],
+  ["south korean",   35.9078,  127.7669, 0.38],
+  ["taiwanese",      23.5937,  120.9605, 0.38],
+  ["turkish",        38.9637,   35.2433, 0.36],
+  ["mexican",        23.6345, -102.5528, 0.36],
+  ["canadian",       56.1304, -106.3468, 0.36],
+  ["australian",    -25.2744,  133.7751, 0.36],
+  ["swedish",        60.1282,   18.6435, 0.36],
+  ["norwegian",      60.4720,    8.4689, 0.36],
+  ["danish",         56.2639,    9.5018, 0.36],
+  ["polish",         51.9194,   19.1451, 0.36],
+  ["dutch",          52.1326,    5.2913, 0.36],
+  ["spanish",        40.4637,   -3.7492, 0.36],
+  ["italian",        41.8719,   12.5674, 0.36],
+  ["swiss",          46.8182,    8.2275, 0.36],
+  ["greek",          39.0742,   21.8243, 0.36],
+  ["iraqi",          33.2232,   43.6793, 0.38],
+  ["syrian",         34.8021,   38.9968, 0.38],
+  ["yemeni",         15.5527,   48.5164, 0.38],
+  ["libyan",         26.3351,   17.2283, 0.36],
+  ["sudanese",       12.8628,   30.2176, 0.36],
+  ["somali",          5.1521,   46.1996, 0.36],
+  ["american",       37.1,     -95.7,    0.28],
+  ["european",       54.5260,   15.2551, 0.34],
+  ["europe",         54.5260,   15.2551, 0.34],
+  ["africa",          9.1450,   40.4897, 0.30],
+  ["african",         9.1450,   40.4897, 0.28],
+  ["middle east",    29.3117,   47.4818, 0.35],
+  ["asia",           34.0479,  100.6197, 0.28],
+  ["asian",          34.0479,  100.6197, 0.26],
+  ["latin america", -14.2350,  -51.9253, 0.28],
 ];
 
 /**
@@ -333,7 +423,19 @@ export async function fetchRssArticles(): Promise<Article[]> {
           if (headlineRelevanceScore(item.title) < -1) return null;
 
           const textForGeo = `${item.title} ${item.description}`;
-          const loc = extractLocation(textForGeo);
+          // Try content-derived location first; fall back to source institution HQ.
+          // Never gate an article purely on location — ingest everything from trusted
+          // sources, then route to the best available coordinates.
+          const loc =
+            extractLocation(textForGeo) ??
+            (sourceInfo.institutionLat !== undefined &&
+            sourceInfo.institutionLng !== undefined
+              ? {
+                  lat: sourceInfo.institutionLat,
+                  lng: sourceInfo.institutionLng,
+                  confidence: 0.22,
+                }
+              : null);
           if (!loc) return null;
 
           let publishedAt: string;
@@ -424,7 +526,16 @@ export async function fetchMarketauxArticles(): Promise<Article[]> {
       if (!sourceInfo) continue;
 
       const textForGeo = `${item.title} ${item.description ?? ""}`;
-      const loc = extractLocation(textForGeo);
+      const loc =
+        extractLocation(textForGeo) ??
+        (sourceInfo.institutionLat !== undefined &&
+        sourceInfo.institutionLng !== undefined
+          ? {
+              lat: sourceInfo.institutionLat,
+              lng: sourceInfo.institutionLng,
+              confidence: 0.22,
+            }
+          : null);
       if (!loc) continue;
 
       let hostname: string;

@@ -1,7 +1,7 @@
 import { latLngToCell } from "h3-js";
-import type { Article } from "../contracts/article";
-import type { Hotspot } from "../contracts/hotspot";
-import { TIER_WEIGHTS, getSourceByDomain } from "../config/sources";
+import type { Article } from "@/contracts/article";
+import type { Hotspot } from "@/contracts/hotspot";
+import { TIER_WEIGHTS, getSourceByDomain } from "@/config/sources";
 import { randomUUID } from "crypto";
 
 export const H3_RESOLUTION = 4;

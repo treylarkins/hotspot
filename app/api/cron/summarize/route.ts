@@ -13,13 +13,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { generateSummary } = await import("../../../../src/lib/summarize");
+    const { generateSummary } = await import("@/lib/ai/summarize");
     const {
       getHotspotsNeedingSummary,
       getArticlesForHotspot,
       upsertSummary,
-    } = await import("../../../../src/lib/db");
-    const { nearestCity } = await import("../../../../src/lib/geoname");
+    } = await import("@/lib/db");
+    const { nearestCity } = await import("@/lib/geoname");
     const { createClient } = await import("@supabase/supabase-js");
 
     const supabase = createClient(

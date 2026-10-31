@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { HotspotDetailResponse } from "../../../../src/contracts/api";
+import type { HotspotDetailResponse } from "@/contracts/api";
 
 export async function GET(
   req: NextRequest,
@@ -10,7 +10,7 @@ export async function GET(
   const includeHistory = req.nextUrl.searchParams.get("history") === "1";
 
   if (useMock) {
-    const mockData = (await import("../../../../fixtures/hotspots.mock.json")).default;
+    const mockData = (await import("@/fixtures/hotspots.mock.json")).default;
     // Sub-spots from mock-zoom have ids like "{uuid}:{h3_cell}" — strip the suffix
     const baseId = id.split(":")[0];
     const hotspot = mockData.hotspots.find((h) => h.id === baseId);
@@ -32,7 +32,7 @@ export async function GET(
 
   // Live data from Supabase
   try {
-    const { getHotspotDetail, getHotspotHistory } = await import("../../../../src/lib/db");
+    const { getHotspotDetail, getHotspotHistory } = await import("@/lib/db");
     const detail = await getHotspotDetail(id);
     if (!detail) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });

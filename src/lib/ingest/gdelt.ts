@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 import { unzipSync } from "fflate";
-import { getSource } from "../config/sources";
-import type { Article } from "../contracts/article";
+import { getSource } from "@/config/sources";
+import type { Article } from "@/contracts/article";
 import { randomUUID } from "crypto";
 
 /** GDELT location type → confidence weight */

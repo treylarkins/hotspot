@@ -1,8 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
-import { SummarySchema } from "../contracts/summary";
-import type { Summary, Perspective } from "../contracts/summary";
-import type { Article } from "../contracts/article";
+import { SummarySchema } from "@/contracts/summary";
+import type { Summary, Perspective } from "@/contracts/summary";
+import type { Article } from "@/contracts/article";
 import { randomUUID } from "crypto";
 
 const PROMPT_VERSION = "v1";

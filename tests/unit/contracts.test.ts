@@ -1,14 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { z } from "zod";
-import { ArticleSchema } from "../../src/contracts/article";
-import { HotspotSchema } from "../../src/contracts/hotspot";
-import { SummarySchema, PerspectiveSchema } from "../../src/contracts/summary";
+import { ArticleSchema } from "@/contracts/article";
+import { HotspotSchema } from "@/contracts/hotspot";
+import { SummarySchema, PerspectiveSchema } from "@/contracts/summary";
 import {
   HotspotListItemSchema,
   HotspotDetailSchema,
   HotspotsResponseSchema,
-} from "../../src/contracts/api";
-import mockData from "../../fixtures/hotspots.mock.json";
+} from "@/contracts/api";
+import mockData from "@/fixtures/hotspots.mock.json";
 
 describe("HotspotsResponse fixture validation", () => {
   it("validates the full fixture against HotspotsResponseSchema", () => {

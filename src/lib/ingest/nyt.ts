@@ -1,5 +1,5 @@
-import { getSource } from "../config/sources";
-import type { Article } from "../contracts/article";
+import { getSource } from "@/config/sources";
+import type { Article } from "@/contracts/article";
 import { randomUUID } from "crypto";
 import { headlineRelevanceScore } from "./gdelt";
 

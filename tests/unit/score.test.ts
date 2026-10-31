@@ -10,8 +10,8 @@ import {
   dotRadius,
   groupByH3,
   SEVERITY_THRESHOLD,
-} from "../../src/lib/score";
-import type { Article } from "../../src/contracts/article";
+} from "@/lib/score";
+import type { Article } from "@/contracts/article";
 import { randomUUID } from "crypto";
 
 function makeArticle(overrides: Partial<Article> = {}): Article {
