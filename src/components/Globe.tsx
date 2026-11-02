@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { HotspotListItem } from "@/contracts/api";
-import { SEVERITY_THRESHOLD } from "@/lib/score";
+import { SEVERITY_THRESHOLD, CATEGORY_COLORS } from "@/lib/score";
 
 interface GlobeProps {
   hotspots: HotspotListItem[];
@@ -10,7 +10,7 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
-/** Point GeoJSON — used for the heatmap source and the invisible click targets. */
+/** Point GeoJSON — used for the circle sources and the invisible click targets. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildPointGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): any {
   return {
@@ -23,6 +23,7 @@ function buildPointGeoJSON(hotspots: HotspotListItem[], selectedId?: string | nu
         properties: {
           id: h.id,
           severity: h.severity,
+          category: h.category ?? "power",
           selected: h.id === selectedId,
           data: JSON.stringify(h),
         },
@@ -97,16 +98,16 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             data: buildPointGeoJSON(hotspotsRef.current, selectedIdRef.current),
           });
 
-          // ── Severity → color helper expression (reused across layers) ──────
-          // Maps severity 0.15–1.0 to the dark-red ramp. Each layer is a
-          // separate draw call per feature so hotspots never blend together.
-          const severityColor = [
-            "interpolate", ["linear"], ["get", "severity"],
-            0.15, "#5A0000",
-            0.40, "#8B0A00",
-            0.65, "#CC2200",
-            0.85, "#E83010",
-            1.0,  "#FF4422",
+          // ── Category color helper expression (reused across layers) ─────────
+          // Each category has a fixed hue; severity drives opacity, not hue.
+          // Fallback to the "power" red for uncategorised hotspots.
+          const categoryColor = [
+            "match", ["get", "category"],
+            "money",      CATEGORY_COLORS.money,
+            "power",      CATEGORY_COLORS.power,
+            "resources",  CATEGORY_COLORS.resources,
+            "technology", CATEGORY_COLORS.technology,
+            CATEGORY_COLORS.power,  // fallback
           ];
 
           // ── Outer glow ────────────────────────────────────────────────────
@@ -122,7 +123,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
                 "interpolate", ["linear"], ["zoom"],
                 1, 38, 2, 55, 3, 78, 4, 115, 5, 160, 7, 220,
               ],
-              "circle-color": severityColor,
+              "circle-color": categoryColor,
               "circle-blur": 1.0,
               "circle-opacity": [
                 "interpolate", ["linear"], ["get", "severity"],
@@ -141,7 +142,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
                 "interpolate", ["linear"], ["zoom"],
                 1, 20, 2, 30, 3, 44, 4, 65, 5, 90, 7, 130,
               ],
-              "circle-color": severityColor,
+              "circle-color": categoryColor,
               "circle-blur": 0.55,
               "circle-opacity": [
                 "interpolate", ["linear"], ["get", "severity"],
@@ -162,7 +163,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
                 "interpolate", ["linear"], ["zoom"],
                 1, 7, 2, 11, 3, 16, 4, 24, 5, 34, 7, 50,
               ],
-              "circle-color": severityColor,
+              "circle-color": categoryColor,
               "circle-blur": 0.15,
               "circle-opacity": [
                 "interpolate", ["linear"], ["get", "severity"],

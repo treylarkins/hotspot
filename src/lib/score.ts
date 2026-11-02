@@ -180,6 +180,20 @@ export function scoreHotspots(
   return results;
 }
 
+export const CATEGORY_COLORS: Record<string, string> = {
+  money:      "#F59E0B",  // amber  — IPOs, M&A, rates, tariffs
+  power:      "#EF4444",  // red    — wars, elections, coups, sanctions
+  resources:  "#10B981",  // emerald — oil, food, shipping, climate
+  technology: "#818CF8",  // indigo  — AI, semiconductors, biotech, space
+};
+
+export const CATEGORY_LABELS: Record<string, string> = {
+  money:      "Money",
+  power:      "Power",
+  resources:  "Resources",
+  technology: "Technology",
+};
+
 /** Severity color: linear interpolation from #F4B4B4 (0.15) to #7A0000 (1.0) */
 export function severityColor(severity: number): string {
   const t = Math.max(0, Math.min(1, (severity - 0.15) / 0.85));
