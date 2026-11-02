@@ -5,8 +5,7 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { HotspotListItem } from "@/contracts/api";
 import HotspotPanel from "@/components/HotspotPanel";
-import { SEVERITY_THRESHOLD, CATEGORY_LABELS } from "@/lib/score";
-import { THERMO_CAT } from "@/components/Globe";
+import { SEVERITY_THRESHOLD, CATEGORY_LABELS, THERMO_CAT } from "@/lib/score";
 
 const Globe = dynamic(() => import("../src/components/Globe"), {
   ssr: false,
@@ -32,25 +31,25 @@ const THERMO_STOPS = [
 function ThermoLegend() {
   const gradient = `linear-gradient(to right, ${THERMO_STOPS.map(s => s.color).join(", ")})`;
   return (
-    <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2.5 border border-white/5">
+    <div className="absolute bottom-8 left-8 bg-black/70 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/8">
       {/* Thermographic ramp bar */}
       <div
-        className="h-2 rounded-full mb-2"
-        style={{ width: 128, background: gradient, boxShadow: "0 0 8px 1px #7200CC44" }}
+        className="h-3 rounded-full mb-2"
+        style={{ width: 200, background: gradient, boxShadow: "0 0 12px 2px #7200CC55" }}
       />
-      <div className="flex justify-between mb-2.5" style={{ width: 128 }}>
-        <span className="text-[9px] text-gray-600 uppercase tracking-widest">Cold</span>
-        <span className="text-[9px] text-gray-600 uppercase tracking-widest">Hot</span>
+      <div className="flex justify-between mb-4" style={{ width: 200 }}>
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest">Cold</span>
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest">Hot</span>
       </div>
-      {/* Category dots — data reference, not visual */}
-      <div className="flex flex-col gap-1">
+      {/* Category dots */}
+      <div className="flex flex-col gap-2">
         {(Object.entries(CATEGORY_LABELS) as [string, string][]).map(([key, label]) => (
-          <div key={key} className="flex items-center gap-1.5">
+          <div key={key} className="flex items-center gap-2.5">
             <div
-              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-              style={{ background: THERMO_CAT[key] }}
+              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+              style={{ background: THERMO_CAT[key], boxShadow: `0 0 6px 1px ${THERMO_CAT[key]}88` }}
             />
-            <span className="text-[9px] text-gray-600 uppercase tracking-widest leading-none">{label}</span>
+            <span className="text-[11px] text-gray-400 uppercase tracking-widest leading-none">{label}</span>
           </div>
         ))}
       </div>

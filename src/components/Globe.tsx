@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { latLngToCell, gridRingUnsafe, cellToBoundary } from "h3-js";
 import type { HotspotListItem } from "@/contracts/api";
-import { SEVERITY_THRESHOLD } from "@/lib/score";
+import { SEVERITY_THRESHOLD, THERMO_CAT } from "@/lib/score";
 
 interface GlobeProps {
   hotspots: HotspotListItem[];
@@ -11,21 +11,6 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
-// ── Category → thermographic colour ─────────────────────────────────────────
-// Four positions on the scientific IR / thermal-camera spectrum.
-// Each category owns ONE colour; the colour is applied uniformly to every hex
-// cell in that hotspot — no per-hotspot gradient, just the grid pattern.
-//
-//   Technology  →  violet  (cool, digital, electrical)
-//   Power       →  crimson (danger, conflict, heat of war)
-//   Resources   →  orange  (physical world, warmth, natural)
-//   Money       →  amber   (gold, wealth, market heat)
-export const THERMO_CAT: Record<string, string> = {
-  technology: "#6A00CC",
-  power:      "#CC1000",
-  resources:  "#FF5000",
-  money:      "#FFBF00",
-};
 
 const H3_RES  = 3;   // ~69 km edge — tile size visible at global zoom
 const N_RINGS = 2;   // rings 0 (center), 1, 2

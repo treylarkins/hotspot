@@ -180,6 +180,14 @@ export function scoreHotspots(
   return results;
 }
 
+/** Thermographic IR palette — one colour per category, matches the hex grid */
+export const THERMO_CAT: Record<string, string> = {
+  technology: "#6A00CC",
+  power:      "#CC1000",
+  resources:  "#FF5000",
+  money:      "#FFBF00",
+};
+
 export const CATEGORY_COLORS: Record<string, string> = {
   money:      "#F59E0B",  // amber  — IPOs, M&A, rates, tariffs
   power:      "#EF4444",  // red    — wars, elections, coups, sanctions
