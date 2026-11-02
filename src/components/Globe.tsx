@@ -29,68 +29,98 @@ function buildPointGeoJSON(hotspots: HotspotListItem[], selectedId?: string | nu
   };
 }
 
-// ── Thermal palette ─────────────────────────────────────────────────────────
-// 6 shades per category: [atmosphere, outer, mid-outer, mid, inner, core]
-// Progression mirrors a thermal/infrared camera: cold dark edge → hot bright centre.
-// The near-white core gives the "burning focal point" effect; the atmospheric edge
-// fades to near-black so hotspots lift cleanly off the dark globe.
-const PALETTE: Record<string, readonly string[]> = {
-  money:      ["#1C0F00", "#6B3300", "#B86200", "#F59E0B", "#FDE68A", "#FFFBEB"],
-  power:      ["#1C0505", "#621010", "#991B1B", "#EF4444", "#FECACA", "#FFF1F2"],
-  resources:  ["#011A0E", "#063B22", "#065236", "#10B981", "#6EE7B7", "#F0FDF4"],
-  technology: ["#0D0A28", "#231C6B", "#3730A3", "#818CF8", "#C7D2FE", "#EEF2FF"],
+// ── Thermographic palette ────────────────────────────────────────────────────
+//
+// Replicates the scientific IR / thermal-camera colour ramp:
+//   near-black → deep indigo → vivid violet → crimson → orange → amber-gold
+//
+// This is the ramp used in real thermographic world maps (NASA, satellite
+// imagery, the Shutterstock reference image). The PURPLE ATMOSPHERE is the
+// dominant visual element — it extends far beyond the hot core and gives the
+// "glowing from within" feel. The orange/yellow core is small and intense.
+//
+// Category differentiation: only the atmosphere layer (slot 0) carries a faint
+// category tint (barely visible on the dark globe). Every other layer uses the
+// fixed thermographic ramp so all hotspots share the same language.
+
+// Slot 0 — atmospheric tint, per-category (very dark, ~15% of full colour)
+const CAT_ATM: Record<string, string> = {
+  money:      "#180D00",   // near-black amber
+  power:      "#0A0620",   // near-black indigo
+  resources:  "#041008",   // near-black forest green
+  technology: "#040718",   // near-black navy
 };
 
-// ── Layer stack ──────────────────────────────────────────────────────────────
-// Each entry drives one circle layer. Index 0 = outermost atmosphere; 5 = hot core.
-//
-// Radii: geometric progression (~0.70× each step inward). Outer layers are 15×
-// the core radius so the atmospheric halo covers a realistic geographic footprint.
-//
-// Blur: 1.0 on outer layers = pure Gaussian falloff (radius IS the sigma).
-//       Drops toward 0 at the core to produce a crisp luminous point.
-//
-// Base opacity: deliberately low on outer layers — they exist to build the glow,
-//   not dominate it. Severity multiplies the final value up or down.
-const LAYERS = [
-  // id          palette slot  blur    base-op  radii [z1, z2, z3, z4, z5, z7]
-  { id: "atm",   slot: 0,  blur: 1.00, op: 0.22, r: [88,  120, 168, 235, 320, 440] },
-  { id: "out",   slot: 1,  blur: 0.92, op: 0.30, r: [62,   85, 118, 165, 225, 308] },
-  { id: "mid1",  slot: 2,  blur: 0.76, op: 0.40, r: [43,   59,  82, 115, 156, 214] },
-  { id: "mid2",  slot: 3,  blur: 0.55, op: 0.54, r: [28,   39,  54,  76, 103, 141] },
-  { id: "inn",   slot: 4,  blur: 0.28, op: 0.72, r: [15,   21,  29,  41,  56,  76] },
-  { id: "core",  slot: 5,  blur: 0.07, op: 0.90, r: [6,     8,  11,  16,  22,  30] },
-] as const;
+// Slots 1-4 — fixed thermographic ramp (same for every category)
+const THERMO: readonly string[] = [
+  "#1E0855",   // 1 outer      — deep indigo/violet
+  "#7200CC",   // 2 mid-outer  — vivid violet        (the signature purple)
+  "#C40A22",   // 3 mid        — crimson-red          (purple → red transition)
+  "#FF4800",   // 4 inner      — orange               (pulses)
+];
 
-// Build a MapLibre "match" expression for a palette slot across all categories.
+// Slot 5 — core: severity-driven from dim orange to blazing gold
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function catColor(slot: number): any {
-  return [
-    "match", ["get", "category"],
-    "money",      PALETTE.money[slot],
-    "power",      PALETTE.power[slot],
-    "resources",  PALETTE.resources[slot],
-    "technology", PALETTE.technology[slot],
-    PALETTE.power[slot],
-  ];
+const CORE_COLOR: any = [
+  "interpolate", ["linear"], ["get", "severity"],
+  0.15, "#FF7A00",   // dim amber at threshold
+  0.45, "#FFAA00",   // gold at medium
+  0.75, "#FFD200",   // bright gold at high
+  1.0,  "#FFE800",   // near-white yellow at max
+];
+
+// Build a color expression for a given slot
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function slotColor(slot: number): any {
+  if (slot === 0) {
+    return [
+      "match", ["get", "category"],
+      "money",      CAT_ATM.money,
+      "power",      CAT_ATM.power,
+      "resources",  CAT_ATM.resources,
+      "technology", CAT_ATM.technology,
+      CAT_ATM.power,
+    ];
+  }
+  if (slot === 5) return CORE_COLOR;
+  return THERMO[slot - 1];
 }
 
-// Severity → opacity multiplier: high-severity hotspots burn bright; low ones smoulder.
+// Severity → global opacity multiplier
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function sevMult(): any {
-  return ["interpolate", ["linear"], ["get", "severity"],
-    0.15, 0.42,
-    0.40, 0.66,
-    0.70, 0.88,
+  return [
+    "interpolate", ["linear"], ["get", "severity"],
+    0.15, 0.40,
+    0.45, 0.70,
+    0.75, 0.90,
     1.0,  1.0,
   ];
 }
 
-// Build the full opacity expression: base × severity multiplier
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function layerOpacity(base: number): any {
   return ["*", base, sevMult()];
 }
+
+// ── Layer stack ──────────────────────────────────────────────────────────────
+//
+// The outer layers (atm, out, mid1) are the PURPLE BAND — they must be large
+// and visible, not just hints. This is what the reference image emphasises:
+// a massive violet halo that dwarfs the bright inner zone.
+//
+// Radius ratio between each layer: ~0.70× inward.
+// Atmosphere radius vs core radius: ~16:1 — same dramatic ratio as IR images.
+//
+//                         blur    base-op   radii [z1,  z2,  z3,  z4,  z5,  z7 ]
+const LAYERS = [
+  { id: "atm",  slot: 0, blur: 1.00, op: 0.28, r: [100, 136, 190, 266, 360, 490] },  // near-black category tint
+  { id: "out",  slot: 1, blur: 0.95, op: 0.38, r: [72,  98,  137, 192, 260, 354] },  // deep violet — large halo
+  { id: "mid1", slot: 2, blur: 0.80, op: 0.50, r: [50,  68,  95,  133, 180, 244] },  // vivid violet — the signature
+  { id: "mid2", slot: 3, blur: 0.58, op: 0.62, r: [33,  45,  63,  88,  120, 163] },  // crimson-red
+  { id: "inn",  slot: 4, blur: 0.28, op: 0.78, r: [17,  23,  32,  45,  61,  83]  },  // orange — PULSES
+  { id: "core", slot: 5, blur: 0.06, op: 0.94, r: [6,   8,   11,  16,  22,  30]  },  // bright gold core
+] as const;
 
 export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -118,7 +148,6 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
 
     import("maplibre-gl").then(({ Map: MapLibreMap, setWorkerUrl }) => {
       if (cancelled) return;
-
       setWorkerUrl("/maplibre-gl-worker.mjs");
 
       try {
@@ -136,12 +165,14 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
 
         map.on("load", () => {
           map.setProjection({ type: "globe" });
+
+          // Deep navy atmosphere — closer to the reference image background colour
           map.setSky({
-            "sky-color": "#000000",
-            "horizon-color": "#0d0d0d",
-            "fog-color": "#000000",
-            "sky-horizon-blend": 0.1,
-            "atmosphere-blend": 0.0,
+            "sky-color":          "#050318",
+            "horizon-color":      "#080520",
+            "fog-color":          "#040215",
+            "sky-horizon-blend":  0.08,
+            "atmosphere-blend":   0.0,
           });
 
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -157,9 +188,10 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             data: buildPointGeoJSON(hotspotsRef.current, selectedIdRef.current),
           });
 
-          // ── Thermal layers: atmosphere outward → hot core ─────────────────
-          // Rendered bottom-to-top: each inner layer composites over the outer,
-          // building up from dark atmospheric tint to the near-white burning core.
+          // ── Thermographic layers: cold edge → hot core ─────────────────────
+          // Rendered bottom-to-top (outermost first). The purple band (out+mid1)
+          // is the largest and most opaque element — it dominates the visual like
+          // the violet atmosphere in the reference image.
           for (const layer of LAYERS) {
             map.addLayer(
               {
@@ -176,7 +208,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
                     5, layer.r[4],
                     7, layer.r[5],
                   ],
-                  "circle-color":   catColor(layer.slot),
+                  "circle-color":   slotColor(layer.slot),
                   "circle-blur":    layer.blur,
                   "circle-opacity": layerOpacity(layer.op),
                 },
@@ -186,8 +218,6 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           }
 
           // ── Invisible click-target ────────────────────────────────────────
-          // Not inserted before `beforeId` — sits on top of labels so pointer
-          // events fire reliably even when the map is fully zoomed in.
           map.addLayer({
             id: "hotspot-click",
             type: "circle",
@@ -195,7 +225,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             paint: {
               "circle-radius": [
                 "interpolate", ["linear"], ["zoom"],
-                1, 32, 3, 65, 5, 105, 7, 160,
+                1, 35, 3, 70, 5, 110, 7, 170,
               ],
               "circle-opacity": 0.001,
               "circle-color": "#000000",
@@ -224,12 +254,12 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
         map.on("mouseleave", "hotspot-click", () => { map.getCanvas().style.cursor = ""; });
 
         // ── Auto-rotate + pulse ────────────────────────────────────────────
-        // The inner-glow layer (slot 4, bright category colour) pulses gently.
-        // Throttled to every 6 frames (~10Hz) to keep GPU load minimal.
-        // Pulse range: base_op × [0.72 … 1.0] — subtle, not flashy.
+        // The orange inner-glow layer pulses — like heat radiating outward.
+        // The violet mid layers are stable (they are the "cold" zone).
+        // The gold core is stable (crisp reference point).
         let pulsePhase = 0;
         let pulseFrame = 0;
-        const INN = LAYERS[4]; // inner-glow layer
+        const INN = LAYERS[4]; // "inn" — orange layer
 
         function animate() {
           if (autoRotateRef.current && map.getZoom() < 2.5) {
@@ -237,11 +267,12 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             map.jumpTo({ center: [center.lng + 0.1, center.lat] });
           }
 
-          pulsePhase += 0.028;
+          // Pulse ~10Hz (every 6 frames at 60fps). Range: ×0.65 → ×1.0
+          pulsePhase += 0.030;
           pulseFrame++;
           if (pulseFrame >= 6) {
             pulseFrame = 0;
-            const p = 0.82 + 0.18 * Math.sin(pulsePhase); // 0.64 … 1.0
+            const p = 0.78 + 0.22 * (0.5 + 0.5 * Math.sin(pulsePhase));
             if (map.getLayer(`hotspot-${INN.id}`)) {
               map.setPaintProperty(`hotspot-${INN.id}`, "circle-opacity", [
                 "*", INN.op * p, sevMult(),

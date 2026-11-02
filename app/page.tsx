@@ -18,21 +18,38 @@ const Globe = dynamic(() => import("../src/components/Globe"), {
   ),
 });
 
-function CategoryLegend() {
-  const entries = Object.entries(CATEGORY_LABELS) as [string, string][];
+// Thermographic colour ramp legend — mirrors the 6-layer stack in Globe.tsx
+// cold (deep violet) → warm (crimson) → hot (amber-gold)
+const THERMO_STOPS = [
+  { color: "#1E0855", label: "Cold"   },
+  { color: "#7200CC", label: ""       },
+  { color: "#C40A22", label: ""       },
+  { color: "#FF4800", label: ""       },
+  { color: "#FFD200", label: "Hot"    },
+];
+
+function ThermoLegend() {
+  const gradient = `linear-gradient(to right, ${THERMO_STOPS.map(s => s.color).join(", ")})`;
   return (
     <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2.5 border border-white/5">
-      <div className="flex flex-col gap-1.5">
-        {entries.map(([key, label]) => (
-          <div key={key} className="flex items-center gap-2">
+      {/* Thermographic ramp bar */}
+      <div
+        className="h-2 rounded-full mb-2"
+        style={{ width: 128, background: gradient, boxShadow: "0 0 8px 1px #7200CC44" }}
+      />
+      <div className="flex justify-between mb-2.5" style={{ width: 128 }}>
+        <span className="text-[9px] text-gray-600 uppercase tracking-widest">Cold</span>
+        <span className="text-[9px] text-gray-600 uppercase tracking-widest">Hot</span>
+      </div>
+      {/* Category dots — data reference, not visual */}
+      <div className="flex flex-col gap-1">
+        {(Object.entries(CATEGORY_LABELS) as [string, string][]).map(([key, label]) => (
+          <div key={key} className="flex items-center gap-1.5">
             <div
-              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-              style={{
-                background: `radial-gradient(circle, ${CATEGORY_COLORS[key]}dd 0%, ${CATEGORY_COLORS[key]}44 100%)`,
-                boxShadow: `0 0 6px 1px ${CATEGORY_COLORS[key]}66`,
-              }}
+              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+              style={{ background: CATEGORY_COLORS[key] }}
             />
-            <span className="text-[10px] text-gray-400 uppercase tracking-widest leading-none">{label}</span>
+            <span className="text-[9px] text-gray-600 uppercase tracking-widest leading-none">{label}</span>
           </div>
         ))}
       </div>
@@ -105,7 +122,7 @@ function HomePageInner() {
       />
 
       {/* Legend */}
-      <CategoryLegend />
+      <ThermoLegend />
 
       {/* Timestamp */}
       {lastUpdated && (
