@@ -11,42 +11,33 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
-// Opacity weight per ring index: core is full, outer rings fade
-const RING_WEIGHTS = [1.0, 0.52, 0.20] as const;
+// Ring opacity weights — raised so outer rings merge into the core at global zoom
+const RING_WEIGHTS = [1.0, 0.72, 0.42] as const;
 
-/** Severity (0.15–1.0) → base opacity (raised floor so nothing disappears) */
+/** Severity (0.15–1.0) → base opacity */
 function severityOpacity(severity: number): number {
-  return 0.48 + 0.52 * Math.max(0, Math.min(1,
+  return 0.62 + 0.38 * Math.max(0, Math.min(1,
     (severity - SEVERITY_THRESHOLD) / (1 - SEVERITY_THRESHOLD)
   ));
 }
 
 /**
- * Build a GeoJSON FeatureCollection of H3 ring polygons.
- * Each hotspot produces `numRings` features (ring 0 = core, ring 1+ = falloff).
- * `resolution` controls cell size: 3 ≈ 69km (regional), 4 ≈ 26km (city).
+ * Build H3 ring polygons for all hotspots at res3 (≈69km cells).
+ * 3 rings per hotspot: core → inner falloff → outer edge.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildHotspotPolygons(
-  hotspots: HotspotListItem[],
-  resolution: number,
-  numRings: number,
-  selectedId?: string | null
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-): any {
+function buildHotspotPolygons(hotspots: HotspotListItem[], selectedId?: string | null): any {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const features: any[] = [];
 
   for (const h of hotspots.filter(hs => hs.severity >= SEVERITY_THRESHOLD)) {
-    const center = latLngToCell(h.lat, h.lng, resolution);
+    const center = latLngToCell(h.lat, h.lng, 3);
     const baseOpacity = severityOpacity(h.severity);
 
-    for (let r = 0; r < numRings; r++) {
+    for (let r = 0; r < 3; r++) {
       const cells = r === 0 ? [center] : gridRingUnsafe(center, r);
       if (!cells.length) continue;
-
-      // cellsToMultiPolygon(cells, true) → GeoJSON [lng, lat] coordinate order
-      const multiPoly = cellsToMultiPolygon(cells, true);
+      const multiPoly = cellsToMultiPolygon(cells, true); // GeoJSON [lng, lat] order
       if (!multiPoly.length) continue;
 
       features.push({
@@ -67,26 +58,6 @@ function buildHotspotPolygons(
   return { type: "FeatureCollection", features };
 }
 
-/** Point source — tiny center pins used as precise click targets. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildPinGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): any {
-  return {
-    type: "FeatureCollection",
-    features: hotspots
-      .filter(h => h.severity >= SEVERITY_THRESHOLD)
-      .map(h => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: [h.lng, h.lat] },
-        properties: {
-          id: h.id,
-          severity: h.severity,
-          selected: h.id === selectedId,
-          data: JSON.stringify(h),
-        },
-      })),
-  };
-}
-
 export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -101,9 +72,6 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
   hotspotsRef.current = hotspots;
   const selectedIdRef = useRef(selectedId);
   selectedIdRef.current = selectedId;
-
-  // Dedupe clicks that fire from both pin + ring-0 on the same gesture
-  const lastClickRef = useRef<{ id: string; ts: number } | null>(null);
 
   // ── Map initialisation ────────────────────────────────────────────────────
   useEffect(() => {
@@ -144,8 +112,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             "atmosphere-blend": 0.0,
           });
 
-          // Insert hotspot layers before the first label layer so they sit
-          // under place names and roads but above terrain fills.
+          // Insert before first label layer so fills sit under place names / roads
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const styleLayers: any[] = map.getStyle().layers;
           const firstLabelLayer = styleLayers.find(
@@ -154,22 +121,14 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           );
           const beforeId: string | undefined = firstLabelLayer?.id;
 
-          // ── Sources ──────────────────────────────────────────────────────
-          map.addSource("hotspot-poly-low", {
+          // Single source — res3 fixed, no resolution switching
+          map.addSource("hotspot-poly", {
             type: "geojson",
-            data: buildHotspotPolygons(hotspotsRef.current, 3, 3, selectedIdRef.current),
-          });
-          map.addSource("hotspot-poly-high", {
-            type: "geojson",
-            data: buildHotspotPolygons(hotspotsRef.current, 4, 2, selectedIdRef.current),
-          });
-          map.addSource("hotspot-pins", {
-            type: "geojson",
-            data: buildPinGeoJSON(hotspotsRef.current, selectedIdRef.current),
+            data: buildHotspotPolygons(hotspotsRef.current, selectedIdRef.current),
           });
 
-          // Severity → fill color (shared expression)
-          const fillColorExpr = [
+          // Severity → fill color
+          const fillColor = [
             "interpolate", ["linear"], ["get", "severity"],
             0.15, "#7A0A0A",
             0.40, "#AA1500",
@@ -178,100 +137,70 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             1.0,  "#FF3B1E",
           ];
 
-          // ── Low-zoom fill layers (zoom 1–5, res3 ≈ 69km cells) ───────────
-          // Add outer rings first so inner rings paint over them
-          for (let r = 2; r >= 0; r--) {
-            map.addLayer({
-              id: `hotspot-ring-low-${r}`,
-              type: "fill",
-              source: "hotspot-poly-low",
-              filter: ["==", ["get", "ring"], r],
-              maxzoom: 5.5,
-              paint: {
-                "fill-color": fillColorExpr,
-                "fill-opacity": ["get", "fillOpacity"],
-                "fill-antialias": false,
-              },
-            }, beforeId);
-          }
+          // Per-ring zoom-boosted opacity expressions.
+          // At global zoom the outer rings get a guaranteed minimum so the
+          // cluster reads as one solid blob; at zoom 5+ pure severity drives it.
+          // Zoom-boosted opacity per ring — outer rings get a larger multiplier
+          // at global zoom so the cluster reads as a solid blob; at zoom 5+ pure
+          // severity-based fillOpacity takes over. Uses ["*", expr, factor] inside
+          // interpolate stops (["max", expr, expr] fails silently in MapLibre 6).
+          const opacityRing0 = ["interpolate", ["linear"], ["zoom"],
+            1.0, ["*", ["get", "fillOpacity"], 1.5],
+            3.0, ["*", ["get", "fillOpacity"], 1.2],
+            5.0, ["get", "fillOpacity"],
+          ];
+          const opacityRing1 = ["interpolate", ["linear"], ["zoom"],
+            1.0, ["*", ["get", "fillOpacity"], 1.9],
+            3.0, ["*", ["get", "fillOpacity"], 1.4],
+            5.0, ["get", "fillOpacity"],
+          ];
+          const opacityRing2 = ["interpolate", ["linear"], ["zoom"],
+            1.0, ["*", ["get", "fillOpacity"], 2.4],
+            3.0, ["*", ["get", "fillOpacity"], 1.7],
+            5.0, ["get", "fillOpacity"],
+          ];
 
-          // Low-zoom pulse layer: ring-0 only, high-severity only, opacity driven by rAF
+          // Add outer rings first so inner rings paint on top
           map.addLayer({
-            id: "hotspot-pulse-low",
+            id: "hotspot-ring-2",
             type: "fill",
-            source: "hotspot-poly-low",
-            filter: ["all", ["==", ["get", "ring"], 0], [">", ["get", "severity"], 0.7]],
-            maxzoom: 5.5,
-            paint: {
-              "fill-color": "#FF5030",
-              "fill-opacity": 0,
-              "fill-antialias": false,
-            },
+            source: "hotspot-poly",
+            filter: ["==", ["get", "ring"], 2],
+            paint: { "fill-color": fillColor, "fill-opacity": opacityRing2, "fill-antialias": false },
           }, beforeId);
 
-          // ── High-zoom fill layers (zoom 4–10, res4 ≈ 26km cells) ─────────
-          for (let r = 1; r >= 0; r--) {
-            map.addLayer({
-              id: `hotspot-ring-high-${r}`,
-              type: "fill",
-              source: "hotspot-poly-high",
-              filter: ["==", ["get", "ring"], r],
-              minzoom: 4,
-              paint: {
-                "fill-color": fillColorExpr,
-                "fill-opacity": ["get", "fillOpacity"],
-                "fill-antialias": false,
-              },
-            }, beforeId);
-          }
-
-          // High-zoom pulse layer
           map.addLayer({
-            id: "hotspot-pulse-high",
+            id: "hotspot-ring-1",
             type: "fill",
-            source: "hotspot-poly-high",
-            filter: ["all", ["==", ["get", "ring"], 0], [">", ["get", "severity"], 0.7]],
-            minzoom: 4,
-            paint: {
-              "fill-color": "#FF5030",
-              "fill-opacity": 0,
-              "fill-antialias": false,
-            },
+            source: "hotspot-poly",
+            filter: ["==", ["get", "ring"], 1],
+            paint: { "fill-color": fillColor, "fill-opacity": opacityRing1, "fill-antialias": false },
           }, beforeId);
 
-          // ── Pin layer: precise center dot, always on top ───────────────────
           map.addLayer({
-            id: "hotspot-pin",
-            type: "circle",
-            source: "hotspot-pins",
-            paint: {
-              "circle-radius": ["case", ["==", ["get", "selected"], true], 5, 3],
-              "circle-color": [
-                "case",
-                ["==", ["get", "selected"], true], "#ffffff",
-                ["interpolate", ["linear"], ["get", "severity"],
-                  0.15, "#CC3333",
-                  1.0,  "#FF3B1E",
-                ],
-              ],
-              "circle-stroke-width": ["case", ["==", ["get", "selected"], true], 2, 0],
-              "circle-stroke-color": "#ffffff",
-              "circle-opacity": 0.95,
-            },
-          });
+            id: "hotspot-ring-0",
+            type: "fill",
+            source: "hotspot-poly",
+            filter: ["==", ["get", "ring"], 0],
+            paint: { "fill-color": fillColor, "fill-opacity": opacityRing0, "fill-antialias": false },
+          }, beforeId);
+
+          // Pulse layer: ring-0, severity > 0.7 — opacity animated in rAF loop
+          map.addLayer({
+            id: "hotspot-pulse",
+            type: "fill",
+            source: "hotspot-poly",
+            filter: ["all", ["==", ["get", "ring"], 0], [">", ["get", "severity"], 0.7]],
+            paint: { "fill-color": "#FF5030", "fill-opacity": 0, "fill-antialias": false },
+          }, beforeId);
         });
 
-        // ── Click handler (deduped within 80ms) ───────────────────────────
+        // Click on ring-0 (the core fill) — entire core area is clickable
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        function handleHotspotClick(e: any) {
+        map.on("click", "hotspot-ring-0", (e: any) => {
           const feature = e.features?.[0];
           if (!feature) return;
           const hotspot = JSON.parse(feature.properties.data) as HotspotListItem;
-
-          const now = Date.now();
-          if (lastClickRef.current?.id === hotspot.id && now - lastClickRef.current.ts < 80) return;
-          lastClickRef.current = { id: hotspot.id, ts: now };
-
           autoRotateRef.current = false;
           clearTimeout(resumeTimer);
           clickCallbackRef.current(hotspot);
@@ -281,37 +210,25 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             duration: 900,
           });
           resumeTimer = setTimeout(() => { autoRotateRef.current = true; }, 12000);
-        }
-
-        ["hotspot-pin", "hotspot-ring-low-0", "hotspot-ring-high-0"].forEach(id => {
-          map.on("click", id, handleHotspotClick);
         });
 
-        // Cursor pointer on hover
-        ["hotspot-pin", "hotspot-ring-low-0", "hotspot-ring-high-0"].forEach(id => {
-          map.on("mouseenter", id, () => { map.getCanvas().style.cursor = "pointer"; });
-          map.on("mouseleave", id, () => { map.getCanvas().style.cursor = ""; });
-        });
+        map.on("mouseenter", "hotspot-ring-0", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "hotspot-ring-0", () => { map.getCanvas().style.cursor = ""; });
 
         // ── Animation loop: auto-rotate + pulse ───────────────────────────
         function animate() {
-          // Auto-rotate at low zoom
           if (autoRotateRef.current && map.getZoom() < 2.5) {
             const center = map.getCenter();
             map.jumpTo({ center: [center.lng + 0.1, center.lat] });
           }
 
-          // Pulse: sine wave → fill-opacity on high-severity ring-0 only
-          pulseT += 0.004; // ~2 s cycle at 60fps
-          const pulseOpacity = 0.13 * Math.max(0, Math.sin(pulseT * Math.PI * 2));
+          pulseT += 0.004; // ~2 s cycle at 60 fps
+          const pulseOpacity = 0.15 * Math.max(0, Math.sin(pulseT * Math.PI * 2));
           try {
-            if (map.getLayer("hotspot-pulse-low")) {
-              map.setPaintProperty("hotspot-pulse-low", "fill-opacity", pulseOpacity);
+            if (map.getLayer("hotspot-pulse")) {
+              map.setPaintProperty("hotspot-pulse", "fill-opacity", pulseOpacity);
             }
-            if (map.getLayer("hotspot-pulse-high")) {
-              map.setPaintProperty("hotspot-pulse-high", "fill-opacity", pulseOpacity);
-            }
-          } catch { /* layer may not be ready on first frames */ }
+          } catch { /* layer not ready yet */ }
 
           animFrameId = requestAnimationFrame(animate);
         }
@@ -345,14 +262,8 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
     const map = mapRef.current;
     if (!map) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const polyLow  = map.getSource("hotspot-poly-low")  as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const polyHigh = map.getSource("hotspot-poly-high") as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pins     = map.getSource("hotspot-pins")      as any;
-    if (polyLow)  polyLow.setData(buildHotspotPolygons(hotspots, 3, 3, selectedId));
-    if (polyHigh) polyHigh.setData(buildHotspotPolygons(hotspots, 4, 2, selectedId));
-    if (pins)     pins.setData(buildPinGeoJSON(hotspots, selectedId));
+    const source = map.getSource("hotspot-poly") as any;
+    if (source) source.setData(buildHotspotPolygons(hotspots, selectedId));
   }, [hotspots, selectedId]);
 
   if (mapError) {
