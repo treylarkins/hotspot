@@ -30,6 +30,58 @@ const RSS_FEEDS = [
   // Bloomberg (may fail — Marketaux is the reliable fallback)
   "https://feeds.bloomberg.com/markets/news.rss",
   "https://feeds.bloomberg.com/technology/news.rss",
+  // BBC
+  "https://feeds.bbci.co.uk/news/world/rss.xml",
+  "https://feeds.bbci.co.uk/news/business/rss.xml",
+  // AFP via Yahoo
+  "https://news.yahoo.com/rss/afp",
+  // The Guardian
+  "https://www.theguardian.com/world/rss",
+  "https://www.theguardian.com/business/rss",
+  // Al Jazeera
+  "https://www.aljazeera.com/xml/rss/all.xml",
+  // Politico
+  "https://rss.politico.com/congress.xml",
+  // Axios
+  "https://api.axios.com/feed/",
+  // France 24
+  "https://www.france24.com/en/rss",
+  // DW (Deutsche Welle)
+  "https://rss.dw.com/xml/rw_en_all",
+  // South China Morning Post
+  "https://www.scmp.com/rss/91/feed",
+  // Defense / security
+  "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
+  "https://breakingdefense.com/feed/",
+  // Foreign Policy
+  "https://foreignpolicy.com/feed/",
+  // Kyiv Independent
+  "https://kyivindependent.com/feed/",
+  // Der Spiegel International
+  "https://www.spiegel.de/international/index.rss",
+  // Haaretz
+  "https://www.haaretz.com/srv/haaretz-eng-hp",
+  // Commodities / trade
+  "https://oilprice.com/rss/main",
+  "https://www.miningweekly.com/rss",
+  "https://www.freightwaves.com/feed",
+  // Energy (additional)
+  "https://www.upstreamonline.com/rss/",
+  "https://www.worldoil.com/rss",
+  // Shipping & trade
+  "https://www.hellenicshippingnews.com/feed/",
+  "https://www.tradewindsnews.com/rss/",
+  // Asia-Pacific news
+  "https://en.yna.co.kr/RSS/news.xml",
+  "http://www.koreaherald.com/rss/020000000000.xml",
+  "https://www.digitimes.com/rss/daily.xml",
+  // Africa
+  "https://www.theeastafrican.co.ke/tea/rss",
+  // Latin America
+  "https://feeds.elpais.com/mrss-s/pages/ep/site/english.elpais.com/portada",
+  "https://feeds.folha.uol.com.br/mundo/rss091.xml",
+  // European business (non-English — headlines still useful for geocoding)
+  "https://www.handelsblatt.com/contentexport/feed/top-themen",
 ];
 
 /** Minimal regex-based RSS/Atom parser — no new dependencies */
@@ -420,7 +472,7 @@ export async function fetchRssArticles(): Promise<Article[]> {
           if (!sourceInfo) return null;
 
           // Headline relevance: strong soft-news signal → drop
-          if (headlineRelevanceScore(item.title) < -1) return null;
+          if (headlineRelevanceScore(item.title) < -2) return null;
 
           const textForGeo = `${item.title} ${item.description}`;
           // Try content-derived location first; fall back to source institution HQ.

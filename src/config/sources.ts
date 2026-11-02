@@ -156,6 +156,34 @@ export const SOURCES: Source[] = [
   // ─── Tier 2: Latin America ────────────────────────────────────────────────
   { domain: ["mercopress.com"],                       name: "MercoPress",              bias: "center",       tier: 2, category: "geopolitics"        },
   { domain: ["buenosairesherald.com"],                name: "Buenos Aires Herald",     bias: "center",       tier: 2, category: "finance"            },
+  { domain: ["elpais.com"],                           name: "El País",                 bias: "center-left",  tier: 2, category: "geopolitics",   ...{ institutionLat: 40.4168, institutionLng: -3.7038 }  },
+  { domain: ["folha.uol.com.br"],                     name: "Folha de S.Paulo",        bias: "center-left",  tier: 2, category: "geopolitics",   ...{ institutionLat: -23.5505, institutionLng: -46.6333 } },
+  { domain: ["eleconomista.es", "eleconomista.com.mx"], name: "El Economista",         bias: "center",       tier: 2, category: "finance"            },
+
+  // ─── Tier 1: Asia wire services ───────────────────────────────────────────
+  { domain: ["en.yna.co.kr", "yna.co.kr"],            name: "Yonhap",                  bias: "center",       tier: 1, category: "geopolitics",   ...{ institutionLat: 37.5665, institutionLng: 126.9780 } },
+
+  // ─── Tier 2: Asia Pacific ─────────────────────────────────────────────────
+  { domain: ["asahi.com", "asia.asahi.com"],          name: "Asahi Shimbun",           bias: "center-left",  tier: 2, category: "geopolitics",   ...{ institutionLat: 35.6762, institutionLng: 139.6503 } },
+  { domain: ["koreaherald.com"],                      name: "Korea Herald",            bias: "center",       tier: 2, category: "geopolitics",   ...{ institutionLat: 37.5665, institutionLng: 126.9780 } },
+  { domain: ["digitimes.com"],                        name: "DigiTimes",               bias: "center",       tier: 2, category: "tech",           ...{ institutionLat: 25.0330, institutionLng: 121.5654 } },
+
+  // ─── Tier 2: Africa ───────────────────────────────────────────────────────
+  { domain: ["theeastafrican.co.ke"],                 name: "The East African",        bias: "center",       tier: 2, category: "geopolitics",   ...{ institutionLat: -1.2921, institutionLng: 36.8219 }  },
+
+  // ─── Tier 2: European business ────────────────────────────────────────────
+  { domain: ["handelsblatt.com"],                     name: "Handelsblatt",            bias: "center",       tier: 2, category: "finance",        ...{ institutionLat: 51.2217, institutionLng: 6.7762 }   },
+  { domain: ["lesechos.fr"],                          name: "Les Echos",               bias: "center",       tier: 2, category: "finance",        ...{ institutionLat: 48.8566, institutionLng: 2.3522 }   },
+
+  // ─── Tier 2: Energy & commodities (additional) ────────────────────────────
+  { domain: ["upstreamonline.com"],                   name: "Upstream",                bias: "center",       tier: 2, category: "energy"            },
+  { domain: ["argusmedia.com"],                       name: "Argus Media",             bias: "center",       tier: 2, category: "energy",        ...{ institutionLat: 51.5074, institutionLng: -0.1278 }   },
+  { domain: ["worldoil.com"],                         name: "World Oil",               bias: "center",       tier: 2, category: "energy",        ...{ institutionLat: 29.7604, institutionLng: -95.3698 }  },
+  { domain: ["agra-net.com"],                         name: "Agra Europe",             bias: "center",       tier: 2, category: "energy"            },
+
+  // ─── Tier 2: Shipping & trade ─────────────────────────────────────────────
+  { domain: ["hellenicshippingnews.com"],             name: "Hellenic Shipping News",  bias: "center",       tier: 2, category: "manufacturing", ...{ institutionLat: 37.9838, institutionLng: 23.7275 }   },
+  { domain: ["tradewindsnews.com"],                   name: "TradeWinds",              bias: "center",       tier: 2, category: "manufacturing"       },
 ];
 
 /** Build a lookup map: normalized domain → source metadata */

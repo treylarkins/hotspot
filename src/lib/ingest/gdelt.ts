@@ -187,7 +187,7 @@ function parseGdeltTimestamp(ts: string): Date {
  * Fetch multiple GDELT GKG snapshots (default: 4 = last hour of data).
  * Merges and deduplicates articles by URL.
  */
-export async function fetchMultipleGdeltSnapshots(count = 4): Promise<Article[]> {
+export async function fetchMultipleGdeltSnapshots(count = 12): Promise<Article[]> {
   const latestUrl = await getLatestGkgUrl();
 
   // Extract the timestamp from the latest URL filename.
@@ -329,7 +329,7 @@ export function parseGkgCsv(csvText: string): Article[] {
     // themes.length === 0 → no theme data, allow through
 
     // Headline relevance filter: strong soft-news signal → drop
-    if (headlineRelevanceScore(slug) < -1) continue;
+    if (headlineRelevanceScore(slug) < -2) continue;
 
     const locations = parseV2Locations(row.Locations ?? "");
     const loc = bestLocation(locations);

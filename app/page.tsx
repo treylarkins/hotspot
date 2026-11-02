@@ -28,16 +28,18 @@ const THERMO_STOPS = [
   { color: "#FFD200", label: "Hot"    },
 ];
 
+const PANEL_W = 200;
+
 function ThermoLegend() {
   const gradient = `linear-gradient(to right, ${THERMO_STOPS.map(s => s.color).join(", ")})`;
   return (
-    <div className="absolute bottom-8 left-8 bg-black/70 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/8">
+    <div className="bg-black/70 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/8">
       {/* Thermographic ramp bar */}
       <div
         className="h-3 rounded-full mb-2"
-        style={{ width: 200, background: gradient, boxShadow: "0 0 12px 2px #7200CC55" }}
+        style={{ width: PANEL_W, background: gradient, boxShadow: "0 0 12px 2px #7200CC55" }}
       />
-      <div className="flex justify-between mb-4" style={{ width: 200 }}>
+      <div className="flex justify-between mb-4" style={{ width: PANEL_W }}>
         <span className="text-[10px] text-gray-500 uppercase tracking-widest">Cold</span>
         <span className="text-[10px] text-gray-500 uppercase tracking-widest">Hot</span>
       </div>
@@ -57,6 +59,63 @@ function ThermoLegend() {
   );
 }
 
+function TimeWindowControl({ days, onChange }: { days: number; onChange: (d: number) => void }) {
+  const pct = ((days - 1) / 6) * 100;
+  const trackGrad = `linear-gradient(to right, #7200CC ${pct}%, #ffffff18 ${pct}%)`;
+  return (
+    <div className="bg-black/70 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/8">
+      <div className="flex items-baseline justify-between mb-3" style={{ width: PANEL_W }}>
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest">Time Window</span>
+        <span className="text-[11px] text-gray-300 tabular-nums">
+          {days === 1 ? "24 hrs" : `${days} days`}
+        </span>
+      </div>
+      <style>{`
+        .tw-range {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 6px;
+          border-radius: 9999px;
+          outline: none;
+          cursor: pointer;
+        }
+        .tw-range::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 14px;
+          height: 14px;
+          border-radius: 9999px;
+          background: #ffffff;
+          box-shadow: 0 0 6px 1px #7200CC88;
+          cursor: grab;
+        }
+        .tw-range::-moz-range-thumb {
+          width: 14px;
+          height: 14px;
+          border-radius: 9999px;
+          border: none;
+          background: #ffffff;
+          box-shadow: 0 0 6px 1px #7200CC88;
+          cursor: grab;
+        }
+      `}</style>
+      <input
+        type="range"
+        min={1}
+        max={7}
+        step={1}
+        value={days}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="tw-range block"
+        style={{ width: PANEL_W, background: trackGrad }}
+      />
+      <div className="flex justify-between mt-2" style={{ width: PANEL_W }}>
+        <span className="text-[10px] text-gray-600 uppercase tracking-widest">1 day</span>
+        <span className="text-[10px] text-gray-600 uppercase tracking-widest">7 days</span>
+      </div>
+    </div>
+  );
+}
+
 function HomePageInner() {
   const searchParams = useSearchParams();
   const useMock = searchParams.get("mock") === "1";
@@ -66,11 +125,14 @@ function HomePageInner() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [days, setDays] = useState(7);
 
-  // Single fetch on mount — fixed H3 resolution 4, no zoom-based refetching
   useEffect(() => {
-    const url = useMock ? "/api/hotspots?mock=1" : "/api/hotspots";
-    fetch(url)
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (useMock) params.set("mock", "1");
+    else params.set("days", String(days));
+    fetch(`/api/hotspots?${params}`)
       .then((r) => r.json())
       .then((data) => {
         setHotspots(data.hotspots ?? []);
@@ -81,7 +143,7 @@ function HomePageInner() {
         setError("Failed to load hotspots");
         setLoading(false);
       });
-  }, [useMock]);
+  }, [useMock, days]);
 
   const handleHotspotClick = useCallback((h: HotspotListItem) => {
     setSelectedHotspot(h);
@@ -121,8 +183,11 @@ function HomePageInner() {
         useMock={useMock}
       />
 
-      {/* Legend */}
-      <ThermoLegend />
+      {/* Legend + time window */}
+      <div className="absolute bottom-8 left-8 flex flex-col gap-2">
+        <TimeWindowControl days={days} onChange={setDays} />
+        <ThermoLegend />
+      </div>
 
       {/* Timestamp */}
       {lastUpdated && (

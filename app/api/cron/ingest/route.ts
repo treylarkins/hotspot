@@ -12,10 +12,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Optional ?snapshots=N param (default 4, max 12)
+  // Optional ?snapshots=N param (default 4, max 48)
   const rawSnapshots = req.nextUrl.searchParams.get("snapshots");
   const snapshotCount = Math.min(
-    12,
+    48,
     Math.max(1, rawSnapshots ? parseInt(rawSnapshots, 10) || 4 : 4)
   );
 

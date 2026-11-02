@@ -11,12 +11,14 @@ function getSupabaseClient() {
   return createClient(url, key);
 }
 
-export async function getHotspots(): Promise<HotspotListItem[]> {
+export async function getHotspots(days = 7): Promise<HotspotListItem[]> {
   const supabase = getSupabaseClient();
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
   const { data, error } = await supabase
     .from("hotspots")
     .select("id, lat, lng, name, region, severity, article_count, summary_failed, last_scored_at")
     .gte("severity", 0.15)
+    .gte("last_scored_at", since)
     .order("severity", { ascending: false })
     .limit(100);
 
@@ -90,14 +92,14 @@ export async function upsertSummary(
 }
 
 export async function getHotspotsNeedingSummary(): Promise<
-  Array<{ id: string; h3_cell: string; article_hash: string; article_count: number }>
+  Array<{ id: string; h3_cell: string; name: string; article_hash: string; article_count: number }>
 > {
   const supabase = getSupabaseClient();
 
   // Get hotspots with article_hash that differs from latest summary's stored hash
   const { data, error } = await supabase
     .from("hotspots")
-    .select("id, h3_cell, article_hash, article_count")
+    .select("id, h3_cell, name, article_hash, article_count")
     .eq("summary_failed", false)
     .gte("severity", 0.15)
     .order("severity", { ascending: false })
@@ -109,7 +111,7 @@ export async function getHotspotsNeedingSummary(): Promise<
 
 export async function getArticlesForHotspot(h3_cell: string): Promise<Article[]> {
   const supabase = getSupabaseClient();
-  const since = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data, error } = await supabase
     .from("articles")

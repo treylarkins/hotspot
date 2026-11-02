@@ -10,7 +10,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "postinstall": "cp node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs public/maplibre-gl-worker.mjs"
+    "postinstall": "cp node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs public/maplibre-gl-worker.mjs",
+    "ingest": "tsx --env-file=.env.local scripts/pipeline.ts ingest",
+    "score": "tsx --env-file=.env.local scripts/pipeline.ts score",
+    "summarize": "tsx --env-file=.env.local scripts/pipeline.ts summarize",
+    "pipeline": "tsx --env-file=.env.local scripts/pipeline.ts all",
+    "pipeline:full": "tsx --env-file=.env.local scripts/pipeline.ts full"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
@@ -42,6 +47,7 @@
     "eslint-config-next": "15.3.0",
     "jsdom": "^25.0.0",
     "tailwindcss": "^3.4.14",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^2.1.0"
   }

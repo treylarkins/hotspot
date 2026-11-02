@@ -186,7 +186,7 @@ export async function fetchNytTopStories(apiKey?: string): Promise<Article[]> {
       } catch { /* malformed URL — let through */ }
 
       // Headline relevance: strong soft-news signal → drop
-      if (headlineRelevanceScore(item.title ?? "") < -1) continue;
+      if (headlineRelevanceScore(item.title ?? "") < -2) continue;
 
       const sourceInfo = getSource(item.url);
       if (!sourceInfo) continue;

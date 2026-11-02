@@ -66,7 +66,18 @@ export async function GET(req: NextRequest) {
   // Live Supabase
   try {
     const { getHotspots } = await import("@/lib/db");
-    const hotspots = await getHotspots();
+    const days = Math.min(7, Math.max(1, parseInt(searchParams.get("days") ?? "7", 10) || 7));
+    const raw = await getHotspots(days);
+    const REGION_TO_CATEGORY: Record<string, "money" | "power" | "resources" | "technology"> = {
+      finance: "money", economics: "money", commodity: "money", commodities: "money",
+      politics: "power", geopolitics: "power", conflict: "power", defense: "power",
+      energy: "resources", environment: "resources", agriculture: "resources",
+      tech: "technology", science: "technology", technology: "technology",
+    };
+    const hotspots = raw.map((h) => ({
+      ...h,
+      category: REGION_TO_CATEGORY[h.region?.toLowerCase() ?? ""] ?? "power",
+    }));
     const response: HotspotsResponse = {
       hotspots,
       generated_at: new Date().toISOString(),

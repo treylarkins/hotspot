@@ -25,34 +25,35 @@ export async function GET(req: NextRequest) {
       process.env.SUPABASE_SERVICE_KEY!
     );
 
-    // Fetch all articles ingested in the last 48h (use ingested_at so articles
-    // published a few days ago but ingested today are still scored)
-    const since = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+    // Fetch all articles published in the last 7 days
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     const { data: articles, error } = await supabase
       .from("articles")
       .select("*")
-      .gte("ingested_at", since);
+      .gte("published_at", sevenDaysAgo);
 
     if (error) throw error;
 
-    // Get 7-day baseline counts by h3_cell (use ingested_at to match active window)
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    const { data: baselineData } = await supabase
-      .from("articles")
-      .select("h3_cell")
-      .gte("ingested_at", sevenDaysAgo)
-      .lt("ingested_at", since);
-
-    const baselineByCell = new Map<string, number>();
-    for (const row of baselineData ?? []) {
-      if (row.h3_cell) {
-        const cur = baselineByCell.get(row.h3_cell) ?? 0;
-        baselineByCell.set(row.h3_cell, cur + 1);
+    // Velocity baseline: compare articles published in the last 24h vs daily avg of the prior 6 days
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const recentByCell = new Map<string, number>();
+    const priorByCell = new Map<string, number>();
+    for (const a of articles ?? []) {
+      if (!a.h3_cell) continue;
+      if (a.published_at >= oneDayAgo) {
+        recentByCell.set(a.h3_cell, (recentByCell.get(a.h3_cell) ?? 0) + 1);
+      } else {
+        priorByCell.set(a.h3_cell, (priorByCell.get(a.h3_cell) ?? 0) + 1);
       }
     }
-    // Convert 5-day total to daily avg × 1 day (baseline window is 7 days minus 48h window = ~5 days)
-    for (const [cell, count] of baselineByCell) {
-      baselineByCell.set(cell, count / 5);
+    // Baseline = daily avg over prior 6 days
+    const baselineByCell = new Map<string, number>();
+    for (const [cell, count] of priorByCell) {
+      baselineByCell.set(cell, count / 6);
+    }
+    // Cells only seen in recent window get neutral baseline (0 → velocityScore returns 0.5)
+    for (const cell of recentByCell.keys()) {
+      if (!baselineByCell.has(cell)) baselineByCell.set(cell, 0);
     }
 
     const scored = scoreHotspots(articles ?? [], baselineByCell);

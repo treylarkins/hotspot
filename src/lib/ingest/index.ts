@@ -1,6 +1,8 @@
 import { fetchMultipleGdeltSnapshots, canonicalizeUrl } from "./gdelt";
 import { fetchNytTopStories } from "./nyt";
 import { fetchRssArticles, fetchMarketauxArticles } from "./rss";
+import { fetchNewsApiArticles } from "./newsapi";
+import { fetchGuardianArticles } from "./guardian";
 import { upsertArticles, recordIngestRun } from "@/lib/db";
 import { getSourceByDomain } from "@/config/sources";
 import type { Article } from "@/contracts/article";
@@ -12,6 +14,12 @@ import { latLngToH3, H3_RESOLUTION } from "@/lib/score";
  * a meaningful city-level signal and must NOT be overridden by the source HQ.
  */
 const INSTITUTION_GEOCODE_THRESHOLD = 0.2;
+
+/**
+ * Source allowlist — when non-empty, only articles whose source_name exactly
+ * matches one of these values are kept. Set to [] to allow all sources.
+ */
+const ALLOWED_SOURCES: string[] = [];
 
 /** Normalize URL for deduplication */
 function dedupeKey(url: string): string {
@@ -57,15 +65,19 @@ export async function runIngest(snapshotCount = 4): Promise<{
   total: number;
   gdelt: number;
   nyt: number;
+  guardian: number;
   rss: number;
   marketaux: number;
+  newsapi: number;
   dupes: number;
 }> {
-  const [gdeltArticles, nytArticles, rssArticles, marketauxArticles] = await Promise.allSettled([
+  const [gdeltArticles, nytArticles, guardianArticles, rssArticles, marketauxArticles, newsapiArticles] = await Promise.allSettled([
     fetchMultipleGdeltSnapshots(snapshotCount),
     fetchNytTopStories(),
+    fetchGuardianArticles(),
     fetchRssArticles(),
     fetchMarketauxArticles(),
+    fetchNewsApiArticles(),
   ]);
 
   const allArticles: Article[] = [];
@@ -82,6 +94,12 @@ export async function runIngest(snapshotCount = 4): Promise<{
     console.warn("NYT ingest failed:", nytArticles.reason);
   }
 
+  if (guardianArticles.status === "fulfilled") {
+    allArticles.push(...guardianArticles.value);
+  } else {
+    console.warn("Guardian ingest failed:", guardianArticles.reason);
+  }
+
   if (rssArticles.status === "fulfilled") {
     allArticles.push(...rssArticles.value);
   } else {
@@ -94,10 +112,18 @@ export async function runIngest(snapshotCount = 4): Promise<{
     console.warn("Marketaux ingest failed:", marketauxArticles.reason);
   }
 
+  if (newsapiArticles.status === "fulfilled") {
+    allArticles.push(...newsapiArticles.value);
+  } else {
+    console.warn("NewsAPI ingest failed:", newsapiArticles.reason);
+  }
+
   const gdeltCount = gdeltArticles.status === "fulfilled" ? gdeltArticles.value.length : 0;
   const nytCount = nytArticles.status === "fulfilled" ? nytArticles.value.length : 0;
+  const guardianCount = guardianArticles.status === "fulfilled" ? guardianArticles.value.length : 0;
   const rssCount = rssArticles.status === "fulfilled" ? rssArticles.value.length : 0;
   const marketauxCount = marketauxArticles.status === "fulfilled" ? marketauxArticles.value.length : 0;
+  const newsapiCount = newsapiArticles.status === "fulfilled" ? newsapiArticles.value.length : 0;
 
   // Deduplicate by canonical URL — keep the copy with higher location_confidence
   const seenMap = new Map<string, Article>();
@@ -111,9 +137,20 @@ export async function runIngest(snapshotCount = 4): Promise<{
   const dedupedRaw = Array.from(seenMap.values());
   const afterDedup = dedupedRaw.length;
 
+  // Source allowlist filter
+  const sourceFiltered = ALLOWED_SOURCES.length > 0
+    ? dedupedRaw.filter((a) => ALLOWED_SOURCES.includes(a.source_name))
+    : dedupedRaw;
+
+  // Age filter — drop articles older than 7 days
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
   // Apply institution geocoding fallback, then filter out bad geocodes
   const deduped: Article[] = [];
-  for (const article of dedupedRaw) {
+  for (const article of sourceFiltered) {
+    // Drop stale articles (published more than 7 days ago)
+    if (article.published_at < sevenDaysAgo) continue;
+
     const geocoded = applyInstitutionGeocodeFallback(article);
 
     // Drop null island (geocoding failures placed in the Gulf of Guinea)
@@ -131,7 +168,7 @@ export async function runIngest(snapshotCount = 4): Promise<{
   const dupes = allArticles.length - afterDedup;
 
   console.log(
-    `[ingest] GDELT: ${gdeltCount}, NYT: ${nytCount}, RSS: ${rssCount}, Marketaux: ${marketauxCount}, after dedup: ${afterDedup}, after filter: ${deduped.length}`
+    `[ingest] GDELT: ${gdeltCount}, NYT: ${nytCount}, Guardian: ${guardianCount}, RSS: ${rssCount}, Marketaux: ${marketauxCount}, NewsAPI: ${newsapiCount}, after dedup: ${afterDedup}, after filter: ${deduped.length}`
   );
 
   // Upsert to database
@@ -145,8 +182,10 @@ export async function runIngest(snapshotCount = 4): Promise<{
     total: deduped.length,
     gdelt: gdeltCount,
     nyt: nytCount,
+    guardian: guardianCount,
     rss: rssCount,
     marketaux: marketauxCount,
+    newsapi: newsapiCount,
     dupes,
   };
 }
