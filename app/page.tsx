@@ -5,7 +5,8 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { HotspotListItem } from "@/contracts/api";
 import HotspotPanel from "@/components/HotspotPanel";
-import { SEVERITY_THRESHOLD, CATEGORY_COLORS, CATEGORY_LABELS } from "@/lib/score";
+import { SEVERITY_THRESHOLD, CATEGORY_LABELS } from "@/lib/score";
+import { THERMO_CAT } from "@/components/Globe";
 
 const Globe = dynamic(() => import("../src/components/Globe"), {
   ssr: false,
@@ -47,7 +48,7 @@ function ThermoLegend() {
           <div key={key} className="flex items-center gap-1.5">
             <div
               className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-              style={{ background: CATEGORY_COLORS[key] }}
+              style={{ background: THERMO_CAT[key] }}
             />
             <span className="text-[9px] text-gray-600 uppercase tracking-widest leading-none">{label}</span>
           </div>

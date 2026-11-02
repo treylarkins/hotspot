@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { latLngToCell, gridRingUnsafe, cellToBoundary } from "h3-js";
 import type { HotspotListItem } from "@/contracts/api";
 import { SEVERITY_THRESHOLD } from "@/lib/score";
 
@@ -10,141 +11,127 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
+// ── Category → thermographic colour ─────────────────────────────────────────
+// Four positions on the scientific IR / thermal-camera spectrum.
+// Each category owns ONE colour; the colour is applied uniformly to every hex
+// cell in that hotspot — no per-hotspot gradient, just the grid pattern.
+//
+//   Technology  →  violet  (cool, digital, electrical)
+//   Power       →  crimson (danger, conflict, heat of war)
+//   Resources   →  orange  (physical world, warmth, natural)
+//   Money       →  amber   (gold, wealth, market heat)
+export const THERMO_CAT: Record<string, string> = {
+  technology: "#6A00CC",
+  power:      "#CC1000",
+  resources:  "#FF5000",
+  money:      "#FFBF00",
+};
+
+const H3_RES  = 3;   // ~69 km edge — tile size visible at global zoom
+const N_RINGS = 2;   // rings 0 (center), 1, 2
+
+// ── GeoJSON builder ──────────────────────────────────────────────────────────
+// Produces one polygon Feature per H3 cell so MapLibre renders the hex grid.
+// Features are ordered outer-ring first, higher severity last, so important
+// hotspot centres always composite on top.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildPointGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): any {
+function buildHexGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): any {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const byRing: any[][] = [[], [], []]; // index = ring number
+
+  for (const h of hotspots) {
+    if (h.severity < SEVERITY_THRESHOLD) continue;
+    const cat      = h.category ?? "power";
+    const center   = latLngToCell(h.lat, h.lng, H3_RES);
+    const selected = h.id === selectedId;
+    const dataStr  = JSON.stringify(h);
+
+    for (let ring = 0; ring <= N_RINGS; ring++) {
+      const cells = ring === 0 ? [center] : gridRingUnsafe(center, ring);
+      for (const cell of cells) {
+        // cellToBoundary returns [lat, lng]; GeoJSON needs [lng, lat]
+        const boundary = cellToBoundary(cell);
+        const coords   = boundary.map(([lat, lng]) => [lng, lat] as [number, number]);
+        coords.push(coords[0]); // close polygon ring
+
+        byRing[ring].push({
+          type: "Feature",
+          geometry: { type: "Polygon", coordinates: [coords] },
+          properties: {
+            hotspot_id: h.id,
+            category:   cat,
+            severity:   h.severity,
+            ring,
+            selected,
+            data: dataStr,
+          },
+        });
+      }
+    }
+  }
+
+  // Outer rings first so inner rings (and higher severity) paint on top
   return {
     type: "FeatureCollection",
-    features: hotspots
-      .filter(h => h.severity >= SEVERITY_THRESHOLD)
-      .map(h => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: [h.lng, h.lat] },
-        properties: {
-          id: h.id,
-          severity: h.severity,
-          category: h.category ?? "power",
-          data: JSON.stringify(h),
-        },
-      })),
+    features: [...byRing[2], ...byRing[1], ...byRing[0]],
   };
 }
 
-// ── Thermographic palette ────────────────────────────────────────────────────
-//
-// Replicates the scientific IR / thermal-camera colour ramp:
-//   near-black → deep indigo → vivid violet → crimson → orange → amber-gold
-//
-// This is the ramp used in real thermographic world maps (NASA, satellite
-// imagery, the Shutterstock reference image). The PURPLE ATMOSPHERE is the
-// dominant visual element — it extends far beyond the hot core and gives the
-// "glowing from within" feel. The orange/yellow core is small and intense.
-//
-// Category differentiation: only the atmosphere layer (slot 0) carries a faint
-// category tint (barely visible on the dark globe). Every other layer uses the
-// fixed thermographic ramp so all hotspots share the same language.
-
-// Slot 0 — atmospheric tint, per-category (very dark, ~15% of full colour)
-const CAT_ATM: Record<string, string> = {
-  money:      "#180D00",   // near-black amber
-  power:      "#0A0620",   // near-black indigo
-  resources:  "#041008",   // near-black forest green
-  technology: "#040718",   // near-black navy
-};
-
-// Slots 1-4 — fixed thermographic ramp (same for every category)
-const THERMO: readonly string[] = [
-  "#1E0855",   // 1 outer      — deep indigo/violet
-  "#7200CC",   // 2 mid-outer  — vivid violet        (the signature purple)
-  "#C40A22",   // 3 mid        — crimson-red          (purple → red transition)
-  "#FF4800",   // 4 inner      — orange               (pulses)
-];
-
-// Slot 5 — core: severity-driven from dim orange to blazing gold
+// Opacity expression for fill — ring falloff × severity multiplier.
+// pulseFactor is varied in the animate loop (ring-0 only).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CORE_COLOR: any = [
-  "interpolate", ["linear"], ["get", "severity"],
-  0.15, "#FF7A00",   // dim amber at threshold
-  0.45, "#FFAA00",   // gold at medium
-  0.75, "#FFD200",   // bright gold at high
-  1.0,  "#FFE800",   // near-white yellow at max
-];
-
-// Build a color expression for a given slot
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function slotColor(slot: number): any {
-  if (slot === 0) {
-    return [
-      "match", ["get", "category"],
-      "money",      CAT_ATM.money,
-      "power",      CAT_ATM.power,
-      "resources",  CAT_ATM.resources,
-      "technology", CAT_ATM.technology,
-      CAT_ATM.power,
-    ];
-  }
-  if (slot === 5) return CORE_COLOR;
-  return THERMO[slot - 1];
+function fillOpacity(pulseR0 = 1.0): any {
+  const ringBase = [
+    "match", ["get", "ring"],
+    0, 0.82 * pulseR0,
+    1, 0.46,
+    2, 0.18,
+    0.08, // outside max ring — shouldn't occur
+  ];
+  const sevScale = [
+    "interpolate", ["linear"], ["get", "severity"],
+    0.15, 0.42,
+    0.50, 0.72,
+    1.0,  1.0,
+  ];
+  return ["*", ringBase, sevScale];
 }
 
-// Severity → global opacity multiplier
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sevMult(): any {
+function fillColor(): any {
   return [
-    "interpolate", ["linear"], ["get", "severity"],
-    0.15, 0.40,
-    0.45, 0.70,
-    0.75, 0.90,
-    1.0,  1.0,
+    "match", ["get", "category"],
+    "technology", THERMO_CAT.technology,
+    "power",      THERMO_CAT.power,
+    "resources",  THERMO_CAT.resources,
+    "money",      THERMO_CAT.money,
+    THERMO_CAT.power,
   ];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function layerOpacity(base: number): any {
-  return ["*", base, sevMult()];
-}
-
-// ── Layer stack ──────────────────────────────────────────────────────────────
-//
-// The outer layers (atm, out, mid1) are the PURPLE BAND — they must be large
-// and visible, not just hints. This is what the reference image emphasises:
-// a massive violet halo that dwarfs the bright inner zone.
-//
-// Radius ratio between each layer: ~0.70× inward.
-// Atmosphere radius vs core radius: ~16:1 — same dramatic ratio as IR images.
-//
-//                         blur    base-op   radii [z1,  z2,  z3,  z4,  z5,  z7 ]
-const LAYERS = [
-  { id: "atm",  slot: 0, blur: 1.00, op: 0.28, r: [100, 136, 190, 266, 360, 490] },  // near-black category tint
-  { id: "out",  slot: 1, blur: 0.95, op: 0.38, r: [72,  98,  137, 192, 260, 354] },  // deep violet — large halo
-  { id: "mid1", slot: 2, blur: 0.80, op: 0.50, r: [50,  68,  95,  133, 180, 244] },  // vivid violet — the signature
-  { id: "mid2", slot: 3, blur: 0.58, op: 0.62, r: [33,  45,  63,  88,  120, 163] },  // crimson-red
-  { id: "inn",  slot: 4, blur: 0.28, op: 0.78, r: [17,  23,  32,  45,  61,  83]  },  // orange — PULSES
-  { id: "core", slot: 5, blur: 0.06, op: 0.94, r: [6,   8,   11,  16,  22,  30]  },  // bright gold core
-] as const;
-
 export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobeProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef  = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mapRef = useRef<any>(null);
+  const mapRef        = useRef<any>(null);
   const autoRotateRef = useRef(true);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  const clickCallbackRef = useRef(onHotspotClick);
+  const clickCallbackRef  = useRef(onHotspotClick);
   clickCallbackRef.current = onHotspotClick;
 
-  const hotspotsRef = useRef(hotspots);
+  const hotspotsRef  = useRef(hotspots);
   hotspotsRef.current = hotspots;
-  const selectedIdRef = useRef(selectedId);
+  const selectedIdRef  = useRef(selectedId);
   selectedIdRef.current = selectedId;
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    let cancelled = false;
+    let cancelled    = false;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let map: any;
     let animFrameId: number;
-    let resumeTimer: ReturnType<typeof setTimeout>;
+    let resumeTimer:  ReturnType<typeof setTimeout>;
 
     import("maplibre-gl").then(({ Map: MapLibreMap, setWorkerUrl }) => {
       if (cancelled) return;
@@ -153,11 +140,11 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
       try {
         map = new MapLibreMap({
           container: containerRef.current!,
-          style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-          center: [0, 20] as [number, number],
-          zoom: 1.5,
-          minZoom: 1,
-          maxZoom: 10,
+          style:     "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+          center:    [0, 20] as [number, number],
+          zoom:      1.5,
+          minZoom:   1,
+          maxZoom:   10,
           attributionControl: false,
         });
 
@@ -166,76 +153,83 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
         map.on("load", () => {
           map.setProjection({ type: "globe" });
 
-          // Deep navy atmosphere — closer to the reference image background colour
           map.setSky({
-            "sky-color":          "#050318",
-            "horizon-color":      "#080520",
-            "fog-color":          "#040215",
-            "sky-horizon-blend":  0.08,
-            "atmosphere-blend":   0.0,
+            "sky-color":         "#050318",
+            "horizon-color":     "#080520",
+            "fog-color":         "#040215",
+            "sky-horizon-blend": 0.08,
+            "atmosphere-blend":  0.0,
           });
 
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const styleLayers: any[] = map.getStyle().layers;
-          const firstLabelLayer = styleLayers.find(
+          const firstLabel = styleLayers.find(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (l: any) => l.type === "symbol" && l.layout?.["text-field"]
           );
-          const beforeId: string | undefined = firstLabelLayer?.id;
+          const beforeId: string | undefined = firstLabel?.id;
 
-          map.addSource("hotspot-points", {
+          map.addSource("hex-cells", {
             type: "geojson",
-            data: buildPointGeoJSON(hotspotsRef.current, selectedIdRef.current),
+            data: buildHexGeoJSON(hotspotsRef.current, selectedIdRef.current),
           });
 
-          // ── Thermographic layers: cold edge → hot core ─────────────────────
-          // Rendered bottom-to-top (outermost first). The purple band (out+mid1)
-          // is the largest and most opaque element — it dominates the visual like
-          // the violet atmosphere in the reference image.
-          for (const layer of LAYERS) {
-            map.addLayer(
-              {
-                id: `hotspot-${layer.id}`,
-                type: "circle",
-                source: "hotspot-points",
-                paint: {
-                  "circle-radius": [
-                    "interpolate", ["linear"], ["zoom"],
-                    1, layer.r[0],
-                    2, layer.r[1],
-                    3, layer.r[2],
-                    4, layer.r[3],
-                    5, layer.r[4],
-                    7, layer.r[5],
-                  ],
-                  "circle-color":   slotColor(layer.slot),
-                  "circle-blur":    layer.blur,
-                  "circle-opacity": layerOpacity(layer.op),
-                },
+          // ── Hex fill ──────────────────────────────────────────────────────
+          // Single solid colour per category tile; opacity fades by ring.
+          map.addLayer(
+            {
+              id:     "hex-fill",
+              type:   "fill",
+              source: "hex-cells",
+              paint: {
+                "fill-color":     fillColor(),
+                "fill-opacity":   fillOpacity(),
+                "fill-antialias": true,
               },
-              beforeId
-            );
-          }
+            },
+            beforeId
+          );
 
-          // ── Invisible click-target ────────────────────────────────────────
+          // ── Hex grid lines ─────────────────────────────────────────────────
+          // Thin dark outlines reveal the hexagonal tile structure — the
+          // "grid patternistic" aesthetic. Slightly thicker when zoomed in.
+          map.addLayer(
+            {
+              id:     "hex-lines",
+              type:   "line",
+              source: "hex-cells",
+              paint: {
+                "line-color":   "#000000",
+                "line-opacity": 0.30,
+                "line-width": [
+                  "interpolate", ["linear"], ["zoom"],
+                  1, 0.3,
+                  4, 0.6,
+                  7, 1.0,
+                ],
+              },
+            },
+            beforeId
+          );
+
+          // ── Selected ring-0 highlight ─────────────────────────────────────
+          // White stroke on the centre cell of the selected hotspot.
           map.addLayer({
-            id: "hotspot-click",
-            type: "circle",
-            source: "hotspot-points",
+            id:     "hex-selected",
+            type:   "line",
+            source: "hex-cells",
+            filter: ["all", ["==", ["get", "selected"], true], ["==", ["get", "ring"], 0]],
             paint: {
-              "circle-radius": [
-                "interpolate", ["linear"], ["zoom"],
-                1, 35, 3, 70, 5, 110, 7, 170,
-              ],
-              "circle-opacity": 0.001,
-              "circle-color": "#000000",
+              "line-color":   "#ffffff",
+              "line-opacity": 0.85,
+              "line-width":   1.5,
             },
           });
         });
 
-        // ── Click / hover ──────────────────────────────────────────────────
+        // ── Click on any hex cell ─────────────────────────────────────────
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        map.on("click", "hotspot-click", (e: any) => {
+        map.on("click", "hex-fill", (e: any) => {
           const feature = e.features?.[0];
           if (!feature) return;
           const hotspot = JSON.parse(feature.properties.data) as HotspotListItem;
@@ -243,23 +237,20 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           clearTimeout(resumeTimer);
           clickCallbackRef.current(hotspot);
           map.flyTo({
-            center: [hotspot.lng, hotspot.lat] as [number, number],
-            zoom: Math.max(map.getZoom(), 4),
+            center:   [hotspot.lng, hotspot.lat] as [number, number],
+            zoom:     Math.max(map.getZoom(), 4),
             duration: 900,
           });
           resumeTimer = setTimeout(() => { autoRotateRef.current = true; }, 12000);
         });
 
-        map.on("mouseenter", "hotspot-click", () => { map.getCanvas().style.cursor = "pointer"; });
-        map.on("mouseleave", "hotspot-click", () => { map.getCanvas().style.cursor = ""; });
+        map.on("mouseenter", "hex-fill", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "hex-fill", () => { map.getCanvas().style.cursor = ""; });
 
-        // ── Auto-rotate + pulse ────────────────────────────────────────────
-        // The orange inner-glow layer pulses — like heat radiating outward.
-        // The violet mid layers are stable (they are the "cold" zone).
-        // The gold core is stable (crisp reference point).
+        // ── Auto-rotate + pulse ───────────────────────────────────────────
+        // Ring-0 (centre tile) pulses — thermal shimmer effect.
         let pulsePhase = 0;
         let pulseFrame = 0;
-        const INN = LAYERS[4]; // "inn" — orange layer
 
         function animate() {
           if (autoRotateRef.current && map.getZoom() < 2.5) {
@@ -267,16 +258,13 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             map.jumpTo({ center: [center.lng + 0.1, center.lat] });
           }
 
-          // Pulse ~10Hz (every 6 frames at 60fps). Range: ×0.65 → ×1.0
-          pulsePhase += 0.030;
+          pulsePhase += 0.028;
           pulseFrame++;
           if (pulseFrame >= 6) {
             pulseFrame = 0;
-            const p = 0.78 + 0.22 * (0.5 + 0.5 * Math.sin(pulsePhase));
-            if (map.getLayer(`hotspot-${INN.id}`)) {
-              map.setPaintProperty(`hotspot-${INN.id}`, "circle-opacity", [
-                "*", INN.op * p, sevMult(),
-              ]);
+            const p = 0.80 + 0.20 * (0.5 + 0.5 * Math.sin(pulsePhase));
+            if (map.getLayer("hex-fill")) {
+              map.setPaintProperty("hex-fill", "fill-opacity", fillOpacity(p));
             }
           }
 
@@ -307,12 +295,13 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Sync whenever props change ────────────────────────────────────────────
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const source = map.getSource("hotspot-points") as any;
-    if (source) source.setData(buildPointGeoJSON(hotspots, selectedId));
+    const source = map.getSource("hex-cells") as any;
+    if (source) source.setData(buildHexGeoJSON(hotspots, selectedId));
   }, [hotspots, selectedId]);
 
   if (mapError) {
