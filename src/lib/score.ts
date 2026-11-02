@@ -184,14 +184,14 @@ export function scoreHotspots(
 export const THERMO_CAT: Record<string, string> = {
   technology: "#6A00CC",
   power:      "#CC1000",
-  resources:  "#FF5000",
-  money:      "#FFBF00",
+  resources:  "#FF7A00",
+  money:      "#00C853",
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
-  money:      "#F59E0B",  // amber  — IPOs, M&A, rates, tariffs
+  money:      "#00C853",  // tropical green — IPOs, M&A, rates, tariffs
   power:      "#EF4444",  // red    — wars, elections, coups, sanctions
-  resources:  "#10B981",  // emerald — oil, food, shipping, climate
+  resources:  "#FF7A00",  // orange  — oil, food, shipping, climate
   technology: "#818CF8",  // indigo  — AI, semiconductors, biotech, space
 };
 

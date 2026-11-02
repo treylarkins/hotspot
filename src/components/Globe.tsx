@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { latLngToCell, gridRingUnsafe, cellToBoundary } from "h3-js";
+import { latLngToCell, gridDisk, cellToBoundary } from "h3-js";
 import type { HotspotListItem } from "@/contracts/api";
 import { SEVERITY_THRESHOLD, THERMO_CAT } from "@/lib/score";
+import { loadCountryHex, getCountryCells } from "@/lib/countryHex";
 
 interface GlobeProps {
   hotspots: HotspotListItem[];
@@ -11,67 +12,120 @@ interface GlobeProps {
   selectedId?: string | null;
 }
 
+interface CountryIndex {
+  ready: boolean;
+  getCells: (lat: number, lng: number) => Set<string> | null;
+}
 
-const H3_RES  = 3;   // ~69 km edge — tile size visible at global zoom
-const N_RINGS = 2;   // rings 0 (center), 1, 2
+const H3_RES    = 3;     // ~69 km edge — tile size visible at global zoom
+const MAX_CELLS = 150;   // per-hotspot cap (handles Russia ~80-120 actual cells)
+const FALLBACK_K = 3;    // ring distance for ocean/unmatched fallback
 
-// ── GeoJSON builder ──────────────────────────────────────────────────────────
-// Produces one polygon Feature per H3 cell so MapLibre renders the hex grid.
-// Features are ordered outer-ring first, higher severity last, so important
-// hotspot centres always composite on top.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildHexGeoJSON(hotspots: HotspotListItem[], selectedId?: string | null): any {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const byRing: any[][] = [[], [], []]; // index = ring number
+// ── BFS expansion ─────────────────────────────────────────────────────────────
+// Grows from center cell through neighboring H3 cells within the country boundary.
+// Falls back to a fixed-radius disk when center is ocean / unmatched.
+interface BfsResult { depthMap: Map<string, number>; maxDepth: number; }
 
-  for (const h of hotspots) {
-    if (h.severity < SEVERITY_THRESHOLD) continue;
-    const cat      = h.category ?? "power";
-    const center   = latLngToCell(h.lat, h.lng, H3_RES);
-    const selected = h.id === selectedId;
-    const dataStr  = JSON.stringify(h);
-
-    for (let ring = 0; ring <= N_RINGS; ring++) {
-      const cells = ring === 0 ? [center] : gridRingUnsafe(center, ring);
-      for (const cell of cells) {
-        // cellToBoundary returns [lat, lng]; GeoJSON needs [lng, lat]
-        const boundary = cellToBoundary(cell);
-        const coords   = boundary.map(([lat, lng]) => [lng, lat] as [number, number]);
-        coords.push(coords[0]); // close polygon ring
-
-        byRing[ring].push({
-          type: "Feature",
-          geometry: { type: "Polygon", coordinates: [coords] },
-          properties: {
-            hotspot_id: h.id,
-            category:   cat,
-            severity:   h.severity,
-            ring,
-            selected,
-            data: dataStr,
-          },
-        });
+function bfsExpand(centerCell: string, countryCells: Set<string> | null): BfsResult {
+  // Fallback: fixed radius disk if no country match
+  if (!countryCells?.has(centerCell)) {
+    const depthMap = new Map<string, number>();
+    const seen = new Set<string>();
+    for (let r = 0; r <= FALLBACK_K; r++) {
+      for (const cell of gridDisk(centerCell, r)) {
+        if (!seen.has(cell)) { seen.add(cell); depthMap.set(cell, r); }
       }
+    }
+    return { depthMap, maxDepth: FALLBACK_K };
+  }
+
+  // BFS within country boundary
+  const visited = new Set<string>();
+  const depthMap = new Map<string, number>();
+  const queue: [string, number][] = [[centerCell, 0]];
+  visited.add(centerCell);
+  depthMap.set(centerCell, 0);
+
+  while (queue.length > 0 && depthMap.size < MAX_CELLS) {
+    const [cell, depth] = queue.shift()!;
+    for (const nb of gridDisk(cell, 1)) {
+      if (nb === cell || visited.has(nb) || !countryCells.has(nb)) continue;
+      visited.add(nb);
+      depthMap.set(nb, depth + 1);
+      queue.push([nb, depth + 1]);
     }
   }
 
-  // Outer rings first so inner rings (and higher severity) paint on top
-  return {
-    type: "FeatureCollection",
-    features: [...byRing[2], ...byRing[1], ...byRing[0]],
-  };
+  const maxDepth = depthMap.size > 1 ? Math.max(...depthMap.values()) : 0;
+  return { depthMap, maxDepth };
 }
 
-// Opacity expression for fill — ring falloff × severity multiplier.
-// pulseFactor is varied in the animate loop (ring-0 only).
+// ── GeoJSON builder ──────────────────────────────────────────────────────────
+// Produces one polygon Feature per H3 cell so MapLibre renders the hex grid.
+// Cells sorted outermost-first so the center always composites on top.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildHexGeoJSON(
+  hotspots: HotspotListItem[],
+  selectedId: string | null | undefined,
+  countryIndex: CountryIndex | null
+): any {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const features: any[] = [];
+
+  for (const h of hotspots) {
+    if (h.severity < SEVERITY_THRESHOLD) continue;
+    const cat        = h.category ?? "power";
+    const centerCell = latLngToCell(h.lat, h.lng, H3_RES);
+    const selected   = h.id === selectedId;
+    const dataStr    = JSON.stringify(h);
+
+    const countryCells = countryIndex?.ready
+      ? countryIndex.getCells(h.lat, h.lng)
+      : null;
+
+    const { depthMap, maxDepth } = bfsExpand(centerCell, countryCells);
+
+    // Sort descending by depth — outermost cells first, center last → center paints on top
+    const sorted = [...depthMap.entries()].sort((a, b) => b[1] - a[1]);
+
+    for (const [cell, depth] of sorted) {
+      // cellToBoundary returns [lat, lng]; GeoJSON needs [lng, lat]
+      const boundary = cellToBoundary(cell);
+      const coords   = boundary.map(([lat, lng]) => [lng, lat] as [number, number]);
+      coords.push(coords[0]); // close polygon ring
+
+      features.push({
+        type: "Feature",
+        geometry: { type: "Polygon", coordinates: [coords] },
+        properties: {
+          hotspot_id: h.id,
+          category:   cat,
+          severity:   h.severity,
+          depth,
+          depth_norm: maxDepth > 0 ? depth / maxDepth : 0,
+          is_center:  depth === 0 ? 1 : 0, // 1/0 not bool — MapLibre property quirk
+          selected,
+          data:       dataStr,
+        },
+      });
+    }
+  }
+
+  return { type: "FeatureCollection", features };
+}
+
+// Opacity expression for fill — depth_norm falloff × severity multiplier.
+// pulseFactor is varied in the animate loop (center only).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function fillOpacity(pulseR0 = 1.0): any {
-  const ringBase = [
-    "match", ["get", "ring"],
-    0, 0.82 * pulseR0,
-    1, 0.46,
-    2, 0.18,
-    0.08, // outside max ring — shouldn't occur
+  const depthBase = [
+    "case",
+    ["==", ["get", "is_center"], 1],
+    0.82 * pulseR0,
+    ["interpolate", ["linear"], ["get", "depth_norm"],
+      0.0, 0.75,
+      1.0, 0.04,
+    ],
   ];
   const sevScale = [
     "interpolate", ["linear"], ["get", "severity"],
@@ -79,7 +133,7 @@ function fillOpacity(pulseR0 = 1.0): any {
     0.50, 0.72,
     1.0,  1.0,
   ];
-  return ["*", ringBase, sevScale];
+  return ["*", depthBase, sevScale];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,6 +162,24 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
   hotspotsRef.current = hotspots;
   const selectedIdRef  = useRef(selectedId);
   selectedIdRef.current = selectedId;
+
+  const countryIndexRef = useRef<CountryIndex>({ ready: false, getCells: () => null });
+
+  // ── Load country hex index once ───────────────────────────────────────────
+  useEffect(() => {
+    loadCountryHex().then(() => {
+      countryIndexRef.current = { ready: true, getCells: getCountryCells };
+      const map = mapRef.current;
+      if (!map) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const source = map.getSource("hex-cells") as any;
+      if (source) {
+        source.setData(
+          buildHexGeoJSON(hotspotsRef.current, selectedIdRef.current, countryIndexRef.current)
+        );
+      }
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -156,11 +228,11 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
 
           map.addSource("hex-cells", {
             type: "geojson",
-            data: buildHexGeoJSON(hotspotsRef.current, selectedIdRef.current),
+            data: buildHexGeoJSON(hotspotsRef.current, selectedIdRef.current, countryIndexRef.current),
           });
 
           // ── Hex fill ──────────────────────────────────────────────────────
-          // Single solid colour per category tile; opacity fades by ring.
+          // Single solid colour per category tile; opacity fades by depth.
           map.addLayer(
             {
               id:     "hex-fill",
@@ -176,8 +248,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
           );
 
           // ── Hex grid lines ─────────────────────────────────────────────────
-          // Thin dark outlines reveal the hexagonal tile structure — the
-          // "grid patternistic" aesthetic. Slightly thicker when zoomed in.
+          // Thin dark outlines reveal the hexagonal tile structure.
           map.addLayer(
             {
               id:     "hex-lines",
@@ -197,17 +268,31 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
             beforeId
           );
 
-          // ── Selected ring-0 highlight ─────────────────────────────────────
-          // White stroke on the centre cell of the selected hotspot.
+          // ── Center hex highlight — all hotspots ───────────────────────────
+          // Subtle white ring on every hotspot's originating cell.
+          map.addLayer({
+            id:     "hex-center",
+            type:   "line",
+            source: "hex-cells",
+            filter: ["==", ["get", "is_center"], 1],
+            paint: {
+              "line-color":   "#ffffff",
+              "line-opacity": 0.65,
+              "line-width":   0.8,
+            },
+          });
+
+          // ── Selected center highlight ─────────────────────────────────────
+          // Brighter white ring on the selected hotspot's centre cell.
           map.addLayer({
             id:     "hex-selected",
             type:   "line",
             source: "hex-cells",
-            filter: ["all", ["==", ["get", "selected"], true], ["==", ["get", "ring"], 0]],
+            filter: ["all", ["==", ["get", "selected"], true], ["==", ["get", "is_center"], 1]],
             paint: {
               "line-color":   "#ffffff",
-              "line-opacity": 0.85,
-              "line-width":   1.5,
+              "line-opacity": 0.90,
+              "line-width":   1.2,
             },
           });
         });
@@ -233,7 +318,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
         map.on("mouseleave", "hex-fill", () => { map.getCanvas().style.cursor = ""; });
 
         // ── Auto-rotate + pulse ───────────────────────────────────────────
-        // Ring-0 (centre tile) pulses — thermal shimmer effect.
+        // Center tile pulses — thermal shimmer effect.
         let pulsePhase = 0;
         let pulseFrame = 0;
 
@@ -286,7 +371,7 @@ export default function Globe({ hotspots, onHotspotClick, selectedId }: GlobePro
     if (!map) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const source = map.getSource("hex-cells") as any;
-    if (source) source.setData(buildHexGeoJSON(hotspots, selectedId));
+    if (source) source.setData(buildHexGeoJSON(hotspots, selectedId, countryIndexRef.current));
   }, [hotspots, selectedId]);
 
   if (mapError) {
