@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { HotspotListItem } from "@/contracts/api";
 import HotspotPanel from "@/components/HotspotPanel";
-import { severityColor, SEVERITY_THRESHOLD } from "@/lib/score";
+import { SEVERITY_THRESHOLD, CATEGORY_LABELS, THERMO_CAT } from "@/lib/score";
 
 const Globe = dynamic(() => import("../src/components/Globe"), {
   ssr: false,
@@ -18,25 +18,40 @@ const Globe = dynamic(() => import("../src/components/Globe"), {
   ),
 });
 
-function SeverityLegend() {
-  const stops = [0.15, 0.3, 0.5, 0.7, 0.85, 1.0];
+// Thermographic colour ramp legend — mirrors the 6-layer stack in Globe.tsx
+// cold (deep violet) → warm (crimson) → hot (amber-gold)
+const THERMO_STOPS = [
+  { color: "#1E0855", label: "Cold"   },
+  { color: "#7200CC", label: ""       },
+  { color: "#C40A22", label: ""       },
+  { color: "#FF4800", label: ""       },
+  { color: "#FFD200", label: "Hot"    },
+];
+
+function ThermoLegend() {
+  const gradient = `linear-gradient(to right, ${THERMO_STOPS.map(s => s.color).join(", ")})`;
   return (
-    <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-sm rounded-lg p-3 border border-white/5">
-      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">Severity</p>
-      <div className="flex items-center gap-1.5">
-        {stops.map((s) => (
-          <div
-            key={s}
-            className="rounded-full"
-            style={{
-              width: 10 + s * 8,
-              height: 10 + s * 8,
-              background: `radial-gradient(circle, ${severityColor(s)}cc 0%, ${severityColor(s)}00 100%)`,
-              filter: "blur(1px)",
-            }}
-          />
+    <div className="absolute bottom-8 left-8 bg-black/70 backdrop-blur-sm rounded-xl px-5 py-4 border border-white/8">
+      {/* Thermographic ramp bar */}
+      <div
+        className="h-3 rounded-full mb-2"
+        style={{ width: 200, background: gradient, boxShadow: "0 0 12px 2px #7200CC55" }}
+      />
+      <div className="flex justify-between mb-4" style={{ width: 200 }}>
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest">Cold</span>
+        <span className="text-[10px] text-gray-500 uppercase tracking-widest">Hot</span>
+      </div>
+      {/* Category dots */}
+      <div className="flex flex-col gap-2">
+        {(Object.entries(CATEGORY_LABELS) as [string, string][]).map(([key, label]) => (
+          <div key={key} className="flex items-center gap-2.5">
+            <div
+              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+              style={{ background: THERMO_CAT[key], boxShadow: `0 0 6px 1px ${THERMO_CAT[key]}88` }}
+            />
+            <span className="text-[11px] text-gray-400 uppercase tracking-widest leading-none">{label}</span>
+          </div>
         ))}
-        <span className="text-[10px] text-gray-600 ml-1">Low → High</span>
       </div>
     </div>
   );
@@ -107,7 +122,7 @@ function HomePageInner() {
       />
 
       {/* Legend */}
-      <SeverityLegend />
+      <ThermoLegend />
 
       {/* Timestamp */}
       {lastUpdated && (

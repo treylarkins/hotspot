@@ -15,6 +15,7 @@ export const HotspotSchema = z.object({
   tier_weight: z.number().min(0).max(1),
   intensity_score: z.number().min(0).max(1),
   avg_goldstein: z.number().min(-10).max(10).nullable(),
+  category: z.enum(["money", "power", "resources", "technology"]).optional(),
   summary_failed: z.boolean().default(false),
   last_scored_at: z.string().datetime(),
   created_at: z.string().datetime(),

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import type { HotspotListItem } from "@/contracts/api";
 import SummaryView from "./SummaryView";
-import PerspectivesView from "./PerspectivesView";
 import ArticleList from "./ArticleList";
 import StoryArcPanel, { type HistoryPoint } from "./StoryArcPanel";
 
@@ -74,7 +73,7 @@ export default function HotspotPanel({ hotspot, onClose, useMock }: HotspotPanel
   const [detail, setDetail] = useState<HotspotDetail | null>(null);
   const [history, setHistory] = useState<HistoryPoint[]>([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"summary" | "perspectives" | "articles">("summary");
+  const [activeTab, setActiveTab] = useState<"summary" | "articles">("summary");
 
   useEffect(() => {
     if (!hotspot) {
@@ -132,7 +131,7 @@ export default function HotspotPanel({ hotspot, onClose, useMock }: HotspotPanel
 
       {/* Tabs */}
       <div className="flex border-b border-gray-800">
-        {(["summary", "perspectives", "articles"] as const).map((tab) => (
+        {(["summary", "articles"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -168,18 +167,9 @@ export default function HotspotPanel({ hotspot, onClose, useMock }: HotspotPanel
           ) : (
             <p className="text-gray-500 text-sm">Summary not available for this hotspot.</p>
           )
-        ) : activeTab === "perspectives" ? (
-          detail.summary?.perspectives?.length ? (
-            <PerspectivesView
-              perspectives={detail.summary.perspectives}
-              citations={detail.summary.citations}
-            />
-          ) : (
-            <p className="text-gray-500 text-sm">No perspectives available.</p>
-          )
         ) : (
           <>
-            <ArticleList articles={detail.articles} />
+            <ArticleList articles={detail.articles} category={hotspot.category} />
             <StoryArcPanel history={history} />
           </>
         )}

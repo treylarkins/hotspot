@@ -180,6 +180,28 @@ export function scoreHotspots(
   return results;
 }
 
+/** Thermographic IR palette — one colour per category, matches the hex grid */
+export const THERMO_CAT: Record<string, string> = {
+  technology: "#6A00CC",
+  power:      "#CC1000",
+  resources:  "#FF7A00",
+  money:      "#00C853",
+};
+
+export const CATEGORY_COLORS: Record<string, string> = {
+  money:      "#00C853",  // tropical green — IPOs, M&A, rates, tariffs
+  power:      "#EF4444",  // red    — wars, elections, coups, sanctions
+  resources:  "#FF7A00",  // orange  — oil, food, shipping, climate
+  technology: "#818CF8",  // indigo  — AI, semiconductors, biotech, space
+};
+
+export const CATEGORY_LABELS: Record<string, string> = {
+  money:      "Money",
+  power:      "Power",
+  resources:  "Resources",
+  technology: "Technology",
+};
+
 /** Severity color: linear interpolation from #F4B4B4 (0.15) to #7A0000 (1.0) */
 export function severityColor(severity: number): string {
   const t = Math.max(0, Math.min(1, (severity - 0.15) / 0.85));

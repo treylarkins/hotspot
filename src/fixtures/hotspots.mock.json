@@ -150,7 +150,7 @@
           "count": 47
         }
       ],
-      "category": "energy"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0002-4000-8000-000000000002",
@@ -303,7 +303,7 @@
           "count": 38
         }
       ],
-      "category": "defense"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0003-4000-8000-000000000003",
@@ -456,7 +456,7 @@
           "count": 31
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0004-4000-8000-000000000004",
@@ -599,7 +599,7 @@
           "count": 52
         }
       ],
-      "category": "defense"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0005-4000-8000-000000000005",
@@ -734,7 +734,7 @@
           "count": 22
         }
       ],
-      "category": "energy"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0006-4000-8000-000000000006",
@@ -824,7 +824,7 @@
           "count": 14
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0007-4000-8000-000000000007",
@@ -905,7 +905,7 @@
           "count": 11
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0008-4000-8000-000000000008",
@@ -995,7 +995,7 @@
           "count": 13
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0009-4000-8000-000000000009",
@@ -1130,7 +1130,7 @@
           "count": 19
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0010-4000-8000-000000000010",
@@ -1211,7 +1211,7 @@
           "count": 8
         }
       ],
-      "category": "geopolitics"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0011-4000-8000-000000000011",
@@ -1292,7 +1292,7 @@
           "count": 9
         }
       ],
-      "category": "finance"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0012-4000-8000-000000000012",
@@ -1373,7 +1373,7 @@
           "count": 12
         }
       ],
-      "category": "general"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0013-4000-8000-000000000013",
@@ -1454,7 +1454,7 @@
           "count": 15
         }
       ],
-      "category": "finance"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0014-4000-8000-000000000014",
@@ -1535,7 +1535,7 @@
           "count": 10
         }
       ],
-      "category": "finance"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0015-4000-8000-000000000015",
@@ -1616,7 +1616,7 @@
           "count": 7
         }
       ],
-      "category": "general"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0016-4000-8000-000000000016",
@@ -1697,7 +1697,7 @@
           "count": 16
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0017-4000-8000-000000000017",
@@ -1778,7 +1778,7 @@
           "count": 11
         }
       ],
-      "category": "manufacturing"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0018-4000-8000-000000000018",
@@ -1859,7 +1859,7 @@
           "count": 8
         }
       ],
-      "category": "finance"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0019-4000-8000-000000000019",
@@ -1940,7 +1940,7 @@
           "count": 9
         }
       ],
-      "category": "geopolitics"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0020-4000-8000-000000000020",
@@ -2021,7 +2021,7 @@
           "count": 9
         }
       ],
-      "category": "finance"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0021-4000-8000-000000000021",
@@ -2102,7 +2102,7 @@
           "count": 5
         }
       ],
-      "category": "geopolitics"
+      "category": "power"
     },
     {
       "id": "a1b2c3d4-0022-4000-8000-000000000022",
@@ -2183,7 +2183,7 @@
           "count": 10
         }
       ],
-      "category": "energy"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0023-4000-8000-000000000023",
@@ -2264,7 +2264,7 @@
           "count": 7
         }
       ],
-      "category": "finance"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0024-4000-8000-000000000024",
@@ -2345,7 +2345,7 @@
           "count": 6
         }
       ],
-      "category": "manufacturing"
+      "category": "money"
     },
     {
       "id": "a1b2c3d4-0025-4000-8000-000000000025",
@@ -2397,7 +2397,7 @@
         }
       ],
       "history": [],
-      "category": "general"
+      "category": "resources"
     },
     {
       "id": "a1b2c3d4-0026-4000-8000-000000000026",
@@ -2406,7 +2406,7 @@
       "lng": -122.0,
       "name": "Silicon Valley",
       "region": "tech",
-      "category": "tech",
+      "category": "technology",
       "severity": 0.74,
       "article_count": 28,
       "article_hash": "sha256:us026",
@@ -2519,7 +2519,7 @@
       "lng": -95.4,
       "name": "Houston / Texas",
       "region": "energy",
-      "category": "energy",
+      "category": "resources",
       "severity": 0.68,
       "article_count": 22,
       "article_hash": "sha256:us027",
@@ -2632,7 +2632,7 @@
       "lng": -77.0,
       "name": "Washington DC",
       "region": "geopolitics",
-      "category": "geopolitics",
+      "category": "power",
       "severity": 0.61,
       "article_count": 19,
       "article_hash": "sha256:us028",
@@ -2683,7 +2683,7 @@
       "lng": -83.0,
       "name": "Detroit / Midwest",
       "region": "manufacturing",
-      "category": "manufacturing",
+      "category": "technology",
       "severity": 0.55,
       "article_count": 16,
       "article_hash": "sha256:us029",
@@ -2734,7 +2734,7 @@
       "lng": -87.6,
       "name": "Chicago",
       "region": "finance",
-      "category": "finance",
+      "category": "money",
       "severity": 0.62,
       "article_count": 20,
       "article_hash": "sha256:us030",
@@ -2847,7 +2847,7 @@
       "lng": -80.2,
       "name": "Miami / Southeast",
       "region": "finance",
-      "category": "finance",
+      "category": "money",
       "severity": 0.45,
       "article_count": 12,
       "article_hash": "sha256:us031",
@@ -2898,7 +2898,7 @@
       "lng": -122.3,
       "name": "Seattle / Pacific NW",
       "region": "tech",
-      "category": "tech",
+      "category": "technology",
       "severity": 0.58,
       "article_count": 17,
       "article_hash": "sha256:us032",
@@ -2949,7 +2949,7 @@
       "lng": -71.0,
       "name": "Boston / New England",
       "region": "science",
-      "category": "science",
+      "category": "technology",
       "severity": 0.51,
       "article_count": 14,
       "article_hash": "sha256:us033",
@@ -3000,7 +3000,7 @@
       "lng": -118.2,
       "name": "Los Angeles",
       "region": "tech",
-      "category": "tech",
+      "category": "technology",
       "severity": 0.65,
       "article_count": 21,
       "article_hash": "sha256:us034",
@@ -3113,7 +3113,7 @@
       "lng": -84.4,
       "name": "Atlanta / South",
       "region": "general",
-      "category": "general",
+      "category": "power",
       "severity": 0.38,
       "article_count": 10,
       "article_hash": "sha256:us035",

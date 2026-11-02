@@ -13,7 +13,7 @@ export const HotspotListItemSchema = HotspotSchema.pick({
   summary_failed: true,
   last_scored_at: true,
 }).extend({
-  category: z.string().optional(),
+  category: z.enum(["money", "power", "resources", "technology"]).optional(),
 });
 
 export const HotspotDetailSchema = HotspotSchema.extend({
