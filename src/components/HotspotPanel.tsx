@@ -169,7 +169,7 @@ export default function HotspotPanel({ hotspot, onClose, useMock }: HotspotPanel
           )
         ) : (
           <>
-            <ArticleList articles={detail.articles} category={hotspot.category} />
+            <ArticleList articles={detail.articles} />
             <StoryArcPanel history={history} />
           </>
         )}

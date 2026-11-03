@@ -357,10 +357,13 @@ export function parseGkgCsv(csvText: string): Article[] {
       publishedAt = now;
     }
 
+    const headline = extractHeadlineFromUrl(url);
+    if (!isReadableHeadline(headline)) continue;
+
     articles.push({
       id: randomUUID(),
       url: canonicalizeUrl(url),
-      headline: extractHeadlineFromUrl(url),
+      headline,
       abstract: null,
       source_domain: new URL(url).hostname.replace(/^www\./, ""),
       source_name: sourceInfo.name,
@@ -411,4 +414,20 @@ function extractHeadlineFromUrl(url: string): string {
   } catch {
     return url;
   }
+}
+
+/**
+ * Returns false for slugs that are IDs/hashes rather than readable headlines:
+ *   - Fewer than 3 words
+ *   - Ends in a long numeric ID (e.g. "news-story-38927398")
+ *   - All hex characters (UUID / content hash)
+ *   - Fewer than half of words are real alpha words (2+ letters)
+ */
+function isReadableHeadline(headline: string): boolean {
+  const words = headline.trim().split(/\s+/);
+  if (words.length < 3) return false;
+  if (/\d{6,}\s*$/.test(headline)) return false;
+  if (/^[0-9a-f\s-]+$/i.test(headline)) return false;
+  const realWords = words.filter((w) => /^[a-zA-Z]{2,}/.test(w));
+  return realWords.length >= Math.ceil(words.length / 2);
 }
